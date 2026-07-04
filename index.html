@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" id="meta-theme-color" content="#090B10">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>PomoLegend Premium</title>
+    
+    <!-- Premium Typography (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES (DESIGN SYSTEM)
+           ========================================================================== */
+        :root {
+            --bg: #090B10;
+            --card: #141922;
+            --primary: #6C63FF;
+            --secondary: #8B5CF6;
+            --accent: #00D4FF;
+            --success: #22C55E;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --text: #FFFFFF;
+            --subtitle: #94A3B8;
+            --divider: rgba(255, 255, 255, 0.08);
+            
+            --glass-bg: rgba(20, 25, 34, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --gradient-gold: linear-gradient(135deg, #FFD700 0%, #F59E0B 100%);
+            
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-full: 9999px;
+
+            --nav-height: 70px;
+            --safe-area-bottom: env(safe-area-inset-bottom, 16px);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+
+            --transition-fast: 0.2s ease;
+            --transition-smooth: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        [data-theme="amoled"] {
+            --bg: #000000;
+            --card: #0A0A0A;
+            --glass-bg: rgba(10, 10, 10, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --divider: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ==========================================================================
+           2. RESET & BASE STYLES
+           ========================================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Inter', sans-serif; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background-color: var(--bg); color: var(--text); }
+        
+        #app {
+            width: 100%; height: 100%; position: relative; max-width: 1200px; margin: 0 auto;
+            background: var(--bg); display: flex; flex-direction: column; overflow: hidden;
+            transition: background var(--transition-smooth);
+        }
+
+        h1, h2, h3, h4, h5, h6 { font-weight: 700; letter-spacing: -0.5px; }
+        p { color: var(--subtitle); line-height: 1.5; font-size: 14px; }
+        input, textarea, button { font-family: inherit; outline: none; border: none; background: none; color: var(--text); }
+        
+        /* Webkit Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--divider); border-radius: 10px; }
+        
+        /* Ripple Effect */
+        .ripple-wrapper { position: relative; overflow: hidden; cursor: pointer; }
+        .ripple {
+            position: absolute; border-radius: 50%; transform: scale(0);
+            animation: ripple-anim 600ms linear; background-color: rgba(255, 255, 255, 0.25); pointer-events: none;
+        }
+        @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
+
+        /* ==========================================================================
+           3. UI COMPONENTS & FORMS
+           ========================================================================== */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 16px 24px; border-radius: var(--radius-full); font-weight: 600; font-size: 16px; transition: all var(--transition-fast); gap: 8px; width: 100%; position: relative; }
+        .btn:active { transform: scale(0.96); opacity: 0.9; }
+        .btn-primary { background: var(--gradient-primary); color: white; box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3); }
+        .btn-secondary { background: var(--card); border: 1px solid var(--glass-border); color: var(--text); }
+        
+        .btn-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; background: var(--card); border: 1px solid var(--glass-border); transition: all var(--transition-fast); }
+        .btn-icon:active { transform: scale(0.9); }
+
+        .input-group { margin-bottom: 16px; width: 100%; position: relative; }
+        .input-group label { display: block; font-size: 13px; color: var(--subtitle); margin-bottom: 8px; font-weight: 500; }
+        .input-group input { width: 100%; background: var(--card); border: 1px solid var(--glass-border); padding: 16px 20px; border-radius: var(--radius-sm); font-size: 15px; color: white; transition: all var(--transition-fast); }
+        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15); }
+
+        .chip { padding: 6px 12px; border-radius: var(--radius-full); font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; border: 1px solid transparent; }
+        .chip.priority-high { background: rgba(239, 68, 68, 0.15); color: var(--danger); border-color: rgba(239, 68, 68, 0.3); }
+        .chip.priority-med { background: rgba(245, 158, 11, 0.15); color: var(--warning); border-color: rgba(245, 158, 11, 0.3); }
+        .chip.priority-low { background: rgba(34, 197, 94, 0.15); color: var(--success); border-color: rgba(34, 197, 94, 0.3); }
+
+        /* ==========================================================================
+           4. LAYOUT & SCREENS
+           ========================================================================== */
+        .content-area { flex: 1; position: relative; width: 100%; height: 100%; overflow: hidden; }
+        
+        .screen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; pointer-events: none; visibility: hidden;
+            transform: translateY(20px); display: flex; flex-direction: column;
+            transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+            padding-bottom: calc(var(--nav-height) + var(--safe-area-bottom));
+            overflow-y: auto; overflow-x: hidden;
+        }
+        .screen.active { opacity: 1; pointer-events: all; visibility: visible; transform: translateY(0); z-index: 5; }
+        
+        .header { padding: calc(var(--safe-area-top) + 20px) 24px 20px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .header h1 { font-size: 26px; line-height: 1.2; }
+        .header-title-gradient { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: calc(var(--nav-height) + var(--safe-area-bottom));
+            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border); display: flex; justify-content: space-around;
+            padding-bottom: var(--safe-area-bottom); z-index: 100; transition: transform var(--transition-smooth);
+        }
+        .bottom-nav.hidden { transform: translateY(100%); }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--subtitle); transition: color var(--transition-fast); gap: 4px; }
+        .nav-item i { font-size: 24px; transition: transform var(--transition-bounce), color var(--transition-fast); }
+        .nav-item span { font-size: 11px; font-weight: 600; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item.active i { transform: translateY(-4px); }
+
+        /* ==========================================================================
+           5. AUTH SCREEN (MOCK)
+           ========================================================================== */
+        #auth { justify-content: center; align-items: center; padding-bottom: 0; }
+        .auth-container { width: 100%; max-width: 400px; padding: 24px; display: flex; flex-direction: column; align-items: center; }
+        .auth-logo { width: 80px; height: 80px; background: var(--card); border: 1px solid var(--glass-border); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 40px; color: var(--primary); margin-bottom: 24px; box-shadow: var(--glass-shadow); }
+        .auth-tabs { display: flex; width: 100%; background: var(--card); border-radius: var(--radius-full); padding: 4px; margin-bottom: 24px; border: 1px solid var(--glass-border); }
+        .auth-tab { flex: 1; text-align: center; padding: 12px; font-size: 14px; font-weight: 600; color: var(--subtitle); border-radius: var(--radius-full); transition: all var(--transition-fast); }
+        .auth-tab.active { background: var(--divider); color: var(--text); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        
+        .auth-form-view { width: 100%; display: none; flex-direction: column; animation: fadeIn 0.3s ease; }
+        .auth-form-view.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ==========================================================================
+           6. HOME & TIMER
+           ========================================================================== */
+        .timer-container { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; min-height: 450px; }
+        .mode-selector { display: flex; background: var(--card); border-radius: var(--radius-full); padding: 4px; margin-bottom: 30px; border: 1px solid var(--glass-border); }
+        .mode-btn { padding: 10px 20px; border-radius: var(--radius-full); font-size: 13px; font-weight: 600; color: var(--subtitle); transition: all var(--transition-fast); }
+        .mode-btn.active { background: var(--divider); color: var(--text); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+        /* Responsive Timer Ring using viewBox */
+        .timer-ring { position: relative; width: 100%; max-width: 300px; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; margin-bottom: 40px; }
+        .timer-ring svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+        .timer-ring circle { fill: none; stroke-width: 6; stroke-linecap: round; }
+        .timer-ring .bg-circle { stroke: var(--card); }
+        .timer-ring .progress-circle { stroke: var(--primary); stroke-dasharray: 283; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear, stroke var(--transition-smooth); filter: drop-shadow(0 0 12px rgba(108, 99, 255, 0.4)); }
+        
+        .time-display { position: relative; z-index: 2; text-align: center; width: 100%; }
+        .time-display h1 { font-size: 64px; font-weight: 800; letter-spacing: -2px; margin-bottom: 4px; font-variant-numeric: tabular-nums; line-height: 1; }
+        .time-display p { font-size: 16px; color: var(--primary); font-weight: 600; transition: color var(--transition-smooth); }
+
+        .timer-controls { display: flex; gap: 20px; align-items: center; }
+        .play-btn { width: 80px; height: 80px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; font-size: 32px; color: white; box-shadow: 0 12px 32px rgba(108, 99, 255, 0.4); transition: transform var(--transition-bounce); }
+        .play-btn:active { transform: scale(0.9); }
+        
+        .home-level-bar { margin: 0 24px 20px; background: var(--card); border-radius: var(--radius-full); padding: 6px 16px; display: flex; align-items: center; gap: 12px; border: 1px solid var(--glass-border); }
+        .lvl-badge { background: var(--gradient-gold); color: #000; font-weight: 800; font-size: 12px; padding: 4px 8px; border-radius: 8px; white-space: nowrap; }
+        .lvl-progress-bg { flex: 1; height: 6px; background: var(--divider); border-radius: 3px; overflow: hidden; }
+        .lvl-progress-fill { height: 100%; background: var(--gradient-primary); width: 0%; border-radius: 3px; transition: width 1s ease; }
+
+        .home-stats { display: flex; gap: 16px; padding: 0 24px; margin-bottom: 20px; }
+        .mini-stat { flex: 1; padding: 16px; text-align: center; border-radius: var(--radius-md); background: var(--card); border: 1px solid var(--glass-border); }
+        .mini-stat h3 { font-size: 24px; margin-bottom: 4px; }
+
+        /* ==========================================================================
+           7. TASKS
+           ========================================================================== */
+        .task-tools { padding: 0 24px 16px; display: flex; flex-direction: column; gap: 12px; }
+        .search-bar { background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+        .search-bar input { flex: 1; font-size: 14px; }
+        .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; -ms-overflow-style: none; scrollbar-width: none; }
+        .filter-chip { padding: 8px 16px; background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-full); font-size: 13px; white-space: nowrap; transition: all var(--transition-fast); }
+        .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .task-list { padding: 0 24px 24px; display: flex; flex-direction: column; gap: 12px; }
+        .task-item { display: flex; align-items: flex-start; padding: 16px; background: var(--card); border-radius: var(--radius-md); border: 1px solid var(--glass-border); transition: all var(--transition-fast); }
+        .task-item.completed { opacity: 0.6; }
+        
+        .task-checkbox { width: 24px; height: 24px; border-radius: 6px; border: 2px solid var(--subtitle); flex-shrink: 0; margin-right: 16px; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all var(--transition-fast); }
+        .task-item.completed .task-checkbox { background: var(--success); border-color: var(--success); }
+        .task-item.completed .task-checkbox::after { content: '\2713'; color: white; font-size: 14px; font-weight: bold; }
+        .task-item.completed .task-title { text-decoration: line-through; color: var(--subtitle); }
+        
+        .task-content { flex: 1; min-width: 0; /* Important for preventing flex blowout */ }
+        .task-title { font-size: 15px; font-weight: 500; margin-bottom: 8px; line-height: 1.4; word-wrap: break-word; overflow-wrap: break-word; }
+        .task-meta { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; color: var(--subtitle); align-items: center; }
+        
+        .task-actions { display: flex; gap: 4px; margin-left: 12px; flex-shrink: 0; }
+        .task-action-btn { color: var(--subtitle); font-size: 20px; padding: 6px; transition: color var(--transition-fast); }
+        
+        .add-task-fab { position: absolute; bottom: calc(var(--nav-height) + var(--safe-area-bottom) + 20px); right: 24px; width: 60px; height: 60px; border-radius: 30px; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; box-shadow: 0 8px 24px rgba(108, 99, 255, 0.4); z-index: 50; transition: transform var(--transition-bounce); }
+        .add-task-fab:active { transform: scale(0.9); }
+
+        /* ==========================================================================
+           8. STATS
+           ========================================================================== */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; padding: 0 24px 24px; }
+        .stat-box { background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+        .stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 4px; }
+        .stat-box h2 { font-size: 24px; }
+        .stat-box p { font-size: 12px; color: var(--subtitle); }
+
+        .chart-card { margin: 0 24px 24px; padding: 20px; background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-md); }
+        .bar-chart { display: flex; align-items: flex-end; justify-content: space-between; height: 160px; gap: 6px; margin-top: 16px; }
+        .bar-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; height: 100%; justify-content: flex-end; }
+        .bar { width: 100%; max-width: 30px; background: var(--divider); border-radius: 6px; position: relative; overflow: hidden; height: calc(100% - 20px); display: flex; align-items: flex-end; }
+        .bar-fill { width: 100%; background: var(--gradient-primary); border-radius: 6px; transform-origin: bottom; transition: height 1s cubic-bezier(0.175, 0.885, 0.32, 1); }
+        .bar-label { font-size: 11px; color: var(--subtitle); }
+
+        /* ==========================================================================
+           9. PROFILE & SETTINGS
+           ========================================================================== */
+        .profile-header { display: flex; flex-direction: column; align-items: center; padding: 0 24px 24px; text-align: center; }
+        .avatar { width: 90px; height: 90px; border-radius: 50%; background: var(--gradient-primary); padding: 3px; position: relative; }
+        .avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: var(--bg); border: 3px solid var(--bg); }
+        
+        .settings-group { margin: 0 24px 24px; }
+        .settings-group h3 { font-size: 12px; color: var(--subtitle); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--card); border-bottom: 1px solid var(--divider); transition: background var(--transition-fast); }
+        .setting-item:first-child { border-radius: var(--radius-md) var(--radius-md) 0 0; }
+        .setting-item:last-child { border-radius: 0 0 var(--radius-md) var(--radius-md); border-bottom: none; }
+        .setting-icon-text { display: flex; align-items: center; gap: 16px; font-size: 15px; font-weight: 500; }
+        .setting-icon-text i { font-size: 22px; color: var(--primary); width: 24px; text-align: center; }
+        .setting-item.danger i, .setting-item.danger { color: var(--danger); }
+        
+        .toggle { position: relative; width: 46px; height: 26px; background: var(--divider); border-radius: 30px; transition: background var(--transition-fast); }
+        .toggle.active { background: var(--primary); }
+        .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; background: white; border-radius: 50%; transition: transform var(--transition-bounce); }
+        .toggle.active::after { transform: translateX(20px); }
+
+        /* ==========================================================================
+           10. MODALS, TOASTS & FOCUS MODE
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 400;
+            display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity var(--transition-smooth);
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        .modal-content {
+            width: 100%; max-height: 90vh; overflow-y: auto; background: var(--card); border-radius: 24px 24px 0 0;
+            padding: 24px 24px calc(var(--safe-area-bottom) + 24px); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1);
+            border-top: 1px solid var(--glass-border);
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-drag-handle { width: 40px; height: 4px; background: var(--divider); border-radius: 2px; margin: -10px auto 24px; }
+
+        .toast {
+            position: fixed; top: var(--safe-area-top); left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
+            padding: 12px 20px; border-radius: var(--radius-full); color: white; font-size: 14px; font-weight: 500;
+            z-index: 500; opacity: 0; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; gap: 10px; pointer-events:none;
+            width: max-content; max-width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(20px); }
+        .toast.success i { color: var(--success); } .toast.error i { color: var(--danger); }
+
+        #focus-mode { background: #000; z-index: 300; justify-content: center; align-items: center; padding-bottom: 0; }
+        #focus-mode .timer-ring { max-width: 400px; }
+        #focus-mode .bg-circle { stroke: #111; }
+        #focus-mode .time-display h1 { font-size: 90px; color: white; margin-bottom: 0; }
+        .exit-focus { position: absolute; top: calc(var(--safe-area-top) + 20px); left: 24px; color: #fff; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 50%; width: 50px; height: 50px; display:flex; align-items:center; justify-content:center; font-size: 24px; z-index: 10;}
+        
+        /* ==========================================================================
+           11. ULTIMATE MEDIA QUERIES (Süper Gelişmiş Duyarlı Tasarım)
+           ========================================================================== */
+
+        /* Ekstra Küçük Cihazlar (Akıllı saatler / mini telefonlar <= 380px) */
+        @media (max-width: 380px) {
+            .timer-ring { max-width: 220px; margin-bottom: 20px; }
+            .time-display h1 { font-size: 48px; }
+            .play-btn { width: 60px; height: 60px; font-size: 24px; }
+            #focus-mode .timer-ring { max-width: 260px; }
+            #focus-mode .time-display h1 { font-size: 64px; }
+            .header h1 { font-size: 22px; }
+            .bottom-nav { padding-bottom: 8px; }
+            .nav-item i { font-size: 20px; }
+            .nav-item span { font-size: 9px; }
+        }
+
+        /* Desktop/Tablet adjustments for Modals (Orijinal Kodun) & Tablet Eklemeleri */
+        @media (min-width: 768px) {
+            /* Senin orijinal kodun (Asla dokunulmadı) */
+            #app { border-radius: 20px; border: 1px solid var(--glass-border); height: 95vh; margin-top: 2.5vh; }
+            .modal-overlay { align-items: center; justify-content: center; }
+            .modal-content { max-width: 450px; border-radius: 20px; transform: scale(0.9); padding: 30px; }
+            .modal-overlay.active .modal-content { transform: scale(1); }
+            .modal-drag-handle { display: none; }
+            .add-task-fab { bottom: 40px; right: 40px; }
+
+            /* Tabletler İçin Ekstra Medya Okuyucu İyileştirmeleri */
+            .timer-ring { max-width: 350px; }
+            .time-display h1 { font-size: 72px; }
+            #focus-mode .timer-ring { max-width: 500px; }
+            #focus-mode .time-display h1 { font-size: 110px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .home-stats, .task-list { padding: 0 40px; }
+            .header, .task-tools, .profile-header, .settings-group { padding-inline: 40px; }
+            .home-level-bar, .chart-card { margin-inline: 40px; }
+        }
+
+        /* Büyük Ekranlar ve Normal Bilgisayarlar (1200px+) */
+        @media (min-width: 1200px) {
+            #app { max-width: 1100px; height: 90vh; margin-top: 5vh; border-radius: 30px; }
+            .timer-ring { max-width: 450px; }
+            .time-display h1 { font-size: 90px; }
+            .play-btn { width: 100px; height: 100px; font-size: 40px; }
+            #focus-mode .timer-ring { max-width: 600px; }
+            #focus-mode .time-display h1 { font-size: 130px; }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); }
+            .bottom-nav { height: 80px; }
+            .nav-item i { font-size: 28px; }
+            .nav-item span { font-size: 13px; }
+        }
+
+        /* Televizyonlar ve Çok Büyük Monitörler (1920px+) */
+        @media (min-width: 1920px) {
+            #app { max-width: 1600px; height: 85vh; margin-top: 7.5vh; border-radius: 40px; }
+            .timer-ring { max-width: 550px; }
+            .time-display h1 { font-size: 120px; }
+            .play-btn { width: 120px; height: 120px; font-size: 48px; }
+            .btn-icon { width: 70px; height: 70px; font-size: 32px; }
+            #focus-mode .timer-ring { max-width: 800px; }
+            #focus-mode .time-display h1 { font-size: 180px; }
+            .header h1 { font-size: 40px; }
+            #greeting-text { font-size: 24px; }
+            .stat-box h2 { font-size: 40px; }
+            .stat-box p { font-size: 18px; }
+            .avatar { width: 140px; height: 140px; }
+        }
+
+        /* Devasa Televizyonlar / 500 inç 4K-8K Ekranlar (Sonsuz VW/VH Ölçekleme) (2560px+) */
+        @media (min-width: 2560px) {
+            #app { max-width: 85vw; height: 85vh; margin-top: 7.5vh; border-radius: 2vw; border-width: 3px; }
+            .timer-ring { max-width: 28vw; margin-bottom: 3vw; }
+            .time-display h1 { font-size: 6vw; letter-spacing: -0.2vw; }
+            .time-display p { font-size: 1.5vw; }
+            .play-btn { width: 8vw; height: 8vw; font-size: 3.5vw; }
+            .btn-icon { width: 4vw; height: 4vw; font-size: 2vw; }
+            #focus-mode .timer-ring { max-width: 38vw; }
+            #focus-mode .time-display h1 { font-size: 9vw; }
+            #focus-mode-text { font-size: 2vw; }
+            .header { padding: 3vw 4vw 2vw; }
+            .header h1 { font-size: 2.5vw; }
+            #greeting-text { font-size: 1.5vw; }
+            .nav-item i { font-size: 2vw; }
+            .nav-item span { font-size: 0.8vw; }
+            .bottom-nav { height: 6vw; }
+            .home-stats { margin-bottom: 2vw; padding: 0 4vw; }
+            .mini-stat { padding: 1.5vw; border-radius: 1vw; }
+            .mini-stat h3 { font-size: 2.5vw; }
+            .mini-stat p { font-size: 1vw; }
+            .home-level-bar { padding: 0.8vw 1.5vw; border-radius: 2vw; gap: 1vw; margin: 0 4vw 2vw; }
+            .lvl-badge { font-size: 1vw; padding: 0.5vw 1vw; border-radius: 0.8vw; }
+            #home-xp-text { font-size: 0.8vw; }
+            .mode-selector { padding: 0.3vw; margin-bottom: 2vw; border-radius: 2vw; }
+            .mode-btn { padding: 0.8vw 1.5vw; font-size: 1vw; border-radius: 2vw; }
+            .task-title { font-size: 1.2vw; }
+            .task-meta { font-size: 0.8vw; }
+            .task-checkbox { width: 2vw; height: 2vw; border-radius: 0.5vw; border-width: 0.2vw; }
+            .task-checkbox::after { font-size: 1.2vw; }
+            .task-action-btn { font-size: 1.5vw; }
+            .task-list { padding: 0 4vw 2vw; gap: 1vw; }
+            .task-item { padding: 1.5vw; border-radius: 1vw; }
+            .stat-box { padding: 1.5vw; border-radius: 1vw; gap: 0.8vw; }
+            .stat-icon { width: 4vw; height: 4vw; font-size: 2vw; border-radius: 1vw; margin-bottom: 0.5vw; }
+            .stat-box h2 { font-size: 2.5vw; }
+            .stat-box p { font-size: 0.9vw; }
+            .chart-card { margin: 0 4vw 2vw; padding: 2vw; border-radius: 1.5vw; }
+            .bar-chart { height: 12vw; margin-top: 2vw; }
+            .bar { border-radius: 0.5vw; }
+            .bar-fill { border-radius: 0.5vw; }
+            .bar-label { font-size: 0.8vw; }
+            .profile-header h2 { font-size: 2vw; }
+            .profile-header p { font-size: 1.2vw; }
+            .avatar { width: 9vw; height: 9vw; padding: 0.3vw; border-width: 0.3vw; }
+            .settings-group { margin: 0 4vw 2vw; }
+            .settings-group h3 { font-size: 0.9vw; margin-bottom: 1vw; }
+            .setting-item { padding: 1.5vw; }
+            .setting-item:first-child { border-radius: 1vw 1vw 0 0; }
+            .setting-item:last-child { border-radius: 0 0 1vw 1vw; }
+            .setting-icon-text { font-size: 1.2vw; gap: 1vw; }
+            .setting-icon-text i { font-size: 1.8vw; width: 2vw; }
+            .toggle { width: 4vw; height: 2vw; border-radius: 2vw; }
+            .toggle::after { width: 1.6vw; height: 1.6vw; top: 0.2vw; left: 0.2vw; }
+            .toggle.active::after { transform: translateX(2vw); }
+            .add-task-fab { width: 5vw; height: 5vw; font-size: 2.5vw; bottom: 8vw; right: 5vw; }
+            .modal-content { max-width: 40vw; border-radius: 2vw; padding: 3vw; }
+            .input-group label { font-size: 1vw; margin-bottom: 0.5vw; }
+            .input-group input { padding: 1.2vw; font-size: 1.2vw; border-radius: 0.8vw; }
+            .btn { padding: 1.2vw 2vw; font-size: 1.2vw; border-radius: 3vw; }
+            .chip { padding: 0.6vw 1.2vw; font-size: 0.9vw; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    
+    <!-- 0. MOCK AUTH SCREEN -->
+    <div class="screen" id="auth" style="z-index: 200;">
+        <div class="auth-container">
+            <div class="auth-logo"><i class="ph-fill ph-timer"></i></div>
+            <h1 style="font-size: 26px; margin-bottom: 8px; text-align: center;">PomoLegend</h1>
+            <p style="text-align: center; margin-bottom: 30px;">Odaklanma serüvenine başla.</p>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab ripple-wrapper active" onclick="authUI.switchTab('login')">Giriş Yap</div>
+                <div class="auth-tab ripple-wrapper" onclick="authUI.switchTab('register')">Kayıt Ol</div>
+            </div>
+
+            <!-- Giriş Formu -->
+            <div class="auth-form-view active" id="form-login">
+                <div class="input-group">
+                    <label>E-posta</label>
+                    <input type="email" id="login-email" placeholder="ornek@mail.com">
+                </div>
+                <div class="input-group">
+                    <label>Şifre</label>
+                    <input type="password" id="login-password" placeholder="••••••••">
+                </div>
+                <button class="btn btn-primary ripple-wrapper" style="margin-top: 8px;" onclick="authUI.submit('login')">Giriş Yap</button>
+            </div>
+
+            <!-- Kayıt Formu -->
+            <div class="auth-form-view" id="form-register">
+                <div style="display:flex; gap:12px;">
+                    <div class="input-group">
+                        <label>Ad</label>
+                        <input type="text" id="reg-name" placeholder="Adınız">
+                    </div>
+                    <div class="input-group">
+                        <label>Soyad</label>
+                        <input type="text" id="reg-surname" placeholder="Soyadınız">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>E-posta</label>
+                    <input type="email" id="reg-email" placeholder="ornek@mail.com">
+                </div>
+                <div class="input-group">
+                    <label>Şifre</label>
+                    <input type="password" id="reg-password" placeholder="••••••••">
+                </div>
+                <button class="btn btn-primary ripple-wrapper" style="margin-top: 8px;" onclick="authUI.submit('register')">Kayıt Ol</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="content-area">
+        
+        <!-- 1. HOME (Timer) -->
+        <div class="screen" id="home">
+            <div class="header">
+                <div>
+                    <p id="greeting-text">Merhaba</p>
+                    <h1 class="header-title-gradient" id="user-name-display">Efsane</h1>
+                </div>
+                <button class="btn-icon ripple-wrapper" onclick="app.navigate('focus-mode')"><i class="ph ph-corners-out"></i></button>
+            </div>
+
+            <div class="home-level-bar">
+                <span class="lvl-badge" id="home-lvl-badge">Lvl 1</span>
+                <div class="lvl-progress-bg"><div class="lvl-progress-fill" id="home-lvl-fill"></div></div>
+                <span style="font-size: 11px; font-weight:600; color:var(--subtitle);" id="home-xp-text">0 XP</span>
+            </div>
+
+            <div class="timer-container">
+                <div class="mode-selector">
+                    <div class="mode-btn ripple-wrapper active" id="mode-pomodoro" onclick="timer.setMode('pomodoro')">Pomodoro</div>
+                    <div class="mode-btn ripple-wrapper" id="mode-shortBreak" onclick="timer.setMode('shortBreak')">Kısa Mola</div>
+                    <div class="mode-btn ripple-wrapper" id="mode-longBreak" onclick="timer.setMode('longBreak')">Uzun Mola</div>
+                </div>
+
+                <!-- Responsive Timer Ring (viewBox ensures no clipping) -->
+                <div class="timer-ring">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="bg-circle" cx="50" cy="50" r="45"></circle>
+                        <circle class="progress-circle" id="progress-ring" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <div class="time-display">
+                        <h1 id="time-text">25:00</h1>
+                        <p id="mode-text">Odaklan</p>
+                    </div>
+                </div>
+
+                <div class="timer-controls">
+                    <button class="btn-icon ripple-wrapper" onclick="timer.reset()"><i class="ph-fill ph-stop"></i></button>
+                    <button class="play-btn ripple-wrapper" id="play-pause-btn" onclick="timer.toggle()"><i class="ph-fill ph-play"></i></button>
+                    <button class="btn-icon ripple-wrapper" onclick="app.openModal('sound-modal')"><i class="ph ph-music-notes"></i></button>
+                </div>
+            </div>
+
+            <div class="home-stats">
+                <div class="mini-stat"><h3 id="stat-today">0</h3><p>Bugün (dk)</p></div>
+                <div class="mini-stat"><h3 id="stat-streak">0</h3><p>Ateş Serisi</p></div>
+            </div>
+        </div>
+
+        <!-- 2. TASKS -->
+        <div class="screen" id="tasks">
+            <div class="header">
+                <h1 class="header-title-gradient">Görevler</h1>
+                <button class="btn-icon ripple-wrapper" onclick="tasks.clearCompleted()"><i class="ph ph-broom"></i></button>
+            </div>
+            
+            <div class="task-tools">
+                <div class="search-bar">
+                    <i class="ph ph-magnifying-glass" style="color:var(--subtitle)"></i>
+                    <input type="text" id="task-search" placeholder="Görev ara..." oninput="tasks.filter()">
+                </div>
+                <div class="filter-scroll">
+                    <div class="filter-chip ripple-wrapper active" onclick="tasks.setFilter('Tümü', this)">Tümü</div>
+                    <div class="filter-chip ripple-wrapper" onclick="tasks.setFilter('Aktif', this)">Aktif</div>
+                    <div class="filter-chip ripple-wrapper" onclick="tasks.setFilter('İş', this)">İş</div>
+                    <div class="filter-chip ripple-wrapper" onclick="tasks.setFilter('Ders', this)">Ders</div>
+                    <div class="filter-chip ripple-wrapper" onclick="tasks.setFilter('Kişisel', this)">Kişisel</div>
+                </div>
+            </div>
+            
+            <div class="task-list" id="task-list-container"></div>
+            <button class="add-task-fab ripple-wrapper" onclick="tasks.openNew()"><i class="ph ph-plus"></i></button>
+        </div>
+
+        <!-- 3. STATISTICS -->
+        <div class="screen" id="stats">
+            <div class="header"><h1 class="header-title-gradient">Rapor</h1></div>
+            <div class="stats-grid">
+                <div class="stat-box"><div class="stat-icon" style="background: rgba(108, 99, 255, 0.15); color: var(--primary);"><i class="ph-fill ph-check-circle"></i></div><h2 id="st-total-pomo">0</h2><p>Top. Pomodoro</p></div>
+                <div class="stat-box"><div class="stat-icon" style="background: rgba(34, 197, 94, 0.15); color: var(--success);"><i class="ph-fill ph-clock-counter-clockwise"></i></div><h2 id="st-total-hours">0s</h2><p>Odak (Saat)</p></div>
+                <div class="stat-box"><div class="stat-icon" style="background: rgba(245, 158, 11, 0.15); color: var(--warning);"><i class="ph-fill ph-fire"></i></div><h2 id="st-best-streak">0</h2><p>En İyi Seri</p></div>
+                <div class="stat-box"><div class="stat-icon" style="background: rgba(0, 212, 255, 0.15); color: var(--accent);"><i class="ph-fill ph-calendar-check"></i></div><h2 id="st-task-ratio">0%</h2><p>Görev Başarısı</p></div>
+            </div>
+            <div class="chart-card">
+                <div style="font-size: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
+                    <span>Son 7 Gün</span><i class="ph ph-chart-line-up" style="color: var(--primary)"></i>
+                </div>
+                <div class="bar-chart" id="weekly-chart"></div>
+            </div>
+        </div>
+
+        <!-- 4. PROFILE & SETTINGS -->
+        <div class="screen" id="profile">
+            <div class="header"><h1 class="header-title-gradient">Profil</h1></div>
+            <div class="profile-header">
+                <div class="avatar" onclick="app.showToast('Avatar değiştirme şimdilik kapalı', 'info')">
+                    <img src="https://api.dicebear.com/7.x/initials/svg?seed=PL&backgroundColor=6C63FF" id="profile-avatar" alt="avatar">
+                </div>
+                <h2 id="profile-name-full" style="margin-top:16px; font-size: 22px;">Kullanıcı</h2>
+                <p id="profile-email" style="font-size:14px; margin-top:4px;">-</p>
+            </div>
+
+            <div class="settings-group">
+                <h3>Deneyim</h3>
+                <div class="setting-item ripple-wrapper" onclick="settings.toggle('amoled')">
+                    <div class="setting-icon-text"><i class="ph-fill ph-moon"></i> AMOLED Mod</div>
+                    <div class="toggle" id="toggle-amoled"></div>
+                </div>
+                <div class="setting-item ripple-wrapper" onclick="settings.toggle('vibration')">
+                    <div class="setting-icon-text"><i class="ph-fill ph-vibrate"></i> Titreşim</div>
+                    <div class="toggle active" id="toggle-vibration"></div>
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <h3>Sayaç Ayarları</h3>
+                <div class="setting-item ripple-wrapper" onclick="settings.toggle('autoPomodoro')">
+                    <div class="setting-icon-text"><i class="ph-fill ph-arrows-clockwise"></i> Oto Pomodoro</div>
+                    <div class="toggle" id="toggle-autoPomodoro"></div>
+                </div>
+                <div class="setting-item ripple-wrapper" onclick="settings.toggle('autoBreak')">
+                    <div class="setting-icon-text"><i class="ph-fill ph-coffee"></i> Oto Mola</div>
+                    <div class="toggle active" id="toggle-autoBreak"></div>
+                </div>
+                <div class="setting-item ripple-wrapper" onclick="app.openModal('timer-settings-modal')">
+                    <div class="setting-icon-text"><i class="ph-fill ph-timer"></i> Süre Ayarları</div>
+                    <i class="ph ph-caret-right" style="color:var(--subtitle)"></i>
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <h3>Hesap</h3>
+                <div class="setting-item danger ripple-wrapper" onclick="authUI.logout()">
+                    <div class="setting-icon-text"><i class="ph-fill ph-sign-out"></i> Çıkış Yap</div>
+                </div>
+                <div class="setting-item danger ripple-wrapper" style="margin-top: 10px; border-radius: var(--radius-md);" onclick="dataStore.resetAlert()">
+                    <div class="setting-icon-text"><i class="ph-fill ph-trash"></i> Tüm Verileri Sıfırla</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. FOCUS MODE -->
+        <div class="screen" id="focus-mode">
+            <button class="exit-focus ripple-wrapper" onclick="app.navigate('home')"><i class="ph ph-x"></i></button>
+            <div class="timer-ring">
+                <svg viewBox="0 0 100 100">
+                    <circle class="bg-circle" cx="50" cy="50" r="45"></circle>
+                    <circle class="progress-circle" id="focus-progress-ring" cx="50" cy="50" r="45"></circle>
+                </svg>
+                <div class="time-display">
+                    <h1 id="focus-time-text">25:00</h1>
+                    <p id="focus-mode-text" style="color:var(--primary); font-size: 16px; letter-spacing: 2px; text-transform: uppercase;">Odaklan</p>
+                </div>
+            </div>
+            <div style="position:absolute; bottom:60px; display:flex; gap:30px;">
+                <button class="btn-icon ripple-wrapper" onclick="timer.toggle()" style="width:70px; height:70px; font-size:32px; background:rgba(255,255,255,0.1); border:none; color:white;" id="fm-play-btn"><i class="ph-fill ph-play"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav hidden" id="bottom-nav">
+        <div class="nav-item active ripple-wrapper" onclick="app.navigate('home', this)">
+            <i class="ph-fill ph-timer"></i><span>Sayaç</span>
+        </div>
+        <div class="nav-item ripple-wrapper" onclick="app.navigate('tasks', this)">
+            <i class="ph-fill ph-check-square-offset"></i><span>Görevler</span>
+        </div>
+        <div class="nav-item ripple-wrapper" onclick="app.navigate('stats', this)">
+            <i class="ph-fill ph-chart-polar"></i><span>Rapor</span>
+        </div>
+        <div class="nav-item ripple-wrapper" onclick="app.navigate('profile', this)">
+            <i class="ph-fill ph-user"></i><span>Profil</span>
+        </div>
+    </nav>
+
+    <!-- MODALS -->
+    <!-- Task Modal -->
+    <div class="modal-overlay" id="task-modal" onclick="if(event.target===this) app.closeModals()">
+        <div class="modal-content">
+            <div class="modal-drag-handle"></div>
+            <h3 style="margin-bottom: 20px; font-size: 20px;" id="tm-title">Yeni Görev</h3>
+            <input type="hidden" id="tm-id">
+            <div class="input-group">
+                <input type="text" id="tm-input" placeholder="Ne üzerinde çalışacaksın?">
+            </div>
+            
+            <label style="font-size:12px; color:var(--subtitle); display:block; margin-bottom:8px;">Kategori</label>
+            <div style="display: flex; gap: 8px; margin-bottom: 20px; overflow-x:auto;" id="tm-cats">
+                <div class="chip ripple-wrapper active" onclick="tasks.selectFormChip('cat', 'İş', this)" style="border-color:var(--primary)">İş</div>
+                <div class="chip ripple-wrapper" onclick="tasks.selectFormChip('cat', 'Ders', this)" style="border-color:var(--primary)">Ders</div>
+                <div class="chip ripple-wrapper" onclick="tasks.selectFormChip('cat', 'Kişisel', this)" style="border-color:var(--primary)">Kişisel</div>
+            </div>
+            
+            <label style="font-size:12px; color:var(--subtitle); display:block; margin-bottom:8px;">Öncelik</label>
+            <div style="display: flex; gap: 8px; margin-bottom: 20px;" id="tm-pris">
+                <div class="chip ripple-wrapper priority-low active" onclick="tasks.selectFormChip('pri', 'Düşük', this)">Düşük</div>
+                <div class="chip ripple-wrapper priority-med" onclick="tasks.selectFormChip('pri', 'Orta', this)">Orta</div>
+                <div class="chip ripple-wrapper priority-high" onclick="tasks.selectFormChip('pri', 'Yüksek', this)">Yüksek</div>
+            </div>
+            
+            <div class="input-group">
+                <label>Tahmini Pomodoro (1-10)</label>
+                <input type="number" id="tm-est" value="1" min="1" max="10">
+            </div>
+            <button class="btn btn-primary ripple-wrapper" onclick="tasks.save()">Kaydet</button>
+        </div>
+    </div>
+
+    <!-- Sounds Modal -->
+    <div class="modal-overlay" id="sound-modal" onclick="if(event.target===this) app.closeModals()">
+        <div class="modal-content">
+            <div class="modal-drag-handle"></div>
+            <h3 style="margin-bottom: 20px;">Odak Sesleri</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                <div class="ripple-wrapper" style="background:var(--card); border:1px solid var(--glass-border); border-radius:var(--radius-md); text-align:center; padding:16px;" onclick="audio.toggleNoise('brown')"><i class="ph-fill ph-cloud-rain" style="font-size:32px; color:var(--accent); margin-bottom:8px;"></i><p style="font-weight:600; color:var(--text);">Yağmur</p></div>
+                <div class="ripple-wrapper" style="background:var(--card); border:1px solid var(--glass-border); border-radius:var(--radius-md); text-align:center; padding:16px;" onclick="audio.toggleNoise('pink')"><i class="ph-fill ph-coffee" style="font-size:32px; color:var(--warning); margin-bottom:8px;"></i><p style="font-weight:600; color:var(--text);">Kafe</p></div>
+                <div class="ripple-wrapper" style="background:var(--card); border:1px solid var(--glass-border); border-radius:var(--radius-md); text-align:center; padding:16px;" onclick="audio.toggleNoise('white')"><i class="ph-fill ph-waves" style="font-size:32px; color:var(--success); margin-bottom:8px;"></i><p style="font-weight:600; color:var(--text);">Okyanus</p></div>
+                <div class="ripple-wrapper" style="background:var(--card); border:1px solid var(--glass-border); border-radius:var(--radius-md); text-align:center; padding:16px;" onclick="audio.stopNoise()"><i class="ph-fill ph-speaker-slash" style="font-size:32px; color:var(--danger); margin-bottom:8px;"></i><p style="font-weight:600; color:var(--text);">Kapat</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timer Settings Modal -->
+    <div class="modal-overlay" id="timer-settings-modal" onclick="if(event.target===this) app.closeModals()">
+        <div class="modal-content">
+            <div class="modal-drag-handle"></div>
+            <h3 style="margin-bottom: 20px;">Süre Ayarları (Dk)</h3>
+            <div class="input-group"><label>Odaklanma</label><input type="number" id="set-pomo" value="25" min="1" max="120"></div>
+            <div class="input-group"><label>Kısa Mola</label><input type="number" id="set-short" value="5" min="1" max="30"></div>
+            <div class="input-group"><label>Uzun Mola</label><input type="number" id="set-long" value="15" min="1" max="60"></div>
+            <button class="btn btn-primary ripple-wrapper" onclick="timer.saveSettings()">Uygula</button>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="confirm-modal" onclick="if(event.target===this) app.closeModals()">
+        <div class="modal-content" style="text-align:center;">
+            <i class="ph-duotone ph-warning-circle" style="font-size:60px; color:var(--danger); margin-bottom:16px;"></i>
+            <h3 style="margin-bottom: 8px;" id="confirm-title">Emin misin?</h3>
+            <p style="margin-bottom: 24px;" id="confirm-desc">Bu işlem geri alınamaz.</p>
+            <div style="display:flex; gap:12px;"><button class="btn btn-secondary ripple-wrapper" onclick="app.closeModals()">İptal</button><button class="btn btn-primary ripple-wrapper" style="background:var(--danger); box-shadow:0 8px 24px rgba(239, 68, 68, 0.3);" id="confirm-btn">Evet</button></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"><i class="ph-fill ph-info"></i><span id="toast-msg">Bildirim</span></div>
+</div>
+
+<script>
+    // ==========================================================================
+    // 1. UTILS & DATASTORE (Robust LocalStorage Wrapper)
+    // ==========================================================================
+    const utils = {
+        formatTime: (s) => { const m=Math.floor(s/60); const sc=s%60; return `${m.toString().padStart(2,'0')}:${sc.toString().padStart(2,'0')}`; },
+        createRipple: (e) => {
+            const btn = e.currentTarget; const circle = document.createElement("span");
+            const d = Math.max(btn.clientWidth, btn.clientHeight); const r = d / 2;
+            circle.style.width = circle.style.height = `${d}px`;
+            circle.style.left = `${e.clientX - btn.getBoundingClientRect().left - r}px`;
+            circle.style.top = `${e.clientY - btn.getBoundingClientRect().top - r}px`;
+            circle.classList.add("ripple");
+            const ex = btn.querySelector(".ripple"); if(ex) ex.remove();
+            btn.appendChild(circle);
+        },
+        initRipples: () => {
+            document.querySelectorAll('.ripple-wrapper').forEach(btn => {
+                btn.removeEventListener('mousedown', utils.createRipple);
+                btn.addEventListener('mousedown', utils.createRipple);
+            });
+        }
+    };
+
+    const dataStore = {
+        prefix: 'pmlg_',
+        get(k, def) { try { const v=localStorage.getItem(this.prefix+k); return v?JSON.parse(v):def; } catch(e){return def;} },
+        set(k, v) { localStorage.setItem(this.prefix+k, JSON.stringify(v)); },
+        clear() { Object.keys(localStorage).forEach(k=>{if(k.startsWith(this.prefix)) localStorage.removeItem(k);}); },
+        resetAlert() { app.openConfirm('Hesabı Sıfırla', 'Tüm görevler, istatistikler ve veriler kalıcı olarak silinecek.', () => { this.clear(); window.location.reload(); }); }
+    };
+
+    // ==========================================================================
+    // 2. HARDWARE (AUDIO & HAPTICS)
+    // ==========================================================================
+    const haptics = { play(t='light') { if(!window.settings?.data?.vibration || !navigator.vibrate) return; switch(t){case'light':navigator.vibrate(10);break;case'medium':navigator.vibrate(30);break;case'heavy':navigator.vibrate([40,20,40]);break;case'success':navigator.vibrate([30,50,30,50,50]);break;} } };
+    
+    const audio = {
+        ctx: null, src: null,
+        init() { if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); if(this.ctx.state==='suspended') this.ctx.resume(); },
+        playAlarm() {
+            try {
+                this.init(); const osc=this.ctx.createOscillator(); const gain=this.ctx.createGain();
+                osc.type='triangle'; osc.frequency.setValueAtTime(600, this.ctx.currentTime); osc.frequency.exponentialRampToValueAtTime(300, this.ctx.currentTime+0.3);
+                gain.gain.setValueAtTime(0, this.ctx.currentTime); gain.gain.linearRampToValueAtTime(1, this.ctx.currentTime+0.05); gain.gain.setValueAtTime(0, this.ctx.currentTime+0.2); gain.gain.setValueAtTime(1, this.ctx.currentTime+0.4); gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime+1);
+                osc.connect(gain); gain.connect(this.ctx.destination); osc.start(); osc.stop(this.ctx.currentTime+1);
+            } catch(e) {}
+        },
+        toggleNoise(type) {
+            this.init(); this.stopNoise();
+            const bs=this.ctx.sampleRate*2; const buf=this.ctx.createBuffer(1, bs, this.ctx.sampleRate); const out=buf.getChannelData(0); let last=0;
+            for(let i=0; i<bs; i++) { let w=Math.random()*2-1; if(type==='brown'){out[i]=(last+(0.02*w))/1.02;last=out[i];out[i]*=3.5;} else if(type==='pink'){out[i]=(last*0.9)+(w*0.1);last=out[i];out[i]*=2;} else out[i]=w*0.2; }
+            this.src=this.ctx.createBufferSource(); this.src.buffer=buf; this.src.loop=true;
+            const gn=this.ctx.createGain(); gn.gain.value=0.5; const flt=this.ctx.createBiquadFilter(); flt.type="lowpass"; flt.frequency.value=type==='brown'?400:(type==='pink'?800:2000);
+            this.src.connect(flt); flt.connect(gn); gn.connect(this.ctx.destination); this.src.start();
+            app.showToast(type.toUpperCase() + ' sesi aktif', 'success');
+        },
+        stopNoise() { if(this.src){this.src.stop(); this.src.disconnect(); this.src=null; app.showToast('Ses kapatıldı');} }
+    };
+
+    // ==========================================================================
+    // 3. UI, APP STATE & MOCK AUTH
+    // ==========================================================================
+    window.app = {
+        toastTimeout: null,
+        showToast(msg, type='info') {
+            const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg;
+            toast.className = `toast ${type} show`; toast.querySelector('i').className = `ph-fill ${type==='success'?'ph-check-circle':(type==='error'?'ph-warning-circle':'ph-info')}`;
+            clearTimeout(this.toastTimeout); this.toastTimeout = setTimeout(()=>toast.classList.remove('show'), 3000);
+        },
+        openModal(id) { haptics.play('light'); document.getElementById(id).classList.add('active'); },
+        closeModals() { document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('active')); },
+        openConfirm(t, d, onConfirm) { document.getElementById('confirm-title').innerText=t; document.getElementById('confirm-desc').innerText=d; document.getElementById('confirm-btn').onclick=()=>{haptics.play('medium');this.closeModals();onConfirm();}; this.openModal('confirm-modal'); },
+        navigate(sId, navEl=null) {
+            haptics.play('light'); this.closeModals();
+            document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+            document.getElementById(sId).classList.add('active');
+            
+            const nav = document.getElementById('bottom-nav');
+            if(sId==='focus-mode' || sId==='auth') nav.classList.add('hidden');
+            else {
+                nav.classList.remove('hidden'); document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+                if(navEl) navEl.classList.add('active');
+                else { const map={'home':0,'tasks':1,'stats':2,'profile':3}; if(map[sId]!==undefined) document.querySelectorAll('.nav-item')[map[sId]].classList.add('active'); }
+            }
+            if(sId === 'home') this.updateGreeting();
+        },
+        updateGreeting() {
+            const h = new Date().getHours(); let g = 'İyi Geceler';
+            if(h>=5 && h<12) g='Günaydın'; else if(h>=12 && h<18) g='Tünaydın'; else if(h>=18 && h<22) g='İyi Akşamlar';
+            document.getElementById('greeting-text').innerText = g;
+        }
+    };
+
+    window.authUI = {
+        isLoggedIn: false,
+        init() {
+            const user = dataStore.get('user_session', null);
+            if(user && user.email) {
+                this.isLoggedIn = true; window.userStore.data = user; window.userStore.render();
+                window.settings.init(); window.stats.init(); window.tasks.init(); window.timer.init();
+                app.navigate('home'); utils.initRipples();
+            } else {
+                app.navigate('auth'); utils.initRipples();
+            }
+        },
+        switchTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('active'));
+            document.querySelectorAll('.auth-form-view').forEach(f=>f.classList.remove('active'));
+            if(tab==='login') { document.querySelectorAll('.auth-tab')[0].classList.add('active'); document.getElementById('form-login').classList.add('active'); }
+            else { document.querySelectorAll('.auth-tab')[1].classList.add('active'); document.getElementById('form-register').classList.add('active'); }
+            haptics.play('light');
+        },
+        submit(type) {
+            let name="Efsane", email="";
+            if(type==='login') {
+                email=document.getElementById('login-email').value; const pass=document.getElementById('login-password').value;
+                if(!email||!pass) return app.showToast('Lütfen bilgileri girin', 'error');
+                name = email.split('@')[0]; // Simple mock logic
+            } else {
+                const n=document.getElementById('reg-name').value, s=document.getElementById('reg-surname').value, e=document.getElementById('reg-email').value, p=document.getElementById('reg-password').value;
+                if(!n||!e||!p) return app.showToast('Eksik bilgi girdiniz', 'error');
+                name = `${n} ${s}`.trim(); email = e;
+            }
+            
+            // Mock Login Success
+            window.userStore.data.name = name; window.userStore.data.email = email;
+            window.userStore.data.avatar = `https://api.dicebear.com/7.x/initials/svg?seed=${name}&backgroundColor=6C63FF`;
+            window.userStore.sync();
+            app.showToast('Giriş başarılı!', 'success');
+            
+            setTimeout(()=>{ this.init(); }, 500);
+        },
+        logout() { app.openConfirm('Çıkış Yap', 'Oturum kapatılacak emin misin?', () => { dataStore.set('user_session', null); window.location.reload(); }); }
+    };
+
+    // ==========================================================================
+    // 4. MODULES
+    // ==========================================================================
+    window.settings = {
+        data: { amoled: false, vibration: true, autoPomodoro: false, autoBreak: true, durations: { pomo: 25, short: 5, long: 15 } },
+        init() { this.data = dataStore.get('settings', this.data); this.applyTheme(); this.updateUI(); },
+        toggle(k) { this.data[k] = !this.data[k]; this.sync(); this.updateUI(); if(k==='amoled') this.applyTheme(); haptics.play('light'); },
+        applyTheme() { document.documentElement.setAttribute('data-theme', this.data.amoled ? 'amoled' : 'dark'); document.getElementById('meta-theme-color').setAttribute('content', this.data.amoled ? '#000000' : '#090B10'); },
+        updateUI() { ['amoled','vibration','autoPomodoro','autoBreak'].forEach(k=>document.getElementById(`toggle-${k}`).className=`toggle ${this.data[k]?'active':''}`); document.getElementById('set-pomo').value=this.data.durations.pomo; document.getElementById('set-short').value=this.data.durations.short; document.getElementById('set-long').value=this.data.durations.long; },
+        sync() { dataStore.set('settings', this.data); }
+    };
+
+    window.userStore = {
+        data: { name: 'Efsane', email: '', avatar: '', xp: 0, level: 1 }, LVL_BASE: 300,
+        render() {
+            document.getElementById('profile-avatar').src = this.data.avatar;
+            document.getElementById('user-name-display').innerText = this.data.name; document.getElementById('profile-name-full').innerText = this.data.name; document.getElementById('profile-email').innerText = this.data.email;
+            document.getElementById('home-lvl-badge').innerText = `Lvl ${this.data.level}`;
+            const curXP = Math.pow(this.data.level-1, 2)*this.LVL_BASE; const nextXP = Math.pow(this.data.level, 2)*this.LVL_BASE;
+            const pct = Math.min(100, Math.max(0, ((this.data.xp-curXP)/(nextXP-curXP))*100));
+            document.getElementById('home-lvl-fill').style.width=`${pct}%`; document.getElementById('home-xp-text').innerText=`${this.data.xp} XP`;
+        },
+        addXP(m) { this.data.xp+=(m*10); const old=this.data.level; this.data.level=Math.floor(Math.sqrt(this.data.xp/this.LVL_BASE))+1; this.sync(); this.render(); if(this.data.level>old) app.showToast(`Seviye atladın! Yeni Level: ${this.data.level}`, 'success'); },
+        sync() { dataStore.set('user_session', this.data); }
+    };
+
+    window.stats = {
+        data: { todayMins: 0, todayComp: 0, lastDate: null, streak: 0, bestStreak: 0, totalMins: 0, totalPomo: 0, week: [0,0,0,0,0,0,0] },
+        init() { this.data = dataStore.get('stats', this.data); this.checkDay(); this.render(); },
+        checkDay() { const d=new Date().toDateString(); if(this.data.lastDate!==d){if(this.data.lastDate){const diff=Math.floor((new Date()-new Date(this.data.lastDate))/86400000); if(diff>1)this.data.streak=0;} this.data.todayMins=0; this.data.todayComp=0; this.sync();} },
+        addPomo(m) { const d=new Date().toDateString(); if(this.data.lastDate!==d){this.data.streak++; if(this.data.streak>this.data.bestStreak)this.data.bestStreak=this.data.streak;} this.data.lastDate=d; this.data.todayMins+=m; this.data.todayComp++; this.data.totalMins+=m; this.data.totalPomo++; const idx=(new Date().getDay()+6)%7; this.data.week[idx]+=m; this.sync(); this.render(); },
+        sync() { dataStore.set('stats', this.data); },
+        render() {
+            document.getElementById('stat-today').innerText=this.data.todayMins; document.getElementById('stat-streak').innerText=this.data.streak;
+            document.getElementById('st-total-pomo').innerText=this.data.totalPomo; document.getElementById('st-total-hours').innerText=(this.data.totalMins/60).toFixed(1)+'s'; document.getElementById('st-best-streak').innerText=this.data.bestStreak;
+            const tr=window.tasks.list.length; const tc=window.tasks.list.filter(t=>t.completed).length; document.getElementById('st-task-ratio').innerText=tr>0?Math.round((tc/tr)*100)+'%':'0%';
+            const c=document.getElementById('weekly-chart'); c.innerHTML=''; const mx=Math.max(...this.data.week, 60);
+            ['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'].forEach((d,i)=>{ c.innerHTML+=`<div class="bar-wrapper"><div class="bar"><div class="bar-fill" style="height:${(this.data.week[i]/mx)*100}%"></div></div><span class="bar-label">${d}</span></div>`; });
+        }
+    };
+
+    window.tasks = {
+        list: [], filter: 'Tümü', q: '', form: {id:null, cat:'İş', pri:'Orta'},
+        init() { this.list = dataStore.get('tasks', []); this.render(); },
+        selectFormChip(type, val, el) { haptics.play('light'); this.form[type]=val; el.parentElement.querySelectorAll('.chip').forEach(b=>{b.classList.remove('active'); b.style.borderColor='transparent';}); el.classList.add('active'); if(type==='cat')el.style.borderColor='var(--primary)'; },
+        openNew() { this.form={id:null,cat:'İş',pri:'Orta'}; document.getElementById('tm-title').innerText='Yeni Görev'; document.getElementById('tm-input').value=''; document.getElementById('tm-est').value=1; this.updUI(); app.openModal('task-modal'); },
+        edit(id) { const t=this.list.find(x=>x.id===id); if(!t)return; this.form={id:t.id,cat:t.cat,pri:t.pri}; document.getElementById('tm-title').innerText='Düzenle'; document.getElementById('tm-input').value=t.title; document.getElementById('tm-est').value=t.est; this.updUI(); app.openModal('task-modal'); },
+        updUI() { Array.from(document.getElementById('tm-cats').children).forEach(c=>{c.classList.toggle('active',c.innerText===this.form.cat); c.style.borderColor=c.innerText===this.form.cat?'var(--primary)':'transparent';}); Array.from(document.getElementById('tm-pris').children).forEach(p=>p.classList.toggle('active',p.innerText===this.form.pri)); },
+        save() {
+            const t=document.getElementById('tm-input').value.trim(); const est=parseInt(document.getElementById('tm-est').value)||1; if(!t) return app.showToast('Görev adı boş olamaz', 'error');
+            if(this.form.id) { const x=this.list.find(i=>i.id===this.form.id); x.title=t; x.est=est; x.cat=this.form.cat; x.pri=this.form.pri; app.showToast('Güncellendi','success'); }
+            else { this.list.unshift({id:Date.now(), title:t, cat:this.form.cat, pri:this.form.pri, est, act:0, completed:false}); app.showToast('Eklendi','success'); }
+            this.sync(); app.closeModals();
+        },
+        toggle(id) { const t=this.list.find(x=>x.id===id); if(t){t.completed=!t.completed; haptics.play(t.completed?'success':'light'); this.sync();} },
+        del(id) { this.list=this.list.filter(x=>x.id!==id); this.sync(); app.showToast('Silindi'); },
+        addAct(id) { const t=this.list.find(x=>x.id===id); if(t){t.act++; this.sync();} },
+        clearCompleted() { const c=this.list.filter(t=>t.completed).length; if(c===0)return app.showToast('Temizlenecek görev yok'); app.openConfirm('Tamamlananları Sil', `${c} görev silinecek.`, ()=>{this.list=this.list.filter(t=>!t.completed); this.sync(); app.showToast('Temizlendi','success');}); },
+        setFilter(f, el) { haptics.play('light'); this.filter=f; el.parentElement.querySelectorAll('.filter-chip').forEach(b=>b.classList.remove('active')); el.classList.add('active'); this.render(); },
+        filter() { this.q=document.getElementById('task-search').value.toLowerCase(); this.render(); },
+        sync() { dataStore.set('tasks', this.list); this.render(); stats.render(); },
+        render() {
+            const c=document.getElementById('task-list-container'); c.innerHTML=''; let f=this.list; if(this.q) f=f.filter(t=>t.title.toLowerCase().includes(this.q));
+            if(this.filter==='Aktif') f=f.filter(t=>!t.completed); else if(this.filter!=='Tümü') f=f.filter(t=>t.cat===this.filter);
+            const w={'Yüksek':3,'Orta':2,'Düşük':1}; f.sort((a,b)=>a.completed!==b.completed?(a.completed?1:-1):(w[b.pri]-w[a.pri]));
+            if(f.length===0) return c.innerHTML=`<div style="text-align:center; color:var(--subtitle); margin-top:40px;"><i class="ph-duotone ph-list-dashes" style="font-size:64px; opacity:0.5; margin-bottom:16px;"></i><p>Görev bulunamadı.</p></div>`;
+            f.forEach(t => {
+                const el=document.createElement('div'); el.className=`task-item ${t.completed?'completed':''}`;
+                el.innerHTML=`<div class="task-checkbox" onclick="tasks.toggle(${t.id})"></div><div class="task-content"><div class="task-title">${t.title}</div><div class="task-meta"><span class="chip priority-${t.pri==='Yüksek'?'high':(t.pri==='Orta'?'med':'low')}">${t.pri}</span><span><i class="ph-fill ph-folder"></i> ${t.cat}</span><span><i class="ph-fill ph-tomato"></i> ${t.act}/${t.est}</span></div></div><div class="task-actions">${!t.completed?`<button class="task-action-btn" onclick="tasks.addAct(${t.id})"><i class="ph ph-plus-circle"></i></button>`:''}<button class="task-action-btn" onclick="tasks.edit(${t.id})"><i class="ph ph-pencil-simple"></i></button><button class="task-action-btn" onclick="tasks.del(${t.id})"><i class="ph ph-trash"></i></button></div>`;
+                c.appendChild(el);
+            });
+        }
+    };
+
+    window.timer = {
+        modes: { pomodoro: { c:'var(--primary)', l:'Odaklan' }, shortBreak: { c:'var(--success)', l:'Kısa Mola' }, longBreak: { c:'var(--accent)', l:'Uzun Mola' } },
+        st: { m: 'pomodoro', isR: false, endT: null, left: 25*60, tot: 25*60 }, iId: null,
+        init() {
+            this.st = dataStore.get('timer', this.st);
+            if(this.st.isR) {
+                if(Date.now() > this.st.endT) this.complete(true);
+                else { this.st.left = Math.round((this.st.endT-Date.now())/1000); this.startLoop(); }
+            } else this.setMode('pomodoro');
+            this.updateUI();
+        },
+        saveSettings() { const p=parseInt(document.getElementById('set-pomo').value), s=parseInt(document.getElementById('set-short').value), l=parseInt(document.getElementById('set-long').value); if(p>0&&s>0&&l>0){window.settings.data.durations={pomo:p,short:s,long:l}; window.settings.sync(); if(!this.st.isR)this.setMode(this.st.m); app.closeModals(); app.showToast('Ayarlar kaydedildi','success');} },
+        setMode(m) { if(this.st.isR)this.pause(); this.st.m=m; const min=settings.data.durations[m==='pomodoro'?'pomo':(m==='shortBreak'?'short':'long')]; this.st.left=min*60; this.st.tot=this.st.left; this.sync(); this.updateUI(); },
+        toggle() { haptics.play('light'); if(this.st.isR)this.pause(); else this.start(); },
+        start() { if(this.st.left<=0)return; this.st.isR=true; this.st.endT=Date.now()+(this.st.left*1000); this.sync(); audio.init(); this.startLoop(); this.updateUI(); },
+        startLoop() { clearInterval(this.iId); this.iId=setInterval(()=>{this.st.left=Math.max(0,Math.round((this.st.endT-Date.now())/1000)); this.updateUI(); if(this.st.left<=0)this.complete(false);}, 1000); },
+        pause() { this.st.isR=false; this.st.endT=null; clearInterval(this.iId); this.sync(); this.updateUI(); },
+        reset() { haptics.play('medium'); this.pause(); this.setMode(this.st.m); },
+        complete(fromBg) {
+            this.pause(); if(!fromBg){audio.playAlarm(); haptics.play('heavy');}
+            if(this.st.m==='pomodoro') { stats.addPomo(settings.data.durations.pomo); userStore.addXP(settings.data.durations.pomo); app.showToast('Pomodoro bitti!','success'); if(settings.data.autoBreak){this.setMode(stats.data.todayComp%4===0?'longBreak':'shortBreak'); setTimeout(()=>this.start(),1500);} }
+            else { app.showToast('Mola bitti!','info'); if(settings.data.autoPomodoro){this.setMode('pomodoro'); setTimeout(()=>this.start(),1500);} else this.setMode('pomodoro'); }
+        },
+        sync() { dataStore.set('timer', this.st); },
+        updateUI() {
+            const ts=utils.formatTime(this.st.left); document.getElementById('time-text').innerText=ts; document.getElementById('focus-time-text').innerText=ts; document.title=`${ts} - PomoLegend`;
+            const mCfg=this.modes[this.st.m]; document.getElementById('mode-text').innerText=mCfg.l; document.getElementById('focus-mode-text').innerText=mCfg.l;
+            document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active')); const ab=document.getElementById('mode-'+this.st.m); if(ab)ab.classList.add('active');
+            
+            const btn=document.getElementById('play-pause-btn'), fBtn=document.getElementById('fm-play-btn');
+            btn.innerHTML = fBtn.innerHTML = this.st.isR?'<i class="ph-fill ph-pause"></i>':'<i class="ph-fill ph-play"></i>';
+            btn.style.boxShadow = this.st.isR?'0 0 0 8px rgba(108,99,255,0.2)':'0 12px 32px rgba(108, 99, 255, 0.4)';
+            
+            // Scalable Circular Progress using viewBox properties (Circumference of r=45 is 282.74)
+            const c=282.74; const pct=this.st.tot>0?this.st.left/this.st.tot:0;
+            const r1=document.getElementById('progress-ring'), r2=document.getElementById('focus-progress-ring');
+            r1.style.strokeDashoffset = r2.style.strokeDashoffset = c - (pct * c);
+            r1.style.stroke = r2.style.stroke = mCfg.c; r1.style.filter = `drop-shadow(0 0 12px ${mCfg.c}80)`;
+        }
+    };
+
+    // BOOTSTRAP
+    window.onload = () => { authUI.init(); };
+    document.addEventListener('visibilitychange', () => { if(document.visibilityState==='visible' && timer.st.isR) timer.startLoop(); });
+</script>
+</body>
+</html>
