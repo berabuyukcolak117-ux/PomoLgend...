@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="tr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
@@ -290,11 +290,37 @@
         .exit-focus { position: absolute; top: calc(var(--safe-area-top) + 20px); left: 24px; color: #fff; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 50%; width: 50px; height: 50px; display:flex; align-items:center; justify-content:center; font-size: 24px; z-index: 10;}
         
         /* ==========================================================================
-           11. ULTIMATE MEDIA QUERIES (Süper Gelişmiş Duyarlı Tasarım)
+           11. ULTIMATE MEDIA QUERIES (Süper Gelişmiş Duyarlı Tasarım - 50.000px'e kadar!)
            ========================================================================== */
 
-        /* Ekstra Küçük Cihazlar (Akıllı saatler / mini telefonlar <= 380px) */
-        @media (max-width: 380px) {
+        /* 1. Minik Telefonlar (Akıllı saatler / en küçük telefonlar <= 280px) */
+        @media (max-width: 280px) {
+            .timer-ring { max-width: 180px; margin-bottom: 10px; }
+            .time-display h1 { font-size: 36px; }
+            .play-btn { width: 50px; height: 50px; font-size: 20px; }
+            #focus-mode .timer-ring { max-width: 200px; }
+            #focus-mode .time-display h1 { font-size: 48px; }
+            .header h1 { font-size: 18px; }
+            .bottom-nav { padding-bottom: 4px; height: 50px; }
+            .nav-item i { font-size: 16px; }
+            .nav-item span { font-size: 8px; }
+            .mode-btn { padding: 6px 10px; font-size: 10px; }
+            .mini-stat h3 { font-size: 16px; }
+        }
+
+        /* 2. Küçük Telefonlar (<= 320px) */
+        @media (min-width: 281px) and (max-width: 320px) {
+            .timer-ring { max-width: 200px; margin-bottom: 15px; }
+            .time-display h1 { font-size: 42px; }
+            .play-btn { width: 55px; height: 55px; font-size: 22px; }
+            #focus-mode .timer-ring { max-width: 230px; }
+            #focus-mode .time-display h1 { font-size: 56px; }
+            .header h1 { font-size: 20px; }
+            .bottom-nav { padding-bottom: 6px; }
+        }
+
+        /* 3. Orta Telefonlar (<= 380px) - Orijinalden uyarlama */
+        @media (min-width: 321px) and (max-width: 380px) {
             .timer-ring { max-width: 220px; margin-bottom: 20px; }
             .time-display h1 { font-size: 48px; }
             .play-btn { width: 60px; height: 60px; font-size: 24px; }
@@ -306,18 +332,33 @@
             .nav-item span { font-size: 9px; }
         }
 
-        /* Desktop/Tablet adjustments for Modals (Orijinal Kodun) & Tablet Eklemeleri */
+        /* 4. Büyük Telefonlar (Yatay veya geniş ekranlar 480px - 599px) */
+        @media (min-width: 480px) and (max-width: 599px) {
+            .timer-ring { max-width: 260px; }
+            .time-display h1 { font-size: 58px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            #focus-mode .timer-ring { max-width: 320px; }
+        }
+
+        /* 5. mini iPad'ler / Küçük Tabletler (600px - 767px) */
+        @media (min-width: 600px) and (max-width: 767px) {
+            .timer-ring { max-width: 300px; }
+            .time-display h1 { font-size: 64px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            #focus-mode .timer-ring { max-width: 400px; }
+            #focus-mode .time-display h1 { font-size: 80px; }
+            .header, .task-tools, .profile-header, .settings-group { padding-inline: 32px; }
+        }
+
+        /* 6. iPad'ler / Normal Tabletler (768px+) */
         @media (min-width: 768px) {
-            /* Senin orijinal kodun (Asla dokunulmadı) */
             #app { border-radius: 20px; border: 1px solid var(--glass-border); height: 95vh; margin-top: 2.5vh; }
             .modal-overlay { align-items: center; justify-content: center; }
             .modal-content { max-width: 450px; border-radius: 20px; transform: scale(0.9); padding: 30px; }
             .modal-overlay.active .modal-content { transform: scale(1); }
             .modal-drag-handle { display: none; }
             .add-task-fab { bottom: 40px; right: 40px; }
-
-            /* Tabletler İçin Ekstra Medya Okuyucu İyileştirmeleri */
-            .timer-ring { max-width: 350px; } 
+            .timer-ring { max-width: 350px; }
             .time-display h1 { font-size: 72px; }
             #focus-mode .timer-ring { max-width: 500px; }
             #focus-mode .time-display h1 { font-size: 110px; }
@@ -327,7 +368,16 @@
             .home-level-bar, .chart-card { margin-inline: 40px; }
         }
 
-        /* Büyük Ekranlar ve Normal Bilgisayarlar (1200px+) */
+        /* 7. Küçük Laptoplar (1024px+) */
+        @media (min-width: 1024px) {
+            #app { max-width: 900px; }
+            .timer-ring { max-width: 400px; }
+            .time-display h1 { font-size: 80px; }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); }
+            #focus-mode .timer-ring { max-width: 550px; }
+        }
+
+        /* 8. Laptoplar / Normal Bilgisayarlar (1200px+) */
         @media (min-width: 1200px) {
             #app { max-width: 1100px; height: 90vh; margin-top: 5vh; border-radius: 30px; }
             .timer-ring { max-width: 450px; }
@@ -335,13 +385,21 @@
             .play-btn { width: 100px; height: 100px; font-size: 40px; }
             #focus-mode .timer-ring { max-width: 600px; }
             #focus-mode .time-display h1 { font-size: 130px; }
-            .stats-grid { grid-template-columns: repeat(4, 1fr); }
             .bottom-nav { height: 80px; }
             .nav-item i { font-size: 28px; }
             .nav-item span { font-size: 13px; }
         }
 
-        /* Televizyonlar ve Çok Büyük Monitörler (1920px+) */
+        /* 9. Geniş Ekran Monitörler (1440px+) */
+        @media (min-width: 1440px) {
+            #app { max-width: 1300px; }
+            .timer-ring { max-width: 500px; }
+            .time-display h1 { font-size: 100px; }
+            #focus-mode .timer-ring { max-width: 700px; }
+            #focus-mode .time-display h1 { font-size: 150px; }
+        }
+
+        /* 10. Televizyonlar (1920px+) */
         @media (min-width: 1920px) {
             #app { max-width: 1600px; height: 85vh; margin-top: 7.5vh; border-radius: 40px; }
             .timer-ring { max-width: 550px; }
@@ -357,7 +415,7 @@
             .avatar { width: 140px; height: 140px; }
         }
 
-        /* Devasa Televizyonlar / 500 inç 4K-8K Ekranlar (Sonsuz VW/VH Ölçekleme) (2560px+) */
+        /* 11. 2K/4K Temel Ekranlar (2560px+) - Sonsuz VW/VH Ölçeklemesine Geçiş */
         @media (min-width: 2560px) {
             #app { max-width: 85vw; height: 85vh; margin-top: 7.5vh; border-radius: 2vw; border-width: 3px; }
             .timer-ring { max-width: 28vw; margin-bottom: 3vw; }
@@ -418,6 +476,46 @@
             .input-group input { padding: 1.2vw; font-size: 1.2vw; border-radius: 0.8vw; }
             .btn { padding: 1.2vw 2vw; font-size: 1.2vw; border-radius: 3vw; }
             .chip { padding: 0.6vw 1.2vw; font-size: 0.9vw; }
+        }
+
+        /* 12. 4K Devasa Televizyonlar (3840px+) */
+        @media (min-width: 3840px) {
+            #app { max-width: 80vw; border-width: 4px; }
+            .timer-ring { max-width: 25vw; }
+            #focus-mode .timer-ring { max-width: 35vw; }
+        }
+
+        /* 13. 8K Ultra Dev Ekranlar (7680px+) */
+        @media (min-width: 7680px) {
+            #app { max-width: 75vw; border-width: 6px; }
+            .timer-ring { max-width: 22vw; }
+            #focus-mode .timer-ring { max-width: 30vw; }
+            .btn-icon { border-width: 4px; }
+        }
+
+        /* 14. 16K Stadyum ve Konser Ekranları (15360px+) */
+        @media (min-width: 15360px) {
+            #app { max-width: 70vw; border-width: 10px; border-radius: 1.5vw; }
+            .timer-ring { max-width: 20vw; }
+            #focus-mode .timer-ring { max-width: 25vw; }
+        }
+
+        /* 15. 32K Gelecek Nesil Mega Ekranlar (30000px+) */
+        @media (min-width: 30000px) {
+            #app { max-width: 65vw; border-width: 15px; }
+            .timer-ring { max-width: 18vw; }
+            #focus-mode .timer-ring { max-width: 20vw; }
+            .time-display h1 { font-weight: 900; }
+        }
+
+        /* 16. 50.000px İnanılmaz Boyut (Her Şeyin Ötesi) */
+        @media (min-width: 50000px) {
+            #app { max-width: 60vw; border-width: 25px; border-radius: 1vw; box-shadow: 0 0 500px rgba(108, 99, 255, 0.5); }
+            .timer-ring { max-width: 15vw; }
+            .timer-ring circle { stroke-width: 2vw !important; }
+            #focus-mode .timer-ring { max-width: 18vw; }
+            .time-display h1 { letter-spacing: -0.5vw; text-shadow: 0 0 100px rgba(255,255,255,0.2); }
+            .play-btn { box-shadow: 0 2vw 5vw rgba(108, 99, 255, 0.6); }
         }
     </style>
 </head>
