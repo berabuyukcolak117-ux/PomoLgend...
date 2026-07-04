@@ -353,15 +353,36 @@
         /* 6. iPad'ler / Normal Tabletler (768px+) */
         @media (min-width: 768px) {
             #app { border-radius: 20px; border: 1px solid var(--glass-border); height: 95vh; margin-top: 2.5vh; }
+            
+            /* Alt Navigasyonu Yan Menüye (Sidebar) Çevirme */
+            .bottom-nav {
+                top: 0; left: 0; bottom: auto; width: 100px; height: 100%;
+                flex-direction: column; justify-content: center; padding-bottom: 0; gap: 32px;
+                border-top: none; border-right: 1px solid var(--glass-border);
+                transform: translateX(0); /* absolute için görünürlüğü resetle */
+            }
+            .bottom-nav.hidden { transform: translateX(-100%); }
+            .nav-item { flex: none; height: 80px; width: 100%; gap: 8px; }
+            
+            /* İçerik alanını yan menüye göre kaydır */
+            .screen { padding-left: 100px; padding-bottom: 24px; }
+            #auth, #focus-mode { padding-left: 0; } /* Özel ekranlarda iptal et */
+            
             .modal-overlay { align-items: center; justify-content: center; }
             .modal-content { max-width: 450px; border-radius: 20px; transform: scale(0.9); padding: 30px; }
             .modal-overlay.active .modal-content { transform: scale(1); }
             .modal-drag-handle { display: none; }
             .add-task-fab { bottom: 40px; right: 40px; }
-            .timer-ring { max-width: 350px; }
-            .time-display h1 { font-size: 72px; }
-            #focus-mode .timer-ring { max-width: 500px; }
-            #focus-mode .time-display h1 { font-size: 110px; }
+            
+            /* Dikey Taşmayı Önlemek İçin Dinamik Yükseklik (vh) Kullanımı */
+            .timer-container { min-height: 0; padding: 2vh 20px; }
+            .mode-selector { margin-bottom: 3vh; }
+            .timer-ring { max-width: min(350px, 35vh); margin-bottom: 3vh; }
+            .time-display h1 { font-size: min(72px, 8vh); }
+            
+            #focus-mode .timer-ring { max-width: min(500px, 50vh); }
+            #focus-mode .time-display h1 { font-size: min(110px, 12vh); }
+            
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .home-stats, .task-list { padding: 0 40px; }
             .header, .task-tools, .profile-header, .settings-group { padding-inline: 40px; }
@@ -371,21 +392,26 @@
         /* 7. Küçük Laptoplar (1024px+) */
         @media (min-width: 1024px) {
             #app { max-width: 900px; }
-            .timer-ring { max-width: 400px; }
-            .time-display h1 { font-size: 80px; }
+            .timer-ring { max-width: min(400px, 38vh); }
+            .time-display h1 { font-size: min(80px, 9vh); }
             .stats-grid { grid-template-columns: repeat(4, 1fr); }
-            #focus-mode .timer-ring { max-width: 550px; }
+            #focus-mode .timer-ring { max-width: min(550px, 55vh); }
         }
 
         /* 8. Laptoplar / Normal Bilgisayarlar (1200px+) */
         @media (min-width: 1200px) {
             #app { max-width: 1100px; height: 90vh; margin-top: 5vh; border-radius: 30px; }
-            .timer-ring { max-width: 450px; }
-            .time-display h1 { font-size: 90px; }
-            .play-btn { width: 100px; height: 100px; font-size: 40px; }
-            #focus-mode .timer-ring { max-width: 600px; }
-            #focus-mode .time-display h1 { font-size: 130px; }
-            .bottom-nav { height: 80px; }
+            
+            .bottom-nav { width: 120px; }
+            .screen { padding-left: 120px; }
+            
+            .timer-ring { max-width: min(450px, 42vh); }
+            .time-display h1 { font-size: min(90px, 10vh); }
+            .play-btn { width: min(100px, 10vh); height: min(100px, 10vh); font-size: min(40px, 4vh); }
+            
+            #focus-mode .timer-ring { max-width: min(600px, 60vh); }
+            #focus-mode .time-display h1 { font-size: min(130px, 15vh); }
+            
             .nav-item i { font-size: 28px; }
             .nav-item span { font-size: 13px; }
         }
@@ -393,21 +419,21 @@
         /* 9. Geniş Ekran Monitörler (1440px+) */
         @media (min-width: 1440px) {
             #app { max-width: 1300px; }
-            .timer-ring { max-width: 500px; }
-            .time-display h1 { font-size: 100px; }
-            #focus-mode .timer-ring { max-width: 700px; }
-            #focus-mode .time-display h1 { font-size: 150px; }
+            .timer-ring { max-width: min(500px, 45vh); }
+            .time-display h1 { font-size: min(100px, 11vh); }
+            #focus-mode .timer-ring { max-width: min(700px, 65vh); }
+            #focus-mode .time-display h1 { font-size: min(150px, 16vh); }
         }
 
         /* 10. Televizyonlar (1920px+) */
         @media (min-width: 1920px) {
             #app { max-width: 1600px; height: 85vh; margin-top: 7.5vh; border-radius: 40px; }
-            .timer-ring { max-width: 550px; }
-            .time-display h1 { font-size: 120px; }
-            .play-btn { width: 120px; height: 120px; font-size: 48px; }
+            .timer-ring { max-width: min(550px, 50vh); }
+            .time-display h1 { font-size: min(120px, 13vh); }
+            .play-btn { width: min(120px, 12vh); height: min(120px, 12vh); font-size: min(48px, 5vh); }
             .btn-icon { width: 70px; height: 70px; font-size: 32px; }
-            #focus-mode .timer-ring { max-width: 800px; }
-            #focus-mode .time-display h1 { font-size: 180px; }
+            #focus-mode .timer-ring { max-width: min(800px, 70vh); }
+            #focus-mode .time-display h1 { font-size: min(180px, 18vh); }
             .header h1 { font-size: 40px; }
             #greeting-text { font-size: 24px; }
             .stat-box h2 { font-size: 40px; }
