@@ -75,13 +75,18 @@
 
         h1, h2, h3, h4, h5, h6 { font-weight: 700; letter-spacing: -0.5px; }
         p { color: var(--subtitle); line-height: 1.5; font-size: 14px; }
-        input, textarea, button { font-family: inherit; outline: none; border: none; background: none; color: var(--text); }
+        input, textarea, button, select { font-family: inherit; outline: none; border: none; background: none; color: var(--text); }
         
         /* Webkit Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--divider); border-radius: 10px; }
         
+        /* Avatar Grid Scrollbar */
+        #dicebear-grid::-webkit-scrollbar { width: 4px; }
+        #dicebear-grid::-webkit-scrollbar-track { background: transparent; }
+        #dicebear-grid::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
         /* Ripple Effect */
         .ripple-wrapper { position: relative; overflow: hidden; cursor: pointer; }
         .ripple {
@@ -103,8 +108,8 @@
 
         .input-group { margin-bottom: 16px; width: 100%; position: relative; }
         .input-group label { display: block; font-size: 13px; color: var(--subtitle); margin-bottom: 8px; font-weight: 500; }
-        .input-group input { width: 100%; background: var(--card); border: 1px solid var(--glass-border); padding: 16px 20px; border-radius: var(--radius-sm); font-size: 15px; color: white; transition: all var(--transition-fast); }
-        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15); }
+        .input-group input, .input-group select { width: 100%; background: var(--card); border: 1px solid var(--glass-border); padding: 16px 20px; border-radius: var(--radius-sm); font-size: 15px; color: white; transition: all var(--transition-fast); }
+        .input-group input:focus, .input-group select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15); }
 
         .chip { padding: 6px 12px; border-radius: var(--radius-full); font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; border: 1px solid transparent; }
         .chip.priority-high { background: rgba(239, 68, 68, 0.15); color: var(--danger); border-color: rgba(239, 68, 68, 0.3); }
@@ -145,7 +150,7 @@
         .nav-item.active i { transform: translateY(-4px); }
 
         /* ==========================================================================
-           5. AUTH SCREEN (MOCK)
+           5. AUTH SCREEN
            ========================================================================== */
         #auth { justify-content: center; align-items: center; padding-bottom: 0; }
         .auth-container { width: 100%; max-width: 400px; padding: 24px; display: flex; flex-direction: column; align-items: center; }
@@ -290,10 +295,21 @@
         .exit-focus { position: absolute; top: calc(var(--safe-area-top) + 20px); left: 24px; color: #fff; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 50%; width: 50px; height: 50px; display:flex; align-items:center; justify-content:center; font-size: 24px; z-index: 10;}
         
         /* ==========================================================================
-           11. RESPONSIVE DESIGN (Telefon, Tablet, Masaüstü)
+           11. RESPONSIVE DESIGN & GOOGLE TRANSLATE FIX
            ========================================================================== */
+        
+        /* AGGRESSIVE GOOGLE TRANSLATE HIDING (NO UI BREAKING) */
+        body { top: 0px !important; position: static !important; min-height: 100vh; }
+        .goog-te-banner-frame { display: none !important; }
+        .goog-te-menu-frame { max-width: 100% !important; }
+        .skiptranslate { display: none !important; }
+        body > .skiptranslate { display: none !important; }
+        #goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+        #google_translate_element { display: none !important; height: 0; overflow: hidden; }
+        .VIpgJd-ZVi9od-ORHb-OEVmcd, .VIpgJd-ZVi9od-aZ2wEe-wOHMyf { display: none !important; } /* Yeni Google frame sınıfları */
 
-        /* Ekstra Küçük Cihazlar (Akıllı saatler / mini telefonlar <= 380px) */
+        /* Ekstra Küçük Cihazlar */
         @media (max-width: 380px) {
             .timer-ring { max-width: 220px; margin-bottom: 20px; }
             .time-display h1 { font-size: 48px; }
@@ -308,78 +324,22 @@
 
         /* Tablet & Masaüstü Başlangıcı (768px+) */
         @media (min-width: 768px) {
-            /* Tam ekran modern dashboard görünümü */
-            #app {
-                flex-direction: row;
-                height: 100vh;
-                max-height: none;
-                max-width: 100vw;
-                margin: 0;
-                border-radius: 0;
-                border: none;
-                box-shadow: none;
-            }
-
-            /* Alt Navigasyonu Sol Kenar Çubuğuna Çevir */
-            .bottom-nav {
-                position: static;
-                width: 260px;
-                height: 100%;
-                flex-direction: column;
-                justify-content: flex-start;
-                gap: 8px;
-                border-top: none;
-                border-right: 1px solid var(--glass-border);
-                padding: 40px 20px;
-                transform: none;
-                transition: margin-left var(--transition-smooth), opacity var(--transition-smooth);
-                background: var(--card);
-                order: -1; 
-                z-index: 10;
-            }
-            .bottom-nav::before {
-                content: 'PomoLegend';
-                display: block;
-                font-size: 24px;
-                font-weight: 800;
-                margin-bottom: 40px;
-                padding-left: 16px;
-                background: var(--gradient-primary);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                letter-spacing: -1px;
-            }
-            .bottom-nav.hidden {
-                transform: none;
-                margin-left: -260px; 
-                opacity: 0;
-            }
-            .nav-item {
-                flex: none;
-                height: 56px;
-                flex-direction: row;
-                justify-content: flex-start;
-                padding: 0 20px;
-                border-radius: 16px;
-                gap: 16px;
-            }
+            #app { flex-direction: row; height: 100vh; max-height: none; max-width: 100vw; margin: 0; border-radius: 0; border: none; box-shadow: none; }
+            .bottom-nav { position: static; width: 260px; height: 100%; flex-direction: column; justify-content: flex-start; gap: 8px; border-top: none; border-right: 1px solid var(--glass-border); padding: 40px 20px; transform: none; transition: margin-left var(--transition-smooth), opacity var(--transition-smooth); background: var(--card); order: -1; z-index: 10; }
+            .bottom-nav::before { content: 'PomoLegend'; display: block; font-size: 24px; font-weight: 800; margin-bottom: 40px; padding-left: 16px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -1px; }
+            .bottom-nav.hidden { transform: none; margin-left: -260px; opacity: 0; }
+            .nav-item { flex: none; height: 56px; flex-direction: row; justify-content: flex-start; padding: 0 20px; border-radius: 16px; gap: 16px; }
             .nav-item.active { background: rgba(108, 99, 255, 0.1); }
             .nav-item i { font-size: 24px; }
             .nav-item span { font-size: 15px; font-weight: 600; display: block; }
             .nav-item.active i { transform: translateY(0) scale(1.1); }
-
-            /* İçerik Alanı & Temel Düzeltmeler */
             .screen { padding: 40px; padding-bottom: 40px; }
             .header { padding: 0 0 32px 0; }
             .add-task-fab { bottom: 40px; right: 40px; width: 64px; height: 64px; font-size: 32px; }
-
-            /* Modalları Merkeze Al (Masaüstü Tarzı Pencereler) */
             .modal-overlay { align-items: center; justify-content: center; padding: 24px; }
             .modal-content { max-width: 450px; border-radius: 24px; transform: scale(0.9) translateY(0); padding: 32px; width: 100%; }
             .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
             .modal-drag-handle { display: none; }
-
-            /* Görsel Ölçeklemeler ve Hizalamalar */
             .timer-ring { max-width: 350px; }
             .time-display h1 { font-size: 72px; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); padding: 0; }
@@ -390,7 +350,6 @@
             .home-level-bar { margin: 0 0 24px; }
             .home-stats { padding: 0; }
             .chart-card { margin: 0 0 40px; }
-            
             #focus-mode .timer-ring { max-width: 500px; }
             #focus-mode .time-display h1 { font-size: 110px; }
         }
@@ -399,28 +358,16 @@
         @media (min-width: 1024px) {
             #app { max-width: 100vw; }
             .header { padding: 0 0 32px 0; }
-            
-            /* Ana Ekran Grid Yapısı (Sayaç Solda, İstatistikler/Level Sağda) */
-            #home {
-                display: grid;
-                grid-template-columns: 1fr 340px;
-                grid-template-rows: auto auto 1fr;
-                align-content: start;
-                gap: 0 40px;
-            }
+            #home { display: grid; grid-template-columns: 1fr 340px; grid-template-rows: auto auto 1fr; align-content: start; gap: 0 40px; }
             #home .header { grid-column: 1 / -1; }
             .timer-container { grid-column: 1 / 2; grid-row: 2 / 4; min-height: 450px; justify-content: center; padding: 0; }
             .home-level-bar { grid-column: 2 / 3; grid-row: 2 / 3; margin: 0 0 24px 0; }
             .home-stats { grid-column: 2 / 3; grid-row: 3 / 4; flex-direction: column; padding: 0; gap: 16px; }
-
-            /* Görevler Ekranı Grid Yapısı */
             .task-tools { flex-direction: row; align-items: center; justify-content: space-between; padding: 0 0 24px; gap: 24px; }
             .search-bar { width: 300px; margin-bottom: 0; }
             .filter-scroll { flex: 1; justify-content: flex-end; }
             .task-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 0 0 80px; }
             .task-item { margin-bottom: 0; }
-
-            /* İstatistik ve Profil Modül Merkezlemeleri */
             .stats-grid { padding: 0 0 24px; grid-template-columns: repeat(4, 1fr); gap: 20px; }
             .chart-card { margin: 0 0 40px; }
             .profile-header { max-width: 800px; margin: 0 auto; width: 100%; padding: 0 0 40px; }
@@ -443,7 +390,7 @@
 
 <div id="app">
     
-    <!-- 0. MOCK AUTH SCREEN -->
+    <!-- 0. AUTH SCREEN (MANDATORY PRIVACY CHECK) -->
     <div class="screen" id="auth" style="z-index: 200;">
         <div class="auth-container">
             <div class="auth-logo"><i class="ph-fill ph-timer"></i></div>
@@ -465,7 +412,12 @@
                     <label>Şifre</label>
                     <input type="password" id="login-password" placeholder="••••••••">
                 </div>
-                <button class="btn btn-primary ripple-wrapper" style="margin-top: 8px;" onclick="authUI.submit('login')">Giriş Yap</button>
+                <!-- Gizlilik Politikası Onayı (Giriş) -->
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom: 16px;">
+                    <input type="checkbox" id="login-privacy" style="width:16px; height:16px; accent-color: var(--primary);">
+                    <label for="login-privacy" style="font-size:12px; color:var(--subtitle); cursor:pointer;"><a href="#" onclick="app.openModal('privacy-modal'); event.preventDefault();" style="color:var(--primary); text-decoration:none;">Gizlilik Politikası</a>'nı okudum, kabul ediyorum.</label>
+                </div>
+                <button class="btn btn-primary ripple-wrapper" onclick="authUI.submit('login')">Giriş Yap</button>
             </div>
 
             <!-- Kayıt Formu -->
@@ -488,7 +440,12 @@
                     <label>Şifre</label>
                     <input type="password" id="reg-password" placeholder="••••••••">
                 </div>
-                <button class="btn btn-primary ripple-wrapper" style="margin-top: 8px;" onclick="authUI.submit('register')">Kayıt Ol</button>
+                <!-- Gizlilik Politikası Onayı (Kayıt) -->
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom: 16px;">
+                    <input type="checkbox" id="reg-privacy" style="width:16px; height:16px; accent-color: var(--primary);">
+                    <label for="reg-privacy" style="font-size:12px; color:var(--subtitle); cursor:pointer;"><a href="#" onclick="app.openModal('privacy-modal'); event.preventDefault();" style="color:var(--primary); text-decoration:none;">Gizlilik Politikası</a>'nı okudum, kabul ediyorum.</label>
+                </div>
+                <button class="btn btn-primary ripple-wrapper" onclick="authUI.submit('register')">Kayıt Ol</button>
             </div>
         </div>
     </div>
@@ -519,7 +476,6 @@
                     <div class="mode-btn ripple-wrapper" id="mode-longBreak" onclick="timer.setMode('longBreak')">Uzun Mola</div>
                 </div>
 
-                <!-- Responsive Timer Ring (viewBox ensures no clipping) -->
                 <div class="timer-ring">
                     <svg viewBox="0 0 100 100">
                         <circle class="bg-circle" cx="50" cy="50" r="45"></circle>
@@ -590,8 +546,10 @@
         <div class="screen" id="profile">
             <div class="header"><h1 class="header-title-gradient">Profil</h1></div>
             <div class="profile-header">
-                <div class="avatar" onclick="app.showToast('Avatar değiştirme şimdilik kapalı', 'info')">
-                    <img src="https://api.dicebear.com/7.x/initials/svg?seed=PL&backgroundColor=6C63FF" id="profile-avatar" alt="avatar">
+                <!-- Tıklandığında sadece modal'ı açmakla kalmaz, JS ile şablonların kesin oluşturulmasını tetikler -->
+                <div class="avatar" onclick="app.openModal('avatar-modal'); avatarUI.initGrid();" style="cursor: pointer;">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=PomoLegend&backgroundColor=6C63FF" id="profile-avatar" alt="avatar">
+                    <div style="position:absolute; bottom:-4px; right:-4px; background:var(--card); width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid var(--bg); color:var(--text); box-shadow:var(--glass-shadow);"><i class="ph-fill ph-pencil-simple" style="font-size: 14px;"></i></div>
                 </div>
                 <h2 id="profile-name-full" style="margin-top:16px; font-size: 22px;">Kullanıcı</h2>
                 <p id="profile-email" style="font-size:14px; margin-top:4px;">-</p>
@@ -602,10 +560,6 @@
                 <div class="setting-item ripple-wrapper" onclick="settings.toggle('amoled')">
                     <div class="setting-icon-text"><i class="ph-fill ph-moon"></i> AMOLED Mod</div>
                     <div class="toggle" id="toggle-amoled"></div>
-                </div>
-                <div class="setting-item ripple-wrapper" onclick="settings.toggle('vibration')">
-                    <div class="setting-icon-text"><i class="ph-fill ph-vibrate"></i> Titreşim</div>
-                    <div class="toggle active" id="toggle-vibration"></div>
                 </div>
             </div>
 
@@ -626,7 +580,15 @@
             </div>
 
             <div class="settings-group">
-                <h3>Hesap</h3>
+                <h3>Sistem & Hesap</h3>
+                <div class="setting-item ripple-wrapper" onclick="app.openModal('lang-modal')">
+                    <div class="setting-icon-text"><i class="ph-fill ph-globe"></i> Dil Seçimi (A-Z Geniş)</div>
+                    <i class="ph ph-caret-right" style="color:var(--subtitle)"></i>
+                </div>
+                <div class="setting-item ripple-wrapper" onclick="app.openModal('privacy-modal')">
+                    <div class="setting-icon-text"><i class="ph-fill ph-shield-check"></i> Gizlilik Politikası</div>
+                    <i class="ph ph-caret-right" style="color:var(--subtitle)"></i>
+                </div>
                 <div class="setting-item danger ripple-wrapper" onclick="authUI.logout()">
                     <div class="setting-icon-text"><i class="ph-fill ph-sign-out"></i> Çıkış Yap</div>
                 </div>
@@ -740,8 +702,175 @@
         </div>
     </div>
 
+    <!-- Geliştirilmiş Avatar Modal -->
+    <div class="modal-overlay" id="avatar-modal" onclick="if(event.target===this) app.closeModals()">
+        <div class="modal-content">
+            <div class="modal-drag-handle"></div>
+            <h3 style="margin-bottom: 20px;">Avatar Değiştir</h3>
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <button class="btn btn-secondary ripple-wrapper" onclick="document.getElementById('avatar-upload').click()">
+                    <i class="ph ph-image"></i> Galeriden Seç (Maks 8MB)
+                </button>
+                <input type="file" id="avatar-upload" accept="image/png, image/jpeg, image/jpg, image/webp" style="display: none;" onchange="avatarUI.handleUpload(event)">
+                
+                <div style="text-align: center; color: var(--subtitle); font-size: 14px; position: relative;">
+                    <span style="background:var(--card); padding:0 12px; position:relative; z-index:1;">veya Yüzlerce Şablondan Seç</span>
+                    <hr style="position:absolute; top:50%; left:0; right:0; border:none; border-top:1px solid var(--glass-border); z-index:0; margin:0;">
+                </div>
+                
+                <!-- Yüzlerce hazır avatarın JS ile basılacağı yer (Kaydırılabilir alan) -->
+                <div id="dicebear-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); gap: 12px; max-height: 320px; overflow-y: auto; padding-right: 6px; margin-top: 5px;">
+                    <!-- JS ile dinamik doldurulacak -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gerçek Gizlilik Politikası Modalı -->
+    <div class="modal-overlay" id="privacy-modal" onclick="if(event.target===this) app.closeModals()">
+        <div class="modal-content">
+            <div class="modal-drag-handle"></div>
+            <h3 style="margin-bottom: 20px;">Gizlilik Politikası ve Kullanıcı Sözleşmesi</h3>
+            <div style="font-size: 13px; color: var(--subtitle); line-height: 1.6; max-height: 50vh; overflow-y: auto; padding-right: 12px; text-align: justify;">
+                <p><strong>Son Güncelleme: 9 Temmuz 2026</strong></p><br>
+                <p><strong>1. Veri Toplama ve Kullanımı:</strong> PomoLegend, kullanıcı deneyimini iyileştirmek ve sayaç sistemini çalışır halde tutmak amacıyla (görevleriniz, odak süreleriniz, hedefleriniz ve tercihleriniz) verilerini işlemektedir. Tüm bu veriler hiçbir uzak sunucuya (bulut) aktarılmaz; <u>tamamen ve yalnızca cihazınızda (Local Storage) yerel olarak barındırılır.</u></p><br>
+                <p><strong>2. Üçüncü Taraf Hizmetleri:</strong> Uygulama, kullanıcılara çoklu dil desteği sunmak için <em>Google Translate API</em> altyapısını; profil avatarlarının özelleştirilmesi için ise <em>DiceBear API</em> sistemini kullanmaktadır. Bu hizmetleri kullanırken yaptığınız istekler ilgili firmaların (Google LLC ve DiceBear) kendi gizlilik politikalarına tabi olabilir.</p><br>
+                <p><strong>3. Veri Güvenliği ve Silme Hakkı:</strong> Cihazınızda tutulan veriler, işletim sisteminizin sağladığı yerel güvenlik standartlarıyla korunur. Profil menüsünde bulunan <em>"Tüm Verileri Sıfırla"</em> butonunu kullanarak cihazınızdaki tüm verilerinizi geri döndürülemez biçimde anında silebilirsiniz.</p><br>
+                <p><strong>4. Çerezler (Cookies) ve Takip:</strong> Sistemimiz, analiz veya reklam amaçlı hiçbir takip çerezi <u>kullanmamaktadır.</u> Uygulamayı kullanarak (ve giriş ekranında kutucuğu işaretleyerek) tüm bu koşulları tamamen okuduğunuzu, anladığınızı ve peşinen kabul ettiğinizi beyan etmiş olursunuz.</p>
+            </div>
+            <button class="btn btn-primary ripple-wrapper" style="margin-top: 24px;" onclick="app.closeModals()">Anladım, Kapat</button>
+        </div>
+    </div>
+
+    <!-- Geliştirilmiş Lang Modal -->
+    <div class="modal-overlay" id="lang-modal" onclick="if(event.target===this) app.closeModals()">
+        <div class="modal-content">
+            <div class="modal-drag-handle"></div>
+            <h3 style="margin-bottom: 20px;">Dil Seçimi</h3>
+            <div class="input-group">
+                <!-- Native UI ve Kapsamlı Dil Listesi -->
+                <select id="lang-select" style="width: 100%; background: var(--card); border: 1px solid var(--glass-border); padding: 16px 20px; border-radius: var(--radius-sm); font-size: 15px; color: white;" onchange="langUI.changeLanguage(this.value)">
+                    <option value="">Dil Seçiniz...</option>
+                    <option value="tr">Türkçe (Orijinal)</option>
+                    <option value="en">English (İngilizce)</option>
+                    <option value="de">Deutsch (Almanca)</option>
+                    <option value="fr">Français (Fransızca)</option>
+                    <option value="es">Español (İspanyolca)</option>
+                    <option value="zh-CN">中文 (Çince)</option>
+                    <option value="ru">Русский (Rusça)</option>
+                    <option value="ar">العربية (Arapça)</option>
+                    <option value="" disabled>─────────────────</option>
+                    <option value="af">Afrikaans</option>
+                    <option value="sq">Albanian (Arnavutça)</option>
+                    <option value="am">Amharic</option>
+                    <option value="hy">Armenian (Ermenice)</option>
+                    <option value="az">Azerbaijani (Azerice)</option>
+                    <option value="eu">Basque</option>
+                    <option value="be">Belarusian</option>
+                    <option value="bn">Bengali</option>
+                    <option value="bs">Bosnian (Boşnakça)</option>
+                    <option value="bg">Bulgarian (Bulgarca)</option>
+                    <option value="ca">Catalan</option>
+                    <option value="ceb">Cebuano</option>
+                    <option value="ny">Chichewa</option>
+                    <option value="zh-TW">Chinese Traditional (Geleneksel Çince)</option>
+                    <option value="co">Corsican</option>
+                    <option value="hr">Croatian (Hırvatça)</option>
+                    <option value="cs">Czech (Çekçe)</option>
+                    <option value="da">Danish (Danca)</option>
+                    <option value="nl">Dutch (Felemenkçe)</option>
+                    <option value="eo">Esperanto</option>
+                    <option value="et">Estonian (Estonca)</option>
+                    <option value="tl">Filipino (Filipince)</option>
+                    <option value="fi">Finnish (Fince)</option>
+                    <option value="fy">Frisian</option>
+                    <option value="gl">Galician</option>
+                    <option value="ka">Georgian (Gürcüce)</option>
+                    <option value="el">Greek (Yunanca)</option>
+                    <option value="gu">Gujarati</option>
+                    <option value="ht">Haitian Creole</option>
+                    <option value="ha">Hausa</option>
+                    <option value="haw">Hawaiian</option>
+                    <option value="iw">Hebrew (İbranice)</option>
+                    <option value="hi">Hindi (Hintçe)</option>
+                    <option value="hmn">Hmong</option>
+                    <option value="hu">Hungarian (Macarca)</option>
+                    <option value="is">Icelandic (İzlandaca)</option>
+                    <option value="ig">Igbo</option>
+                    <option value="id">Indonesian (Endonezce)</option>
+                    <option value="ga">Irish (İrlandaca)</option>
+                    <option value="it">Italian (İtalyanca)</option>
+                    <option value="ja">Japanese (Japonca)</option>
+                    <option value="jw">Javanese</option>
+                    <option value="kn">Kannada</option>
+                    <option value="kk">Kazakh (Kazakça)</option>
+                    <option value="km">Khmer</option>
+                    <option value="rw">Kinyarwanda</option>
+                    <option value="ko">Korean (Korece)</option>
+                    <option value="ku">Kurdish (Kürtçe)</option>
+                    <option value="ky">Kyrgyz (Kırgızca)</option>
+                    <option value="lo">Lao</option>
+                    <option value="la">Latin</option>
+                    <option value="lv">Latvian (Letonca)</option>
+                    <option value="lt">Lithuanian (Litvanca)</option>
+                    <option value="lb">Luxembourgish</option>
+                    <option value="mk">Macedonian (Makedonca)</option>
+                    <option value="mg">Malagasy</option>
+                    <option value="ms">Malay (Malayca)</option>
+                    <option value="ml">Malayalam</option>
+                    <option value="mt">Maltese</option>
+                    <option value="mi">Maori</option>
+                    <option value="mr">Marathi</option>
+                    <option value="mn">Mongolian (Moğolca)</option>
+                    <option value="my">Myanmar (Burmese)</option>
+                    <option value="ne">Nepali (Nepalce)</option>
+                    <option value="no">Norwegian (Norveççe)</option>
+                    <option value="or">Odia (Oriya)</option>
+                    <option value="ps">Pashto</option>
+                    <option value="fa">Persian (Farsça)</option>
+                    <option value="pl">Polish (Lehçe)</option>
+                    <option value="pt">Portuguese (Portekizce)</option>
+                    <option value="pa">Punjabi</option>
+                    <option value="ro">Romanian (Romence)</option>
+                    <option value="sm">Samoan</option>
+                    <option value="gd">Scots Gaelic</option>
+                    <option value="sr">Serbian (Sırpça)</option>
+                    <option value="st">Sesotho</option>
+                    <option value="sn">Shona</option>
+                    <option value="sd">Sindhi</option>
+                    <option value="si">Sinhala</option>
+                    <option value="sk">Slovak (Slovakça)</option>
+                    <option value="sl">Slovenian (Slovence)</option>
+                    <option value="so">Somali</option>
+                    <option value="su">Sundanese</option>
+                    <option value="sw">Swahili</option>
+                    <option value="sv">Swedish (İsveççe)</option>
+                    <option value="tg">Tajik</option>
+                    <option value="ta">Tamil</option>
+                    <option value="tt">Tatar</option>
+                    <option value="te">Telugu</option>
+                    <option value="th">Thai (Tayca)</option>
+                    <option value="tk">Turkmen (Türkmence)</option>
+                    <option value="uk">Ukrainian (Ukraynaca)</option>
+                    <option value="ur">Urdu (Urduca)</option>
+                    <option value="ug">Uyghur (Uygurca)</option>
+                    <option value="uz">Uzbek (Özbekçe)</option>
+                    <option value="vi">Vietnamese (Vietnamca)</option>
+                    <option value="cy">Welsh (Galce)</option>
+                    <option value="xh">Xhosa</option>
+                    <option value="yi">Yiddish</option>
+                    <option value="yo">Yoruba</option>
+                    <option value="zu">Zulu</option>
+                </select>
+            </div>
+            <p style="font-size: 12px; color: var(--subtitle); text-align: center; margin-bottom: 12px;">Diller arası geçişlerde takılmayı önlemek için sayfa anlık güncellenir.</p>
+        </div>
+    </div>
+
     <div class="toast" id="toast"><i class="ph-fill ph-info"></i><span id="toast-msg">Bildirim</span></div>
 </div>
+
+<div id="google_translate_element"></div>
 
 <script>
     // ==========================================================================
@@ -804,7 +933,7 @@
     };
 
     // ==========================================================================
-    // 3. UI, APP STATE & MOCK AUTH
+    // 3. UI, APP STATE & AUTH
     // ==========================================================================
     window.app = {
         toastTimeout: null,
@@ -859,18 +988,19 @@
         submit(type) {
             let name="Efsane", email="";
             if(type==='login') {
+                if(!document.getElementById('login-privacy').checked) return app.showToast('Lütfen Gizlilik Politikasını onaylayın.', 'error');
                 email=document.getElementById('login-email').value; const pass=document.getElementById('login-password').value;
                 if(!email||!pass) return app.showToast('Lütfen bilgileri girin', 'error');
-                name = email.split('@')[0]; // Simple mock logic
+                name = email.split('@')[0]; 
             } else {
+                if(!document.getElementById('reg-privacy').checked) return app.showToast('Lütfen Gizlilik Politikasını onaylayın.', 'error');
                 const n=document.getElementById('reg-name').value, s=document.getElementById('reg-surname').value, e=document.getElementById('reg-email').value, p=document.getElementById('reg-password').value;
                 if(!n||!e||!p) return app.showToast('Eksik bilgi girdiniz', 'error');
                 name = `${n} ${s}`.trim(); email = e;
             }
             
-            // Mock Login Success
             window.userStore.data.name = name; window.userStore.data.email = email;
-            window.userStore.data.avatar = `https://api.dicebear.com/7.x/initials/svg?seed=${name}&backgroundColor=6C63FF`;
+            window.userStore.data.avatar = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name)}&backgroundColor=6C63FF`;
             window.userStore.sync();
             app.showToast('Giriş başarılı!', 'success');
             
@@ -887,7 +1017,7 @@
         init() { this.data = dataStore.get('settings', this.data); this.applyTheme(); this.updateUI(); },
         toggle(k) { this.data[k] = !this.data[k]; this.sync(); this.updateUI(); if(k==='amoled') this.applyTheme(); haptics.play('light'); },
         applyTheme() { document.documentElement.setAttribute('data-theme', this.data.amoled ? 'amoled' : 'dark'); document.getElementById('meta-theme-color').setAttribute('content', this.data.amoled ? '#000000' : '#090B10'); },
-        updateUI() { ['amoled','vibration','autoPomodoro','autoBreak'].forEach(k=>document.getElementById(`toggle-${k}`).className=`toggle ${this.data[k]?'active':''}`); document.getElementById('set-pomo').value=this.data.durations.pomo; document.getElementById('set-short').value=this.data.durations.short; document.getElementById('set-long').value=this.data.durations.long; },
+        updateUI() { ['amoled','autoPomodoro','autoBreak'].forEach(k=>document.getElementById(`toggle-${k}`).className=`toggle ${this.data[k]?'active':''}`); document.getElementById('set-pomo').value=this.data.durations.pomo; document.getElementById('set-short').value=this.data.durations.short; document.getElementById('set-long').value=this.data.durations.long; },
         sync() { dataStore.set('settings', this.data); }
     };
 
@@ -986,7 +1116,6 @@
             btn.innerHTML = fBtn.innerHTML = this.st.isR?'<i class="ph-fill ph-pause"></i>':'<i class="ph-fill ph-play"></i>';
             btn.style.boxShadow = this.st.isR?'0 0 0 8px rgba(108,99,255,0.2)':'0 12px 32px rgba(108, 99, 255, 0.4)';
             
-            // Scalable Circular Progress using viewBox properties (Circumference of r=45 is 282.74)
             const c=282.74; const pct=this.st.tot>0?this.st.left/this.st.tot:0;
             const r1=document.getElementById('progress-ring'), r2=document.getElementById('focus-progress-ring');
             r1.style.strokeDashoffset = r2.style.strokeDashoffset = c - (pct * c);
@@ -995,8 +1124,117 @@
     };
 
     // BOOTSTRAP
-    window.onload = () => { authUI.init(); };
+    window.onload = () => { 
+        authUI.init(); 
+    };
+    
     document.addEventListener('visibilitychange', () => { if(document.visibilityState==='visible' && timer.st.isR) timer.startLoop(); });
+    
+    // ==========================================================================
+    // GELİŞTİRİLMİŞ AVATAR GALERİSİ VE HAZIR ŞABLONLAR
+    // ==========================================================================
+    window.avatarUI = {
+        initGrid() {
+            const grid = document.getElementById('dicebear-grid');
+            if(grid.innerHTML !== '') return; // Zaten yüklüyse tekrar işlem yapma.
+            
+            // Kullanıcı modalı açar açmaz şablonları JavaScript ile anında DOM'a bas. 
+            // window.onload engellerine takılmaması için doğrudan tıklama (onclick) anında tetiklenir.
+            let html = '';
+            const styles = ['bottts', 'adventurer', 'avataaars', 'fun-emoji', 'micah', 'lorelei'];
+            
+            for(let i = 1; i <= 100; i++) {
+                const style = styles[i % styles.length];
+                const seed = 'Pomo' + i + Math.random().toString(36).substring(7); // Her birine rastgele kalıp
+                const url = `https://api.dicebear.com/7.x/${style}/svg?seed=${seed}&backgroundColor=6C63FF,8B5CF6,00D4FF,22C55E,F59E0B,EF4444&backgroundType=gradientLinear`;
+                
+                html += `<img src="${url}" 
+                          style="width:100%; aspect-ratio:1/1; border-radius:12px; cursor:pointer; border: 2px solid transparent; transition:transform 0.2s; background:var(--card);" 
+                          onmouseover="this.style.transform='scale(1.15)'" 
+                          onmouseout="this.style.transform='scale(1)'" 
+                          onclick="avatarUI.selectTemplate('${url}')" 
+                          loading="lazy" 
+                          alt="Avatar Şablonu">`;
+            }
+            grid.innerHTML = html;
+        },
+        handleUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                app.showToast('Lütfen geçerli bir resim formatı (JPG, PNG) seçin.', 'error');
+                e.target.value = '';
+                return;
+            }
+            
+            if (file.size > 8 * 1024 * 1024) {
+                app.showToast('Seçtiğiniz resim çok büyük. Maksimum 8MB olmalıdır.', 'error');
+                e.target.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                window.userStore.data.avatar = ev.target.result;
+                window.userStore.sync();
+                window.userStore.render();
+                app.showToast('Avatar galeriden başarıyla güncellendi', 'success');
+                app.closeModals();
+                e.target.value = ''; 
+            };
+            reader.readAsDataURL(file);
+        },
+        selectTemplate(url) {
+            window.userStore.data.avatar = url;
+            window.userStore.sync();
+            window.userStore.render();
+            app.showToast('Hazır avatar seçildi!', 'success');
+            app.closeModals();
+        }
+    };
+
+    // ==========================================================================
+    // KESİN ÇÖZÜMLÜ, TAM KAPASİTE DİL SİSTEMİ
+    // ==========================================================================
+    window.langUI = {
+        changeLanguage(langCode) {
+            if(!langCode) return;
+            
+            if (langCode === 'tr') {
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=" + location.hostname + "; path=/;";
+                app.showToast('Orijinal dile dönülüyor...', 'info');
+                setTimeout(() => window.location.reload(), 300);
+                return;
+            }
+            
+            document.cookie = `googtrans=/tr/${langCode}; path=/;`;
+            document.cookie = `googtrans=/tr/${langCode}; domain=${location.hostname}; path=/;`;
+            
+            const select = document.querySelector('.goog-te-combo');
+            if (select) {
+                select.value = langCode;
+                select.dispatchEvent(new Event('change'));
+                app.showToast('Dil başarıyla değiştirildi', 'success');
+            } else {
+                app.showToast('Dil uygulanıyor...', 'info');
+                setTimeout(() => window.location.reload(), 400); 
+            }
+            
+            app.closeModals();
+        }
+    };
 </script>
+
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'tr', 
+            autoDisplay: false
+        }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
