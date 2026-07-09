@@ -546,8 +546,8 @@
         <div class="screen" id="profile">
             <div class="header"><h1 class="header-title-gradient">Profil</h1></div>
             <div class="profile-header">
-                <!-- Tıklandığında sadece modal'ı açmakla kalmaz, JS ile şablonların kesin oluşturulmasını tetikler -->
-                <div class="avatar" onclick="app.openModal('avatar-modal'); avatarUI.initGrid();" style="cursor: pointer;">
+                <!-- Sadece modalı açar, grid init işlemi kaldırıldı -->
+                <div class="avatar" onclick="app.openModal('avatar-modal');" style="cursor: pointer;">
                     <img src="https://api.dicebear.com/7.x/bottts/svg?seed=PomoLegend&backgroundColor=6C63FF" id="profile-avatar" alt="avatar">
                     <div style="position:absolute; bottom:-4px; right:-4px; background:var(--card); width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid var(--bg); color:var(--text); box-shadow:var(--glass-shadow);"><i class="ph-fill ph-pencil-simple" style="font-size: 14px;"></i></div>
                 </div>
@@ -713,15 +713,14 @@
                 </button>
                 <input type="file" id="avatar-upload" accept="image/png, image/jpeg, image/jpg, image/webp" style="display: none;" onchange="avatarUI.handleUpload(event)">
                 
-                <div style="text-align: center; color: var(--subtitle); font-size: 14px; position: relative;">
-                    <span style="background:var(--card); padding:0 12px; position:relative; z-index:1;">veya Yüzlerce Şablondan Seç</span>
+                <div style="text-align: center; color: var(--subtitle); font-size: 14px; position: relative; margin: 8px 0;">
+                    <span style="background:var(--card); padding:0 12px; position:relative; z-index:1;">veya</span>
                     <hr style="position:absolute; top:50%; left:0; right:0; border:none; border-top:1px solid var(--glass-border); z-index:0; margin:0;">
                 </div>
                 
-                <!-- Yüzlerce hazır avatarın JS ile basılacağı yer (Kaydırılabilir alan) -->
-                <div id="dicebear-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); gap: 12px; max-height: 320px; overflow-y: auto; padding-right: 6px; margin-top: 5px;">
-                    <!-- JS ile dinamik doldurulacak -->
-                </div>
+                <button class="btn btn-secondary ripple-wrapper" onclick="avatarUI.generateRandomRobot()">
+                    <i class="ph ph-robot"></i> Rastgele Robot
+                </button>
             </div>
         </div>
     </div>
@@ -1134,29 +1133,10 @@
     // GELİŞTİRİLMİŞ AVATAR GALERİSİ VE HAZIR ŞABLONLAR
     // ==========================================================================
     window.avatarUI = {
-        initGrid() {
-            const grid = document.getElementById('dicebear-grid');
-            if(grid.innerHTML !== '') return; // Zaten yüklüyse tekrar işlem yapma.
-            
-            // Kullanıcı modalı açar açmaz şablonları JavaScript ile anında DOM'a bas. 
-            // window.onload engellerine takılmaması için doğrudan tıklama (onclick) anında tetiklenir.
-            let html = '';
-            const styles = ['bottts', 'adventurer', 'avataaars', 'fun-emoji', 'micah', 'lorelei'];
-            
-            for(let i = 1; i <= 100; i++) {
-                const style = styles[i % styles.length];
-                const seed = 'Pomo' + i + Math.random().toString(36).substring(7); // Her birine rastgele kalıp
-                const url = `https://api.dicebear.com/7.x/${style}/svg?seed=${seed}&backgroundColor=6C63FF,8B5CF6,00D4FF,22C55E,F59E0B,EF4444&backgroundType=gradientLinear`;
-                
-                html += `<img src="${url}" 
-                          style="width:100%; aspect-ratio:1/1; border-radius:12px; cursor:pointer; border: 2px solid transparent; transition:transform 0.2s; background:var(--card);" 
-                          onmouseover="this.style.transform='scale(1.15)'" 
-                          onmouseout="this.style.transform='scale(1)'" 
-                          onclick="avatarUI.selectTemplate('${url}')" 
-                          loading="lazy" 
-                          alt="Avatar Şablonu">`;
-            }
-            grid.innerHTML = html;
+        generateRandomRobot() {
+            const seed = 'Pomo' + Math.random().toString(36).substring(7);
+            const url = `https://api.dicebear.com/7.x/bottts/svg?seed=${seed}&backgroundColor=6C63FF,8B5CF6,00D4FF,22C55E,F59E0B,EF4444&backgroundType=gradientLinear`;
+            this.selectTemplate(url);
         },
         handleUpload(e) {
             const file = e.target.files[0];
