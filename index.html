@@ -16,35 +16,37 @@
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <!-- PDF & Chart Generation Libraries (PREMIUM FEATURES) -->
+    <!-- PDF & Chart Generation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         /* ==========================================================================
-           1. CSS VARIABLES (DESIGN SYSTEM) - PREMIUM TOUCHES ADDED
+           1. CSS VARIABLES (DESIGN SYSTEM)
            ========================================================================== */
         :root {
             --bg: #090B10;
-            --card: #141922;
-            --card-hover: #1c2331;
+            --card: rgba(20, 25, 34, 0.7); 
+            --card-hover: rgba(28, 35, 49, 0.9);
             --primary: #6C63FF;
             --secondary: #8B5CF6;
             --accent: #00D4FF;
             --success: #22C55E;
             --danger: #EF4444;
             --warning: #F59E0B;
+            --water: #38BDF8;
             --text: #FFFFFF;
             --subtitle: #94A3B8;
             --divider: rgba(255, 255, 255, 0.08);
             
-            --glass-bg: rgba(20, 25, 34, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5); /* Enhanced Shadow */
+            --glass-bg: rgba(9, 11, 16, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5); 
             
             --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             --gradient-gold: linear-gradient(135deg, #FFD700 0%, #F59E0B 100%);
             --gradient-plant: linear-gradient(135deg, #4ADE80 0%, #16A34A 100%);
+            --gradient-water: linear-gradient(135deg, #00D4FF 0%, #0369A1 100%);
             
             --radius-sm: 12px;
             --radius-md: 20px;
@@ -61,9 +63,9 @@
 
         [data-theme="amoled"] {
             --bg: #000000;
-            --card: #0A0A0A;
-            --card-hover: #111111;
-            --glass-bg: rgba(10, 10, 10, 0.85);
+            --card: rgba(10, 10, 10, 0.85);
+            --card-hover: rgba(17, 17, 17, 0.95);
+            --glass-bg: rgba(0, 0, 0, 0.85);
             --glass-border: rgba(255, 255, 255, 0.05);
             --divider: rgba(255, 255, 255, 0.05);
         }
@@ -80,16 +82,17 @@
             transition: background var(--transition-smooth);
         }
 
+        .text-truncate { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+        .text-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-wrap: break-word; }
+
         h1, h2, h3, h4, h5, h6 { font-weight: 700; letter-spacing: -0.5px; }
         p { color: var(--subtitle); line-height: 1.5; font-size: 14px; }
         input, textarea, button, select { font-family: inherit; outline: none; border: none; background: none; color: var(--text); }
         
-        /* Webkit Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--divider); border-radius: 10px; }
 
-        /* Ripple Effect */
         .ripple-wrapper { position: relative; overflow: hidden; cursor: pointer; }
         .ripple {
             position: absolute; border-radius: 50%; transform: scale(0);
@@ -103,16 +106,16 @@
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 16px 24px; border-radius: var(--radius-full); font-weight: 600; font-size: 16px; transition: all var(--transition-fast); gap: 8px; width: 100%; position: relative; }
         .btn:active { transform: scale(0.96); opacity: 0.9; }
         .btn-primary { background: var(--gradient-primary); color: white; box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3); }
-        .btn-secondary { background: var(--card); border: 1px solid var(--glass-border); color: var(--text); }
+        .btn-secondary { background: var(--card); border: 1px solid var(--glass-border); color: var(--text); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         .btn-success { background: var(--gradient-plant); color: white; box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3); }
         
-        .btn-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; background: var(--card); border: 1px solid var(--glass-border); transition: all var(--transition-fast); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .btn-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; background: var(--card); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all var(--transition-fast); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .btn-icon:active { transform: scale(0.9); }
         .btn-icon:hover { background: var(--card-hover); }
 
         .input-group { margin-bottom: 16px; width: 100%; position: relative; }
         .input-group label { display: block; font-size: 13px; color: var(--subtitle); margin-bottom: 8px; font-weight: 500; }
-        .input-group input, .input-group select { width: 100%; background: var(--card); border: 1px solid var(--glass-border); padding: 16px 20px; border-radius: var(--radius-sm); font-size: 15px; color: white; transition: all var(--transition-fast); }
+        .input-group input, .input-group select { width: 100%; background: var(--card); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--glass-border); padding: 16px 20px; border-radius: var(--radius-sm); font-size: 15px; color: white; transition: all var(--transition-fast); }
         .input-group input:focus, .input-group select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15); }
 
         .chip { padding: 6px 12px; border-radius: var(--radius-full); font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; border: 1px solid transparent; }
@@ -130,19 +133,21 @@
             opacity: 0; pointer-events: none; visibility: hidden;
             transform: translateY(20px); display: flex; flex-direction: column;
             transition: opacity var(--transition-smooth), transform var(--transition-smooth);
-            padding-bottom: calc(var(--nav-height) + var(--safe-area-bottom));
+            padding-bottom: calc(var(--nav-height) + var(--safe-area-bottom) + 20px);
             overflow-y: auto; overflow-x: hidden;
         }
         .screen.active { opacity: 1; pointer-events: all; visibility: visible; transform: translateY(0); z-index: 5; }
+
+        /* BUG FIX: Ekranda Flexbox kullanan yapıların kendi kendine küçülmesini engeller */
+        .screen > * { flex-shrink: 0; }
         
         .header { padding: calc(var(--safe-area-top) + 20px) 24px 20px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-        .header h1 { font-size: 26px; line-height: 1.2; }
+        .header h1 { font-size: 26px; line-height: 1.2; word-break: break-word; }
         .header-title-gradient { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* Bottom Navigation */
         .bottom-nav {
             position: absolute; bottom: 0; left: 0; width: 100%; height: calc(var(--nav-height) + var(--safe-area-bottom));
-            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: var(--glass-bg); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
             border-top: 1px solid var(--glass-border); display: flex; justify-content: space-around;
             padding-bottom: var(--safe-area-bottom); z-index: 100; transition: transform var(--transition-smooth);
         }
@@ -151,27 +156,62 @@
         .nav-item i { font-size: 24px; transition: transform var(--transition-bounce), color var(--transition-fast); }
         .nav-item span { font-size: 11px; font-weight: 600; }
         .nav-item.active { color: var(--primary); }
-        .nav-item.active i { transform: translateY(-4px); }
+        .nav-item.active i { transform: translateY(-4px); filter: drop-shadow(0 4px 8px rgba(108,99,255,0.4)); }
 
         /* ==========================================================================
-           5. AUTH SCREEN
+           5. WOW AUTH SCREEN
            ========================================================================== */
-        #auth { justify-content: center; align-items: center; padding-bottom: 0; }
-        .auth-container { width: 100%; max-width: 400px; padding: 24px; display: flex; flex-direction: column; align-items: center; }
-        .auth-logo { width: 80px; height: 80px; background: var(--card); border: 1px solid var(--glass-border); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 40px; color: var(--primary); margin-bottom: 24px; box-shadow: var(--glass-shadow); }
-        .auth-tabs { display: flex; width: 100%; background: var(--card); border-radius: var(--radius-full); padding: 4px; margin-bottom: 24px; border: 1px solid var(--glass-border); }
-        .auth-tab { flex: 1; text-align: center; padding: 12px; font-size: 14px; font-weight: 600; color: var(--subtitle); border-radius: var(--radius-full); transition: all var(--transition-fast); }
-        .auth-tab.active { background: var(--divider); color: var(--text); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        #auth { justify-content: center; align-items: center; padding-bottom: 0; position: absolute; z-index: 200; overflow: hidden; }
         
-        .auth-form-view { width: 100%; display: none; flex-direction: column; animation: fadeIn 0.3s ease; }
+        .auth-bg-blobs { position: absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; z-index: -1; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: floatBlob 12s infinite alternate ease-in-out; }
+        .blob-1 { width: 350px; height: 350px; background: var(--primary); top: -10%; left: -10%; animation-delay: 0s; }
+        .blob-2 { width: 300px; height: 300px; background: var(--accent); bottom: -10%; right: -10%; animation-delay: -5s; }
+        .blob-3 { width: 250px; height: 250px; background: var(--secondary); top: 50%; left: 60%; animation-delay: -2s; }
+        
+        @keyframes floatBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(40px, 60px) scale(1.2); } }
+
+        .auth-container { 
+            width: 90%; max-width: 420px; padding: 40px 32px; display: flex; flex-direction: column; align-items: center; 
+            background: rgba(15, 20, 30, 0.5); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 32px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6), inset 0 2px 15px rgba(255,255,255,0.05);
+            transform: translateY(20px); opacity: 0; animation: authEntrance 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        @keyframes authEntrance { to { transform: translateY(0); opacity: 1; } }
+
+        .auth-logo { 
+            width: 90px; height: 90px; 
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.2), rgba(0, 212, 255, 0.2)); 
+            border: 1px solid rgba(255,255,255,0.15); border-radius: 30px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 46px; color: #fff; margin-bottom: 24px; 
+            box-shadow: 0 20px 40px rgba(108, 99, 255, 0.3), inset 0 2px 10px rgba(255,255,255,0.2); 
+            animation: pulseGlow 3s infinite alternate;
+        }
+        @keyframes pulseGlow { to { box-shadow: 0 20px 60px rgba(108, 99, 255, 0.6), inset 0 2px 20px rgba(255,255,255,0.4); transform: scale(1.05); } }
+        
+        .auth-title {
+            font-size: 32px; font-weight: 900; margin-bottom: 8px; text-align: center; letter-spacing: -1px;
+            background: linear-gradient(to right, #fff, #b4b4eb, #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shineText 3s linear infinite;
+        }
+        @keyframes shineText { to { background-position: 200% center; } }
+
+        .auth-tabs { display: flex; width: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); border-radius: var(--radius-full); padding: 6px; margin-bottom: 32px; border: 1px solid var(--glass-border); box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
+        .auth-tab { flex: 1; text-align: center; padding: 12px; font-size: 14px; font-weight: 700; color: var(--subtitle); border-radius: var(--radius-full); transition: all var(--transition-fast); }
+        .auth-tab.active { background: var(--gradient-primary); color: white; box-shadow: 0 8px 24px rgba(108, 99, 255, 0.4); text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .auth-form-view { width: 100%; display: none; flex-direction: column; animation: fadeIn 0.4s ease; }
         .auth-form-view.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ==========================================================================
            6. HOME & TIMER
            ========================================================================== */
         .timer-container { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; min-height: 450px; }
-        .mode-selector { display: flex; background: var(--card); border-radius: var(--radius-full); padding: 4px; margin-bottom: 30px; border: 1px solid var(--glass-border); }
+        .mode-selector { display: flex; background: var(--card); backdrop-filter: blur(10px); border-radius: var(--radius-full); padding: 4px; margin-bottom: 30px; border: 1px solid var(--glass-border); }
         .mode-btn { padding: 10px 20px; border-radius: var(--radius-full); font-size: 13px; font-weight: 600; color: var(--subtitle); transition: all var(--transition-fast); }
         .mode-btn.active { background: var(--divider); color: var(--text); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
 
@@ -182,34 +222,34 @@
         .timer-ring .progress-circle { stroke: var(--primary); stroke-dasharray: 283; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear, stroke var(--transition-smooth); filter: drop-shadow(0 0 12px rgba(108, 99, 255, 0.4)); }
         
         .time-display { position: relative; z-index: 2; text-align: center; width: 100%; }
-        .time-display h1 { font-size: 64px; font-weight: 800; letter-spacing: -2px; margin-bottom: 4px; font-variant-numeric: tabular-nums; line-height: 1; }
+        .time-display h1 { font-size: 64px; font-weight: 800; letter-spacing: -2px; margin-bottom: 4px; font-variant-numeric: tabular-nums; line-height: 1; text-shadow: 0 4px 12px rgba(0,0,0,0.3); }
         .time-display p { font-size: 16px; color: var(--primary); font-weight: 600; transition: color var(--transition-smooth); }
 
         .timer-controls { display: flex; gap: 20px; align-items: center; }
         .play-btn { width: 80px; height: 80px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; font-size: 32px; color: white; box-shadow: 0 12px 32px rgba(108, 99, 255, 0.4); transition: transform var(--transition-bounce); }
         .play-btn:active { transform: scale(0.9); }
         
-        .home-level-bar { margin: 0 24px 20px; background: var(--card); border-radius: var(--radius-full); padding: 6px 16px; display: flex; align-items: center; gap: 12px; border: 1px solid var(--glass-border); }
+        .home-level-bar { margin: 0 24px 20px; background: var(--card); border-radius: var(--radius-full); padding: 6px 16px; display: flex; align-items: center; gap: 12px; border: 1px solid var(--glass-border); backdrop-filter: blur(10px); }
         .lvl-badge { background: var(--gradient-gold); color: #000; font-weight: 800; font-size: 12px; padding: 4px 8px; border-radius: 8px; white-space: nowrap; }
-        .lvl-progress-bg { flex: 1; height: 6px; background: var(--divider); border-radius: 3px; overflow: hidden; }
+        .lvl-progress-bg { flex: 1; height: 6px; background: var(--divider); border-radius: 3px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); }
         .lvl-progress-fill { height: 100%; background: var(--gradient-primary); width: 0%; border-radius: 3px; transition: width 1s ease; }
 
         .home-stats { display: flex; gap: 16px; padding: 0 24px; margin-bottom: 20px; }
-        .mini-stat { flex: 1; padding: 16px; text-align: center; border-radius: var(--radius-md); background: var(--card); border: 1px solid var(--glass-border); }
+        .mini-stat { flex: 1; padding: 16px; text-align: center; border-radius: var(--radius-md); background: var(--card); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); }
         .mini-stat h3 { font-size: 24px; margin-bottom: 4px; }
 
         /* ==========================================================================
            7. TASKS
            ========================================================================== */
         .task-tools { padding: 0 24px 16px; display: flex; flex-direction: column; gap: 12px; }
-        .search-bar { background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+        .search-bar { background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 12px 16px; display: flex; align-items: center; gap: 12px; backdrop-filter: blur(10px); }
         .search-bar input { flex: 1; font-size: 14px; }
-        .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; -ms-overflow-style: none; scrollbar-width: none; }
-        .filter-chip { padding: 8px 16px; background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-full); font-size: 13px; white-space: nowrap; transition: all var(--transition-fast); }
-        .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; -ms-overflow-style: none; scrollbar-width: none; flex-shrink: 0; }
+        .filter-chip { padding: 8px 16px; background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-full); font-size: 13px; white-space: nowrap; transition: all var(--transition-fast); backdrop-filter: blur(5px); flex-shrink: 0;}
+        .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3); }
 
         .task-list { padding: 0 24px 24px; display: flex; flex-direction: column; gap: 12px; }
-        .task-item { display: flex; align-items: flex-start; padding: 16px; background: var(--card); border-radius: var(--radius-md); border: 1px solid var(--glass-border); transition: all var(--transition-fast); }
+        .task-item { display: flex; align-items: flex-start; padding: 16px; background: var(--card); border-radius: var(--radius-md); border: 1px solid var(--glass-border); transition: all var(--transition-fast); backdrop-filter: blur(10px); }
         .task-item.completed { opacity: 0.6; }
         
         .task-checkbox { width: 24px; height: 24px; border-radius: 6px; border: 2px solid var(--subtitle); flex-shrink: 0; margin-right: 16px; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all var(--transition-fast); }
@@ -229,105 +269,243 @@
         .add-task-fab:active { transform: scale(0.9); }
 
         /* ==========================================================================
-           8. STATS (Premium Upgraded with Chart.js)
+           8. HYPER-REALISTIC GARDEN (BUG FIX)
            ========================================================================== */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; padding: 0 24px 24px; }
-        .stat-box { background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 16px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform var(--transition-fast);}
-        .stat-box:hover { transform: translateY(-3px); }
-        .stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 4px; }
-        .stat-box h2 { font-size: 24px; }
-        .stat-box p { font-size: 12px; color: var(--subtitle); }
-
-        .chart-card { margin: 0 24px 24px; padding: 20px; background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-md); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
-        .chart-container { position: relative; height: 220px; width: 100%; margin-top: 16px; }
-
-        /* ==========================================================================
-           8.5. GARDEN & SHOP (NEW PREMIUM FEATURE)
-           ========================================================================== */
-        .garden-status { padding: 0 24px 24px; text-align: center; }
-        .plant-circle { width: 140px; height: 140px; border-radius: 50%; background: var(--card); border: 2px dashed var(--primary); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; flex-direction: column; position: relative; box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
-        .plant-circle i { font-size: 60px; color: var(--success); filter: drop-shadow(0 4px 8px rgba(34, 197, 94, 0.4)); transition: all 0.5s ease; }
-        .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 0 24px 24px; }
-        .shop-item { background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 16px; text-align: center; position: relative; overflow: hidden; }
-        .shop-item img { width: 60px; height: 60px; margin-bottom: 12px; }
-        .shop-item i.item-icon { font-size: 40px; color: var(--primary); margin-bottom: 12px; display: block; }
-        .shop-item h4 { font-size: 14px; margin-bottom: 4px; }
-        .shop-item .price { font-size: 12px; color: var(--warning); font-weight: 700; margin-bottom: 12px; display:flex; align-items:center; justify-content:center; gap:4px; }
-        .shop-item button { width: 100%; padding: 8px; border-radius: var(--radius-full); font-size: 12px; font-weight: 600; border: none; background: var(--divider); color: var(--text); cursor: pointer; transition: all var(--transition-fast); }
-        .shop-item button.buy { background: var(--primary); color: white; }
-        .shop-item button.active { background: var(--success); color: white; }
         
-        .greenhouse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0 24px 24px; }
-        .greenhouse-item { background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); padding: 12px; text-align: center; font-size: 32px; }
+        #garden {
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px; background-position: center top;
+        }
+
+        /* Ana Sekmeler */
+        .shop-category-scroll { 
+            display: flex; gap: 12px; overflow-x: auto; align-items: center;
+            padding: 12px 24px; margin: 0 0 24px 0; 
+            background: rgba(10, 15, 25, 0.6); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px); -ms-overflow-style: none; scrollbar-width: none; 
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.3);
+            position: relative; z-index: 10;
+            flex-shrink: 0; /* EZİLMEYİ ÖNLER */
+            min-height: 65px; /* SABİT YÜKSEKLİK */
+        }
+        .shop-category-scroll::-webkit-scrollbar { display: none; }
+        
+        /* Çiçekler / Sebzeler vb. Alt Sekmeler */
+        #seed-categories {
+            background: transparent;
+            box-shadow: none;
+            border: none;
+            margin-top: 0;
+            margin-bottom: 24px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            min-height: 55px;
+        }
+
+        /* Çiçek / Arsa / Robot Butonları */
+        .cat-chip { 
+            padding: 10px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 100px; font-size: 14px; font-weight:700; white-space: nowrap; 
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); color: var(--subtitle); 
+            cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+            flex-shrink: 0; /* EZİLMEYİ ÖNLER */
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .cat-chip.active { 
+            background: var(--gradient-primary); color: white; border-color: transparent; 
+            box-shadow: 0 8px 20px rgba(108,99,255,0.4); transform: scale(1.05); 
+        }
+
+        /* Her View Section içeriğinin esnemesini/daralmasını durdurur */
+        .garden-view-section {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        .garden-view-section > * { flex-shrink: 0; }
+
+        .plot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 20px; padding: 0 24px 24px; }
+        
+        .plot-card { 
+            background: linear-gradient(160deg, #3a2518 0%, #17100b 100%);
+            border: 1px solid rgba(255, 180, 50, 0.15); 
+            border-radius: 24px; 
+            padding: 16px; 
+            text-align: center; 
+            position: relative; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 2px 10px rgba(255,255,255,0.05);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); 
+            display: flex; flex-direction: column; justify-content: space-between; 
+            min-height: 200px; height: auto;
+            transform-style: preserve-3d;
+        }
+        .plot-card::after { 
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center top, rgba(255,255,255,0.1) 0%, transparent 60%);
+            border-radius: 24px; pointer-events: none;
+        }
+        .plot-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), inset 0 2px 10px rgba(255,255,255,0.1);
+            border-color: rgba(255, 180, 50, 0.4);
+        }
+
+        .plot-card.empty { 
+            background: rgba(20,25,34,0.6);
+            border: 2px dashed rgba(255,255,255,0.1); 
+            box-shadow: none; justify-content: center; cursor: pointer; backdrop-filter: blur(4px);
+        }
+        .plot-card.empty:hover { border-color: var(--primary); background: rgba(108,99,255,0.15); }
+        .plot-card.dead { 
+            background: linear-gradient(160deg, #2a1f18 0%, #110c08 100%);
+            border-color: rgba(239, 68, 68, 0.4); 
+            box-shadow: inset 0 15px 30px rgba(0,0,0,0.9), 0 0 25px rgba(239, 68, 68, 0.15); 
+        }
+        
+        .plot-title {
+            font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+            background: linear-gradient(to right, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+            z-index: 2; position: relative;
+        }
+
+        .plot-emoji { 
+            font-size: 72px; margin: 10px auto; 
+            filter: drop-shadow(0 15px 15px rgba(0,0,0,0.6)) saturate(1.2); 
+            transform: scale(1);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: gentleFloat 4s ease-in-out infinite;
+            z-index: 2; position: relative;
+        }
+        @keyframes gentleFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .plot-card:hover .plot-emoji { animation-play-state: paused; transform: scale(1.15) translateY(-5px); }
+        .plot-dead { filter: grayscale(1) brightness(0.3) sepia(0.8) drop-shadow(0 5px 5px rgba(0,0,0,0.8)); transform: scale(0.9) rotate(-15deg); animation: none; }
+        
+        .plot-bars { margin-top: 12px; width: 100%; z-index: 2; position: relative; display: flex; flex-direction: column; gap: 8px; }
+        .bar-bg { width: 100%; height: 10px; background: rgba(0,0,0,0.6); border-radius: 10px; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.05); }
+        .bar-fill { height: 100%; transition: width 0.4s ease; border-radius: 10px; position: relative; }
+        .bar-fill::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shimmer 2s infinite; }
+        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        
+        .bar-fill.water { background: var(--gradient-water); box-shadow: 0 0 10px var(--water); }
+        .bar-fill.water.warning { background: var(--warning); box-shadow: 0 0 10px var(--warning); }
+        .bar-fill.water.critical { background: var(--danger); box-shadow: 0 0 10px var(--danger); animation: pulse 1s infinite; }
+        .bar-fill.growth { background: var(--gradient-plant); box-shadow: 0 0 10px var(--success); }
+        
+        .plot-action-btn { width:100%; padding: 12px; font-size:13px; font-weight:800; border-radius:14px; border:none; cursor:pointer; margin-top:16px; transition:all var(--transition-fast); z-index: 2; position: relative; backdrop-filter: blur(4px); text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn-water { background: rgba(56, 189, 248, 0.15); color: var(--water); border: 1px solid rgba(56, 189, 248, 0.4); }
+        .btn-water:hover { background: var(--water); color: #000; box-shadow: 0 8px 20px rgba(56, 189, 248, 0.5); }
+        .btn-harvest { background: rgba(34, 197, 94, 0.15); color: var(--success); border: 1px solid rgba(34, 197, 94, 0.4); }
+        .btn-harvest:hover { background: var(--success); color: #000; box-shadow: 0 8px 20px rgba(34, 197, 94, 0.5); }
+        .btn-clear { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.4); }
+        .btn-clear:hover { background: var(--danger); color: #000; box-shadow: 0 8px 20px rgba(239, 68, 68, 0.5); }
+
+        .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; padding: 0 24px 24px; }
+        .shop-item { 
+            background: linear-gradient(145deg, rgba(30, 35, 45, 0.9) 0%, rgba(15, 20, 28, 0.9) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-radius: 24px; padding: 20px; text-align: center; position: relative; 
+            display:flex; flex-direction:column; justify-content:flex-start; gap: 8px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4); transition: all 0.4s ease;
+        }
+        .shop-item:hover { transform: translateY(-8px); border-color: rgba(108, 99, 255, 0.4); box-shadow: 0 20px 40px rgba(108, 99, 255, 0.2); }
+        .shop-item .item-icon { font-size: 56px; margin-bottom: 8px; animation: gentleFloat 6s infinite alternate ease-in-out; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); }
+        .shop-item h4 { font-size: 15px; font-weight: 800; line-height: 1.2; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; color: #fff; }
+        .shop-item p.desc { font-size: 12px; color: var(--subtitle); line-height: 1.4; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+        .shop-item .price { font-size: 16px; color: var(--warning); font-weight: 900; margin: 8px 0; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        .shop-item button { width: 100%; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: 800; border: none; background: rgba(255,255,255,0.1); color: var(--text); cursor: pointer; transition: all var(--transition-fast); margin-top: auto; }
+        .shop-item button.buy { background: var(--gradient-primary); color: white; box-shadow: 0 8px 20px rgba(108,99,255,0.4); }
+
+        .coin-water-badges { display: flex; gap: 12px; margin-top: 0; }
+        .coin-water-badges .coin-badge, .coin-water-badges .water-badge { 
+            padding: 10px 18px; border-radius: 20px; font-size: 14px; font-weight: 800; 
+            background: rgba(20,25,34,0.8); backdrop-filter: blur(10px); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); 
+            display: inline-flex; align-items: center; gap: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+        .coin-water-badges .coin-badge { color: var(--warning); }
+        .coin-water-badges .water-badge { color: var(--water); }
+        
+        .coin-badge { background: rgba(245, 158, 11, 0.15); color: var(--warning); padding: 6px 12px; border-radius: var(--radius-full); font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(245, 158, 11, 0.3); text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 
         /* ==========================================================================
-           9. PROFILE & SETTINGS
+           9. PROFILE, SETTINGS & STATS (PDF)
            ========================================================================== */
         .profile-header { display: flex; flex-direction: column; align-items: center; padding: 0 24px 24px; text-align: center; }
-        .avatar { width: 90px; height: 90px; border-radius: 50%; background: var(--gradient-primary); padding: 3px; position: relative; box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);}
-        .avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: var(--bg); border: 3px solid var(--bg); }
+        .avatar { width: 100px; height: 100px; border-radius: 50%; background: var(--gradient-primary); padding: 4px; position: relative; box-shadow: 0 8px 24px rgba(108, 99, 255, 0.4);}
+        .avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: var(--bg); border: 4px solid var(--bg); }
         
-        .coin-badge { background: rgba(245, 158, 11, 0.15); color: var(--warning); padding: 6px 12px; border-radius: var(--radius-full); font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; border: 1px solid rgba(245, 158, 11, 0.3); }
-
         .settings-group { margin: 0 24px 24px; }
-        .settings-group h3 { font-size: 12px; color: var(--subtitle); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
-        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--card); border-bottom: 1px solid var(--divider); transition: background var(--transition-fast); }
+        .settings-group h3 { font-size: 12px; color: var(--subtitle); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; }
+        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--card); border-bottom: 1px solid var(--divider); transition: background var(--transition-fast); backdrop-filter: blur(10px); }
         .setting-item:first-child { border-radius: var(--radius-md) var(--radius-md) 0 0; }
         .setting-item:last-child { border-radius: 0 0 var(--radius-md) var(--radius-md); border-bottom: none; }
         .setting-icon-text { display: flex; align-items: center; gap: 16px; font-size: 15px; font-weight: 500; }
         .setting-icon-text i { font-size: 22px; color: var(--primary); width: 24px; text-align: center; }
         .setting-item.danger i, .setting-item.danger { color: var(--danger); }
-        .setting-item.achievement-btn { background: linear-gradient(135deg, rgba(108,99,255,0.1) 0%, rgba(139,92,246,0.1) 100%); border: 1px solid rgba(108,99,255,0.2); border-radius: var(--radius-md); margin-bottom: 16px;}
+        .setting-item.achievement-btn { background: linear-gradient(135deg, rgba(108,99,255,0.1) 0%, rgba(139,92,246,0.1) 100%); border: 1px solid rgba(108,99,255,0.3); border-radius: var(--radius-md); margin-bottom: 16px; box-shadow: 0 8px 24px rgba(108,99,255,0.1); }
         
-        .toggle { position: relative; width: 46px; height: 26px; background: var(--divider); border-radius: 30px; transition: background var(--transition-fast); }
-        .toggle.active { background: var(--primary); }
-        .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; background: white; border-radius: 50%; transition: transform var(--transition-bounce); }
+        .toggle { position: relative; width: 46px; height: 26px; background: var(--divider); border-radius: 30px; transition: background var(--transition-fast); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+        .toggle.active { background: var(--primary); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 0 12px rgba(108,99,255,0.4); }
+        .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; background: white; border-radius: 50%; transition: transform var(--transition-bounce); box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
         .toggle.active::after { transform: translateX(20px); }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; padding: 0 24px 24px; }
+        .stat-box { background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 16px; display: flex; flex-direction: column; gap: 8px; backdrop-filter: blur(10px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .stat-box h2 { font-size: 20px; }
+        .stat-box p { font-size: 11px; color: var(--subtitle); font-weight: 500; }
+        
+        .chart-card { margin: 0 24px 24px; padding: 20px; background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-md); backdrop-filter: blur(10px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+        .chart-container { position: relative; height: 220px; width: 100%; margin-top: 16px; }
 
         /* ==========================================================================
            10. MODALS, TOASTS & FOCUS MODE
            ========================================================================== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 400;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 400;
             display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity var(--transition-smooth);
         }
         .modal-overlay.active { opacity: 1; pointer-events: all; }
         .modal-content {
-            width: 100%; max-height: 90vh; overflow-y: auto; background: var(--card); border-radius: 24px 24px 0 0;
+            width: 100%; max-height: 90vh; overflow-y: auto; background: var(--card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 28px 28px 0 0;
             padding: 24px 24px calc(var(--safe-area-bottom) + 24px); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1);
-            border-top: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255,255,255,0.15); box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
         }
         .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-drag-handle { width: 40px; height: 4px; background: var(--divider); border-radius: 2px; margin: -10px auto 24px; }
+        .modal-drag-handle { width: 40px; height: 5px; background: var(--divider); border-radius: 3px; margin: -10px auto 24px; }
 
-        /* 500 Badges Grid */
-        .badges-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 12px; margin-top: 16px; }
-        .badge-box { background: var(--bg); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); padding: 12px 8px; text-align: center; opacity: 0.4; filter: grayscale(1); transition: all var(--transition-fast); }
-        .badge-box.unlocked { opacity: 1; filter: grayscale(0); border-color: var(--primary); background: rgba(108, 99, 255, 0.1); box-shadow: 0 4px 12px rgba(108, 99, 255, 0.15); }
-        .badge-box i { font-size: 28px; margin-bottom: 8px; color: var(--warning); }
-        .badge-box h5 { font-size: 10px; line-height: 1.2; font-weight: 700; margin-bottom: 4px; }
-        .badge-box p { font-size: 9px; color: var(--subtitle); line-height: 1.2; }
-
+        .badges-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 16px; }
+        .badge-box { background: var(--card); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 16px 12px; text-align: center; transition: all var(--transition-fast); position:relative; overflow:hidden; display: flex; flex-direction: column; justify-content: center; min-height: 130px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .badge-box.unlocked { border-color: var(--primary); background: rgba(108, 99, 255, 0.08); box-shadow: 0 8px 24px rgba(108, 99, 255, 0.15); }
+        .badge-box i { font-size: 36px; margin-bottom: 8px; color: var(--warning); filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6)); }
+        .badge-box h5 { font-size: 12px; line-height: 1.3; font-weight: 700; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-wrap: break-word; }
+        .badge-box p { font-size: 10px; color: var(--subtitle); line-height: 1.2; margin-top: auto; margin-bottom: 8px;}
+        .badge-progress-bg { width:100%; height:6px; background:var(--divider); border-radius:3px; overflow:hidden; box-shadow: inset 0 1px 2px rgba(0,0,0,0.5); }
+        .badge-progress-fill { height:100%; background:var(--gradient-primary); box-shadow: 0 0 8px var(--primary); }
+        
         .toast {
             position: fixed; top: var(--safe-area-top); left: 50%; transform: translateX(-50%) translateY(-100px);
-            background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
-            padding: 12px 20px; border-radius: var(--radius-full); color: white; font-size: 14px; font-weight: 500;
-            z-index: 500; opacity: 0; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; gap: 10px; pointer-events:none;
-            width: max-content; max-width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: rgba(20, 25, 34, 0.9); backdrop-filter: blur(16px); border: 1px solid var(--glass-border);
+            padding: 14px 24px; border-radius: var(--radius-full); color: white; font-size: 14px; font-weight: 600;
+            z-index: 500; opacity: 0; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; gap: 12px; pointer-events:none;
+            width: max-content; max-width: 90%; box-shadow: 0 15px 40px rgba(0,0,0,0.4);
         }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(20px); }
-        .toast.success i { color: var(--success); } .toast.error i { color: var(--danger); }
+        .toast.success i { color: var(--success); filter: drop-shadow(0 0 4px var(--success)); font-size: 20px;} .toast.error i { color: var(--danger); filter: drop-shadow(0 0 4px var(--danger)); font-size: 20px; } .toast i { font-size: 20px; }
 
         #focus-mode { background: #000; z-index: 300; justify-content: center; align-items: center; padding-bottom: 0; }
         #focus-mode .timer-ring { max-width: 400px; }
         #focus-mode .bg-circle { stroke: #111; }
-        #focus-mode .time-display h1 { font-size: 90px; color: white; margin-bottom: 0; }
-        .exit-focus { position: absolute; top: calc(var(--safe-area-top) + 20px); left: 24px; color: #fff; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 50%; width: 50px; height: 50px; display:flex; align-items:center; justify-content:center; font-size: 24px; z-index: 10;}
+        #focus-mode .time-display h1 { font-size: 90px; color: white; margin-bottom: 0; text-shadow: 0 0 40px rgba(255,255,255,0.1); }
+        .exit-focus { position: absolute; top: calc(var(--safe-area-top) + 20px); left: 24px; color: #fff; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 50%; width: 50px; height: 50px; display:flex; align-items:center; justify-content:center; font-size: 24px; z-index: 10; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s;}
+        .exit-focus:active { transform: scale(0.9); }
         
-        /* ==========================================================================
-           11. RESPONSIVE DESIGN & GOOGLE TRANSLATE FIX
-           ========================================================================== */
+        /* Responsive Fixes */
         body { top: 0px !important; position: static !important; min-height: 100vh; }
         .goog-te-banner-frame { display: none !important; }
         .goog-te-menu-frame { max-width: 100% !important; }
@@ -347,29 +525,29 @@
             .header h1 { font-size: 22px; }
             .bottom-nav { padding-bottom: 8px; }
             .nav-item i { font-size: 20px; }
-            .nav-item span { font-size: 9px; }
+            .plot-grid { grid-template-columns: repeat(2, 1fr); gap: 12px;}
         }
 
         @media (min-width: 768px) {
             #app { flex-direction: row; height: 100vh; max-height: none; max-width: 100vw; margin: 0; border-radius: 0; border: none; box-shadow: none; }
-            .bottom-nav { position: static; width: 260px; height: 100%; flex-direction: column; justify-content: flex-start; gap: 8px; border-top: none; border-right: 1px solid var(--glass-border); padding: 40px 20px; transform: none; transition: margin-left var(--transition-smooth), opacity var(--transition-smooth); background: var(--card); order: -1; z-index: 10; }
-            .bottom-nav::before { content: 'PomoLegend'; display: block; font-size: 24px; font-weight: 800; margin-bottom: 40px; padding-left: 16px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -1px; }
-            .bottom-nav.hidden { transform: none; margin-left: -260px; opacity: 0; }
-            .nav-item { flex: none; height: 56px; flex-direction: row; justify-content: flex-start; padding: 0 20px; border-radius: 16px; gap: 16px; }
-            .nav-item.active { background: rgba(108, 99, 255, 0.1); }
-            .nav-item i { font-size: 24px; }
-            .nav-item span { font-size: 15px; font-weight: 600; display: block; }
+            .bottom-nav { position: static; width: 280px; height: 100%; flex-direction: column; justify-content: flex-start; gap: 8px; border-top: none; border-right: 1px solid var(--glass-border); padding: 40px 20px; transform: none; transition: margin-left var(--transition-smooth), opacity var(--transition-smooth); background: rgba(15, 18, 25, 0.8); backdrop-filter: blur(30px); order: -1; z-index: 10; }
+            .bottom-nav::before { content: 'PomoLegend'; display: block; font-size: 26px; font-weight: 900; margin-bottom: 40px; padding-left: 16px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -1px; filter: drop-shadow(0 4px 8px rgba(108,99,255,0.3)); }
+            .bottom-nav.hidden { transform: none; margin-left: -280px; opacity: 0; }
+            .nav-item { flex: none; height: 60px; flex-direction: row; justify-content: flex-start; padding: 0 24px; border-radius: 16px; gap: 16px; margin-bottom: 4px; }
+            .nav-item.active { background: rgba(108, 99, 255, 0.15); box-shadow: inset 0 0 0 1px rgba(108,99,255,0.3); }
+            .nav-item i { font-size: 26px; }
+            .nav-item span { font-size: 15px; font-weight: 700; display: block; }
             .nav-item.active i { transform: translateY(0) scale(1.1); }
             .screen { padding: 40px; padding-bottom: 40px; }
             .header { padding: 0 0 32px 0; }
-            .add-task-fab { bottom: 40px; right: 40px; width: 64px; height: 64px; font-size: 32px; }
+            .add-task-fab { bottom: 40px; right: 40px; width: 68px; height: 68px; font-size: 32px; }
             .modal-overlay { align-items: center; justify-content: center; padding: 24px; }
-            .modal-content { max-width: 450px; border-radius: 24px; transform: scale(0.9) translateY(0); padding: 32px; width: 100%; }
+            .modal-content { max-width: 500px; border-radius: 28px; transform: scale(0.9) translateY(0); padding: 32px; width: 100%; border: 1px solid rgba(255,255,255,0.1); }
             .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
             .modal-drag-handle { display: none; }
-            .timer-ring { max-width: 350px; }
-            .time-display h1 { font-size: 72px; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); padding: 0; }
+            .timer-ring { max-width: 380px; }
+            .time-display h1 { font-size: 80px; }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); padding: 0; }
             .task-list { padding: 0 0 80px; }
             .task-tools { padding: 0 0 24px; }
             .profile-header { padding: 0 0 40px; }
@@ -379,44 +557,46 @@
             .chart-card { margin: 0 0 40px; }
             #focus-mode .timer-ring { max-width: 500px; }
             #focus-mode .time-display h1 { font-size: 110px; }
+            .plot-grid { grid-template-columns: repeat(4, 1fr); padding: 0; }
+            .shop-grid { grid-template-columns: repeat(4, 1fr); padding: 0; }
         }
 
         @media (min-width: 1024px) {
             #app { max-width: 100vw; }
-            .header { padding: 0 0 32px 0; }
-            #home { display: grid; grid-template-columns: 1fr 340px; grid-template-rows: auto auto 1fr; align-content: start; gap: 0 40px; }
+            .header { padding: 0 0 40px 0; }
+            #home { display: grid; grid-template-columns: 1fr 360px; grid-template-rows: auto auto 1fr; align-content: start; gap: 0 48px; }
             #home .header { grid-column: 1 / -1; }
-            .timer-container { grid-column: 1 / 2; grid-row: 2 / 4; min-height: 450px; justify-content: center; padding: 0; }
+            .timer-container { grid-column: 1 / 2; grid-row: 2 / 4; min-height: 500px; justify-content: center; padding: 0; }
             .home-level-bar { grid-column: 2 / 3; grid-row: 2 / 3; margin: 0 0 24px 0; }
-            .home-stats { grid-column: 2 / 3; grid-row: 3 / 4; flex-direction: column; padding: 0; gap: 16px; }
-            .task-tools { flex-direction: row; align-items: center; justify-content: space-between; padding: 0 0 24px; gap: 24px; }
-            .search-bar { width: 300px; margin-bottom: 0; }
+            .home-stats { grid-column: 2 / 3; grid-row: 3 / 4; flex-direction: column; padding: 0; gap: 20px; }
+            .task-tools { flex-direction: row; align-items: center; justify-content: space-between; padding: 0 0 32px; gap: 24px; }
+            .search-bar { width: 320px; margin-bottom: 0; }
             .filter-scroll { flex: 1; justify-content: flex-end; }
-            .task-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 0 0 80px; }
-            .task-item { margin-bottom: 0; }
-            .stats-grid { padding: 0 0 24px; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+            .task-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 0 0 80px; }
             
-            /* Chart Grids Desktop */
-            #charts-wrapper { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; padding: 0 24px 40px; }
+            #charts-wrapper { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; padding: 0 0 40px; }
             .chart-card { margin: 0; }
             .chart-card.full-width { grid-column: 1 / -1; }
             
-            .profile-header { max-width: 800px; margin: 0 auto; width: 100%; padding: 0 0 40px; }
-            .settings-group { max-width: 800px; margin: 0 auto 24px; width: 100%; }
-            .shop-grid, .greenhouse-grid { grid-template-columns: repeat(4, 1fr); }
-            #badges-container { grid-template-columns: repeat(8, 1fr); }
+            .profile-header { max-width: 800px; margin: 0 auto; width: 100%; padding: 0 0 48px; }
+            .settings-group { max-width: 800px; margin: 0 auto 32px; width: 100%; }
+            .plot-grid { grid-template-columns: repeat(5, 1fr); }
+            .shop-grid { grid-template-columns: repeat(5, 1fr); gap: 20px;}
+            .badges-grid { grid-template-columns: repeat(3, 1fr); gap: 16px;}
         }
 
         @media (min-width: 1440px) {
             #app { max-width: 100vw; }
-            .timer-ring { max-width: 420px; }
-            .time-display h1 { font-size: 90px; }
+            .timer-ring { max-width: 460px; }
+            .time-display h1 { font-size: 100px; }
             .task-list { grid-template-columns: repeat(3, 1fr); }
-            #focus-mode .timer-ring { max-width: 600px; }
-            #focus-mode .time-display h1 { font-size: 130px; }
-            .screen { padding: 60px; }
+            #focus-mode .timer-ring { max-width: 650px; }
+            #focus-mode .time-display h1 { font-size: 140px; }
+            .screen { padding: 60px 80px; }
             #charts-wrapper { grid-template-columns: repeat(3, 1fr); }
             .chart-card.full-width { grid-column: span 2; }
+            .plot-grid { grid-template-columns: repeat(6, 1fr); gap: 24px;}
+            .shop-grid { grid-template-columns: repeat(6, 1fr); gap: 28px;}
         }
     </style>
 </head>
@@ -424,12 +604,19 @@
 
 <div id="app">
     
-    <!-- 0. AUTH SCREEN (MANDATORY PRIVACY CHECK) -->
-    <div class="screen" id="auth" style="z-index: 200;">
+    <!-- 0. WOW AUTH SCREEN -->
+    <div class="screen" id="auth">
+        <!-- Hareketli ve Büyüleyici Arka Plan Blobları -->
+        <div class="auth-bg-blobs">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+        </div>
+
         <div class="auth-container">
             <div class="auth-logo"><i class="ph-fill ph-timer"></i></div>
-            <h1 style="font-size: 26px; margin-bottom: 8px; text-align: center;">PomoLegend</h1>
-            <p style="text-align: center; margin-bottom: 30px;">Odaklanma serüvenine başla.</p>
+            <h1 class="auth-title">PomoLegend</h1>
+            <p style="text-align: center; margin-bottom: 32px; font-size: 16px; color: var(--subtitle); font-weight: 500;">Sınırlarını aş, efsaneye dönüş.</p>
             
             <div class="auth-tabs">
                 <div class="auth-tab ripple-wrapper active" onclick="authUI.switchTab('login')">Giriş Yap</div>
@@ -446,11 +633,11 @@
                     <label>Şifre</label>
                     <input type="password" id="login-password" placeholder="••••••••">
                 </div>
-                <div style="display:flex; align-items:center; gap:8px; margin-bottom: 16px;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom: 24px;">
                     <input type="checkbox" id="login-privacy" style="width:16px; height:16px; accent-color: var(--primary);">
                     <label for="login-privacy" style="font-size:12px; color:var(--subtitle); cursor:pointer;"><a href="#" onclick="app.openModal('privacy-modal'); event.preventDefault();" style="color:var(--primary); text-decoration:none;">Gizlilik Politikası</a>'nı okudum, kabul ediyorum.</label>
                 </div>
-                <button class="btn btn-primary ripple-wrapper" onclick="authUI.submit('login')">Giriş Yap</button>
+                <button class="btn btn-primary ripple-wrapper" onclick="authUI.submit('login')" style="font-size: 16px; font-weight: 800; padding: 18px;">Giriş Yap</button>
             </div>
 
             <!-- Kayıt Formu -->
@@ -473,11 +660,11 @@
                     <label>Şifre</label>
                     <input type="password" id="reg-password" placeholder="••••••••">
                 </div>
-                <div style="display:flex; align-items:center; gap:8px; margin-bottom: 16px;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom: 24px;">
                     <input type="checkbox" id="reg-privacy" style="width:16px; height:16px; accent-color: var(--primary);">
                     <label for="reg-privacy" style="font-size:12px; color:var(--subtitle); cursor:pointer;"><a href="#" onclick="app.openModal('privacy-modal'); event.preventDefault();" style="color:var(--primary); text-decoration:none;">Gizlilik Politikası</a>'nı okudum, kabul ediyorum.</label>
                 </div>
-                <button class="btn btn-primary ripple-wrapper" onclick="authUI.submit('register')">Kayıt Ol</button>
+                <button class="btn btn-primary ripple-wrapper" onclick="authUI.submit('register')" style="font-size: 16px; font-weight: 800; padding: 18px;">Kayıt Ol</button>
             </div>
         </div>
     </div>
@@ -488,17 +675,17 @@
         <!-- 1. HOME (Timer) -->
         <div class="screen" id="home">
             <div class="header">
-                <div>
+                <div style="min-width: 0; flex: 1; padding-right: 16px;">
                     <p id="greeting-text">Merhaba</p>
-                    <h1 class="header-title-gradient" id="user-name-display">Efsane</h1>
+                    <h1 class="header-title-gradient text-truncate" id="user-name-display">Efsane</h1>
                 </div>
-                <button class="btn-icon ripple-wrapper" onclick="app.navigate('focus-mode')"><i class="ph ph-corners-out"></i></button>
+                <button class="btn-icon ripple-wrapper" onclick="app.navigate('focus-mode')" style="flex-shrink: 0;"><i class="ph ph-corners-out"></i></button>
             </div>
 
             <div class="home-level-bar">
                 <span class="lvl-badge" id="home-lvl-badge">Lvl 1</span>
                 <div class="lvl-progress-bg"><div class="lvl-progress-fill" id="home-lvl-fill"></div></div>
-                <span style="font-size: 11px; font-weight:600; color:var(--subtitle);" id="home-xp-text">0 XP</span>
+                <span style="font-size: 12px; font-weight:700; color:var(--subtitle);" id="home-xp-text">0 XP</span>
             </div>
 
             <div class="timer-container">
@@ -557,60 +744,114 @@
             <button class="add-task-fab ripple-wrapper" onclick="tasks.openNew()"><i class="ph ph-plus"></i></button>
         </div>
 
-        <!-- NEW: 3. GARDEN & SHOP (TOHUM SİSTEMİ) -->
+        <!-- 3. WOW MEGA GARDEN -->
         <div class="screen" id="garden">
-            <div class="header">
-                <h1 class="header-title-gradient">Sera & Market</h1>
-                <!-- Coin Display -->
-                <div class="coin-badge" style="margin-top:0;">
-                    <i class="ph-fill ph-coins"></i> <span id="garden-coin-count">0</span>
+            
+            <div class="header" style="flex-wrap:wrap; gap:12px; margin-bottom: 8px;">
+                <h1 class="header-title-gradient text-truncate" style="flex:1;">Tarım İmparatorluğu</h1>
+                <div class="coin-water-badges">
+                    <div class="coin-badge"><i class="ph-fill ph-coins"></i> <span id="garden-coin-count">0</span> Puan</div>
+                    <div class="water-badge"><i class="ph-fill ph-drop"></i> <span id="garden-water-count">0</span> Su</div>
                 </div>
             </div>
 
-            <div class="garden-status">
-                <h3 style="font-size:16px; margin-bottom:16px;">Aktif Tohum</h3>
-                <div class="plant-circle" id="active-plant-view">
-                    <i class="ph-duotone ph-seedling" id="plant-icon" style="font-size:40px; color:var(--subtitle);"></i>
-                    <p style="font-size:11px; margin-top:8px;" id="plant-status-text">Tohum Yok</p>
-                </div>
-                <div style="background:var(--card); border-radius:var(--radius-full); height:8px; width:200px; margin:0 auto; overflow:hidden; border:1px solid var(--glass-border);">
-                    <div style="background:var(--gradient-plant); width:0%; height:100%; transition:width 0.5s ease;" id="plant-progress"></div>
-                </div>
-                <p style="font-size:11px; color:var(--subtitle); margin-top:8px;" id="plant-progress-text">Odaklanarak büyüt</p>
+            <!-- Kategoriler -->
+            <div class="shop-category-scroll" id="garden-tabs">
+                <div class="cat-chip ripple-wrapper active" onclick="gardenUI.switchTab('tarlam', this)">Tarlam</div>
+                <div class="cat-chip ripple-wrapper" onclick="gardenUI.switchTab('tohumlar', this)">Tohum Market</div>
+                <div class="cat-chip ripple-wrapper" onclick="gardenUI.switchTab('emlak', this)">Emlak (Arsa)</div>
+                <div class="cat-chip ripple-wrapper" onclick="gardenUI.switchTab('ciftciler', this)">İnsan Kaynakları</div>
+                <div class="cat-chip ripple-wrapper" onclick="gardenUI.switchTab('robotlar', this)">Teknoloji</div>
             </div>
 
-            <div class="settings-group">
-                <h3 style="margin-left:8px;">Tohum Marketi</h3>
-                <div class="shop-grid" id="seed-shop-container">
-                    <!-- Javascript ile tohumlar eklenecek -->
+            <!-- Tarlam (Plots Grid) -->
+            <div id="view-tarlam" class="garden-view-section">
+                <div style="padding: 0 24px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap: 16px;">
+                    <p style="font-size:13px; color:var(--subtitle); line-height: 1.5; max-width: 65%;">Tohumları ek ve kurutmamak için Pomodoro yaparak veya Puan harcayarak "Su" kazan. (Sulama: 10 💧)</p>
+                    <div style="display:flex; gap:12px; align-items:center;">
+                        <button class="btn-secondary ripple-wrapper" style="padding:10px 16px; border-radius:14px; font-size:13px; color:var(--water); border-color:rgba(56, 189, 248, 0.4); font-weight:800; background: rgba(56, 189, 248, 0.1);" onclick="gardenUI.buyWater()">💧 Su Al (50 Puan)</button>
+                        <button class="btn-primary ripple-wrapper" style="padding:10px 16px; border-radius:14px; font-size:13px; font-weight:800; background: var(--gradient-water);" onclick="gardenUI.waterAll()">Toplu Sula</button>
+                    </div>
+                </div>
+                <div class="plot-grid" id="plot-grid-container">
+                    <!-- Arsalar buraya çizilecek -->
                 </div>
             </div>
 
-            <div class="settings-group">
-                <h3 style="margin-left:8px;">Seram (Büyüyenler)</h3>
-                <div class="greenhouse-grid" id="greenhouse-container">
-                    <div style="grid-column: 1/-1; text-align:center; color:var(--subtitle); font-size:13px; padding:20px;">Henüz hiç bitki yetiştirmediniz.</div>
+            <!-- Tohum Market -->
+            <div id="view-tohumlar" class="garden-view-section" style="display:none;">
+                <!-- Alt Kategori Scroll -->
+                <div id="seed-categories" class="shop-category-scroll">
+                    <div class="cat-chip ripple-wrapper active" onclick="gardenUI.filterSeeds('Çiçek', this)">Çiçekler</div>
+                    <div class="cat-chip ripple-wrapper" onclick="gardenUI.filterSeeds('Sebze', this)">Sebzeler</div>
+                    <div class="cat-chip ripple-wrapper" onclick="gardenUI.filterSeeds('Ağaç', this)">Ağaçlar</div>
+                    <div class="cat-chip ripple-wrapper" onclick="gardenUI.filterSeeds('Meyve Ağacı', this)">Meyve Ağaçları</div>
+                    <div class="cat-chip ripple-wrapper" onclick="gardenUI.filterSeeds('Kaktüs', this)">Kaktüsler</div>
+                </div>
+                <div class="shop-grid" id="seed-shop-container"></div>
+            </div>
+
+            <!-- Emlak (Arsalar) -->
+            <div id="view-emlak" class="garden-view-section" style="display:none;">
+                <div style="padding: 0 24px 24px; text-align:center;">
+                    <div style="display: inline-flex; align-items: center; justify-content: center; width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, rgba(108,99,255,0.2), rgba(0,212,255,0.2)); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 24px; box-shadow: 0 15px 35px rgba(108,99,255,0.2);">
+                        <i class="ph-duotone ph-house-line" style="font-size:70px; color:var(--primary); filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));"></i>
+                    </div>
+                    <h3 style="margin-bottom:12px; font-size: 26px; font-weight: 900;">Yeni Arsa Satın Al</h3>
+                    <p style="font-size:15px; color:var(--subtitle); margin-bottom:40px;">Şu an <span id="current-plot-count" style="color:var(--text); font-weight:bold; font-size: 18px;">1</span>/100 arsaya sahipsiniz.</p>
+                    
+                    <div style="background: linear-gradient(145deg, rgba(30, 35, 45, 0.9) 0%, rgba(15, 20, 28, 0.9) 100%); border:1px solid rgba(255,255,255,0.1); backdrop-filter: blur(20px); border-radius:24px; padding:40px 32px; max-width:350px; margin:0 auto; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+                        <h4 style="margin-bottom:16px; font-size: 14px; font-weight: 700; color: var(--subtitle); text-transform: uppercase; letter-spacing: 1px;">Sıradaki Arsa Bedeli</h4>
+                        <div style="font-size:36px; font-weight:900; color:var(--warning); margin-bottom:32px; text-shadow: 0 4px 10px rgba(0,0,0,0.5);" id="next-plot-price">500 Puan</div>
+                        <button class="btn btn-primary ripple-wrapper" onclick="gardenUI.buyPlot()" style="width: 100%; font-size: 16px; font-weight: 800; padding: 18px;">Satın Al</button>
+                    </div>
                 </div>
             </div>
+
+            <!-- Çiftçiler -->
+            <div id="view-ciftciler" class="garden-view-section" style="display:none;">
+                <div style="padding: 0 24px 20px;">
+                    <p style="font-size:14px; color:var(--subtitle); background: rgba(10,15,25,0.6); padding: 16px 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); line-height: 1.6;">Çiftçiler sen her Pomodoro yaptığında sana pasif <b>Puan/XP</b> kazandırır. Ne kadar usta, o kadar çok puan!</p>
+                </div>
+                <div class="shop-grid" id="farmer-shop-container"></div>
+            </div>
+
+            <!-- Robotlar -->
+            <div id="view-robotlar" class="garden-view-section" style="display:none;">
+                <div style="padding: 0 24px 20px;">
+                    <p style="font-size:14px; color:var(--subtitle); background: rgba(10,15,25,0.6); padding: 16px 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); line-height: 1.6;">Robotlar sulama yapmaz, ancak toprağı işleyerek bitkilerin <b>kuruma süresini (ölüm süresini)</b> saatlerce uzatır. Çevrimdışıyken bitkilerini korur.</p>
+                </div>
+                <div class="shop-grid" id="robot-shop-container"></div>
+            </div>
+
         </div>
 
-        <!-- 4. STATISTICS (GERÇEK PDF VE 5 GRAFİK) -->
+        <!-- 4. STATISTICS -->
         <div class="screen" id="stats">
             <div class="header">
-                <h1 class="header-title-gradient">Rapor</h1>
-                <!-- GERÇEK PDF İNDİRME BUTONU -->
+                <h1 class="header-title-gradient">Rapor & İstatistik</h1>
                 <button class="btn-icon ripple-wrapper" onclick="statsUI.exportRealPDF()" title="Raporu PDF İndir"><i class="ph ph-download-simple"></i></button>
             </div>
 
-            <div id="pdf-export-area">
-                <div class="stats-grid">
+            <div id="pdf-export-area" style="padding-bottom: 40px;">
+                <!-- Genel İstatistikler -->
+                <div class="settings-group" style="margin-bottom:12px;"><h3>Kişisel Odak Verileri</h3></div>
+                <div class="stats-grid" style="margin-bottom: 24px;">
                     <div class="stat-box"><div class="stat-icon" style="background: rgba(108, 99, 255, 0.15); color: var(--primary);"><i class="ph-fill ph-check-circle"></i></div><h2 id="st-total-pomo">0</h2><p>Top. Pomodoro</p></div>
                     <div class="stat-box"><div class="stat-icon" style="background: rgba(34, 197, 94, 0.15); color: var(--success);"><i class="ph-fill ph-clock-counter-clockwise"></i></div><h2 id="st-total-hours">0s</h2><p>Odak (Saat)</p></div>
                     <div class="stat-box"><div class="stat-icon" style="background: rgba(245, 158, 11, 0.15); color: var(--warning);"><i class="ph-fill ph-fire"></i></div><h2 id="st-best-streak">0</h2><p>En İyi Seri</p></div>
                     <div class="stat-box"><div class="stat-icon" style="background: rgba(0, 212, 255, 0.15); color: var(--accent);"><i class="ph-fill ph-calendar-check"></i></div><h2 id="st-task-ratio">0%</h2><p>Görev Başarısı</p></div>
                 </div>
+
+                <!-- Tarım İmparatorluğu Özeti (PDF İÇİN) -->
+                <div class="settings-group" style="margin-bottom:12px;"><h3>Tarım İmparatorluğu Özeti</h3></div>
+                <div class="stats-grid" style="margin-bottom: 32px;">
+                    <div class="stat-box"><div class="stat-icon" style="background: rgba(139, 92, 246, 0.15); color: #8B5CF6;"><i class="ph-fill ph-house-line"></i></div><h2 id="st-plots">1</h2><p>Arsa / Sera</p></div>
+                    <div class="stat-box"><div class="stat-icon" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;"><i class="ph-fill ph-users"></i></div><h2 id="st-farmers">0</h2><p>Çalışan Çiftçi</p></div>
+                    <div class="stat-box"><div class="stat-icon" style="background: rgba(56, 189, 248, 0.15); color: #38BDF8;"><i class="ph-fill ph-robot"></i></div><h2 id="st-robots">0</h2><p>Aktif Robot</p></div>
+                    <div class="stat-box"><div class="stat-icon" style="background: rgba(34, 197, 94, 0.15); color: #22C55E;"><i class="ph-fill ph-plant"></i></div><h2 id="st-harvests">0</h2><p>Toplam Hasat</p></div>
+                </div>
                 
-                <!-- 5 GELİŞMİŞ GRAFİK SİSTEMİ -->
                 <div id="charts-wrapper">
                     <div class="chart-card full-width">
                         <div style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">Son 7 Gün Odaklanma (Dk)</div>
@@ -621,40 +862,31 @@
                         <div class="chart-container"><canvas id="chart-tasks"></canvas></div>
                     </div>
                     <div class="chart-card">
-                        <div style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">Odak vs Mola Dengesi</div>
-                        <div class="chart-container"><canvas id="chart-balance"></canvas></div>
-                    </div>
-                    <div class="chart-card">
                         <div style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">Üretkenlik Radarı</div>
                         <div class="chart-container"><canvas id="chart-radar"></canvas></div>
-                    </div>
-                    <div class="chart-card">
-                        <div style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">Günün Saatleri Aktivitesi</div>
-                        <div class="chart-container"><canvas id="chart-polar"></canvas></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 5. PROFILE & SETTINGS (500 ROZET EKLENDİ) -->
+        <!-- 5. PROFILE & SETTINGS -->
         <div class="screen" id="profile">
             <div class="header"><h1 class="header-title-gradient">Profil</h1></div>
             <div class="profile-header">
-                <!-- Avatar Marketine Yönlendirir -->
                 <div class="avatar" onclick="app.openModal('avatar-modal');" style="cursor: pointer;">
                     <img src="https://api.dicebear.com/7.x/bottts/svg?seed=PomoLegend&backgroundColor=6C63FF" id="profile-avatar" alt="avatar">
-                    <div style="position:absolute; bottom:-4px; right:-4px; background:var(--card); width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid var(--bg); color:var(--text); box-shadow:var(--glass-shadow);"><i class="ph-fill ph-shopping-cart-simple" style="font-size: 14px;"></i></div>
+                    <div style="position:absolute; bottom:-4px; right:-4px; background:var(--card); width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid var(--bg); color:var(--text); box-shadow:var(--glass-shadow); backdrop-filter: blur(4px);"><i class="ph-fill ph-shopping-cart-simple" style="font-size: 16px;"></i></div>
                 </div>
-                <h2 id="profile-name-full" style="margin-top:16px; font-size: 22px;">Kullanıcı</h2>
-                <p id="profile-email" style="font-size:14px; margin-top:4px;">-</p>
-                <div class="coin-badge">
+                <h2 id="profile-name-full" class="text-truncate" style="margin-top:20px; font-size: 24px; max-width: 90%;">Kullanıcı</h2>
+                <p id="profile-email" class="text-truncate" style="font-size:14px; margin-top:4px; max-width: 90%;">-</p>
+                <div class="coin-badge" style="margin-top: 12px;">
                     <i class="ph-fill ph-coins"></i> <span id="profile-coin-count">0</span> Puan
                 </div>
             </div>
 
             <div class="settings-group">
                 <div class="setting-item achievement-btn ripple-wrapper" onclick="badgesUI.openModal()">
-                    <div class="setting-icon-text"><i class="ph-fill ph-medal" style="color:var(--warning)"></i> 500 Rozet & Başarımlar</div>
+                    <div class="setting-icon-text"><i class="ph-fill ph-medal" style="color:var(--warning)"></i> 10.000 Rozet & Başarımlar</div>
                     <i class="ph ph-caret-right" style="color:var(--warning)"></i>
                 </div>
             </div>
@@ -684,9 +916,9 @@
             </div>
 
             <div class="settings-group">
-                <h3>Sistem & Hesap (109 DİL)</h3>
+                <h3>Sistem & Hesap</h3>
                 <div class="setting-item ripple-wrapper" onclick="app.openModal('lang-modal')">
-                    <div class="setting-icon-text"><i class="ph-fill ph-globe"></i> Dil Seçimi (A-Z Geniş)</div>
+                    <div class="setting-icon-text"><i class="ph-fill ph-globe"></i> Dil Seçimi</div>
                     <i class="ph ph-caret-right" style="color:var(--subtitle)"></i>
                 </div>
                 <div class="setting-item ripple-wrapper" onclick="app.openModal('privacy-modal')">
@@ -716,12 +948,12 @@
                 </div>
             </div>
             <div style="position:absolute; bottom:60px; display:flex; gap:30px;">
-                <button class="btn-icon ripple-wrapper" onclick="timer.toggle()" style="width:70px; height:70px; font-size:32px; background:rgba(255,255,255,0.1); border:none; color:white;" id="fm-play-btn"><i class="ph-fill ph-play"></i></button>
+                <button class="btn-icon ripple-wrapper" onclick="timer.toggle()" style="width:70px; height:70px; font-size:32px; background:rgba(255,255,255,0.1); border:none; color:white; backdrop-filter: blur(10px);" id="fm-play-btn"><i class="ph-fill ph-play"></i></button>
             </div>
         </div>
     </div>
 
-    <!-- BOTTOM NAVIGATION (BAHÇE EKLENDİ) -->
+    <!-- BOTTOM NAVIGATION -->
     <nav class="bottom-nav hidden" id="bottom-nav">
         <div class="nav-item active ripple-wrapper" onclick="app.navigate('home', this)">
             <i class="ph-fill ph-timer"></i><span>Sayaç</span>
@@ -729,9 +961,8 @@
         <div class="nav-item ripple-wrapper" onclick="app.navigate('tasks', this)">
             <i class="ph-fill ph-check-square-offset"></i><span>Görevler</span>
         </div>
-        <!-- YENİ EKLENEN BAHÇE (TOHUM) SEKMESİ -->
         <div class="nav-item ripple-wrapper" onclick="app.navigate('garden', this)">
-            <i class="ph-fill ph-plant"></i><span>Bahçe</span>
+            <i class="ph-fill ph-plant"></i><span>Sera</span>
         </div>
         <div class="nav-item ripple-wrapper" onclick="app.navigate('stats', this)">
             <i class="ph-fill ph-chart-polar"></i><span>Rapor</span>
@@ -746,28 +977,28 @@
     <div class="modal-overlay" id="task-modal" onclick="if(event.target===this) app.closeModals()">
         <div class="modal-content">
             <div class="modal-drag-handle"></div>
-            <h3 style="margin-bottom: 20px; font-size: 20px;" id="tm-title">Yeni Görev</h3>
+            <h3 style="margin-bottom: 20px; font-size: 22px;" id="tm-title">Yeni Görev</h3>
             <input type="hidden" id="tm-id">
             <div class="input-group">
                 <input type="text" id="tm-input" placeholder="Ne üzerinde çalışacaksın?">
             </div>
             
-            <label style="font-size:12px; color:var(--subtitle); display:block; margin-bottom:8px;">Kategori</label>
-            <div style="display: flex; gap: 8px; margin-bottom: 20px; overflow-x:auto;" id="tm-cats">
-                <div class="chip ripple-wrapper active" onclick="tasks.selectFormChip('cat', 'İş', this)" style="border-color:var(--primary)">İş</div>
-                <div class="chip ripple-wrapper" onclick="tasks.selectFormChip('cat', 'Ders', this)" style="border-color:var(--primary)">Ders</div>
-                <div class="chip ripple-wrapper" onclick="tasks.selectFormChip('cat', 'Kişisel', this)" style="border-color:var(--primary)">Kişisel</div>
+            <label style="font-size:13px; font-weight:600; color:var(--subtitle); display:block; margin-bottom:10px;">Kategori</label>
+            <div style="display: flex; gap: 8px; margin-bottom: 24px; overflow-x:auto; padding-bottom: 4px;" id="tm-cats">
+                <div class="chip ripple-wrapper active" onclick="tasks.selectFormChip('cat', 'İş', this)" style="border-color:var(--primary); font-size: 14px; padding: 8px 16px;">İş</div>
+                <div class="chip ripple-wrapper" onclick="tasks.selectFormChip('cat', 'Ders', this)" style="border-color:transparent; font-size: 14px; padding: 8px 16px;">Ders</div>
+                <div class="chip ripple-wrapper" onclick="tasks.selectFormChip('cat', 'Kişisel', this)" style="border-color:transparent; font-size: 14px; padding: 8px 16px;">Kişisel</div>
             </div>
             
-            <label style="font-size:12px; color:var(--subtitle); display:block; margin-bottom:8px;">Öncelik</label>
-            <div style="display: flex; gap: 8px; margin-bottom: 20px;" id="tm-pris">
-                <div class="chip ripple-wrapper priority-low active" onclick="tasks.selectFormChip('pri', 'Düşük', this)">Düşük</div>
-                <div class="chip ripple-wrapper priority-med" onclick="tasks.selectFormChip('pri', 'Orta', this)">Orta</div>
-                <div class="chip ripple-wrapper priority-high" onclick="tasks.selectFormChip('pri', 'Yüksek', this)">Yüksek</div>
+            <label style="font-size:13px; font-weight:600; color:var(--subtitle); display:block; margin-bottom:10px;">Öncelik</label>
+            <div style="display: flex; gap: 8px; margin-bottom: 24px;" id="tm-pris">
+                <div class="chip ripple-wrapper priority-low active" onclick="tasks.selectFormChip('pri', 'Düşük', this)" style="font-size: 14px; padding: 8px 16px;">Düşük</div>
+                <div class="chip ripple-wrapper priority-med" onclick="tasks.selectFormChip('pri', 'Orta', this)" style="font-size: 14px; padding: 8px 16px;">Orta</div>
+                <div class="chip ripple-wrapper priority-high" onclick="tasks.selectFormChip('pri', 'Yüksek', this)" style="font-size: 14px; padding: 8px 16px;">Yüksek</div>
             </div>
             
-            <div class="input-group">
-                <label>Tahmini Pomodoro (1-10)</label>
+            <div class="input-group" style="margin-bottom: 24px;">
+                <label style="font-weight: 600; font-size: 13px;">Tahmini Pomodoro (1-10)</label>
                 <input type="number" id="tm-est" value="1" min="1" max="10">
             </div>
             <button class="btn btn-primary ripple-wrapper" onclick="tasks.save()">Kaydet</button>
@@ -778,12 +1009,12 @@
     <div class="modal-overlay" id="sound-modal" onclick="if(event.target===this) app.closeModals()">
         <div class="modal-content">
             <div class="modal-drag-handle"></div>
-            <h3 style="margin-bottom: 20px;">Odak Sesleri</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
-                <div class="ripple-wrapper" style="background:var(--card); border:1px solid var(--glass-border); border-radius:var(--radius-md); text-align:center; padding:16px;" onclick="audio.toggleNoise('brown')"><i class="ph-fill ph-cloud-rain" style="font-size:32px; color:var(--accent); margin-bottom:8px;"></i><p style="font-weight:600; color:var(--text);">Yağmur</p></div>
-                <div class="ripple-wrapper" style="background:var(--card); border:1px solid var(--glass-border); border-radius:var(--radius-md); text-align:center; padding:16px;" onclick="audio.toggleNoise('pink')"><i class="ph-fill ph-coffee" style="font-size:32px; color:var(--warning); margin-bottom:8px;"></i><p style="font-weight:600; color:var(--text);">Kafe</p></div>
-                <div class="ripple-wrapper" style="background:var(--card); border:1px solid var(--glass-border); border-radius:var(--radius-md); text-align:center; padding:16px;" onclick="audio.toggleNoise('white')"><i class="ph-fill ph-waves" style="font-size:32px; color:var(--success); margin-bottom:8px;"></i><p style="font-weight:600; color:var(--text);">Okyanus</p></div>
-                <div class="ripple-wrapper" style="background:var(--card); border:1px solid var(--glass-border); border-radius:var(--radius-md); text-align:center; padding:16px;" onclick="audio.stopNoise()"><i class="ph-fill ph-speaker-slash" style="font-size:32px; color:var(--danger); margin-bottom:8px;"></i><p style="font-weight:600; color:var(--text);">Kapat</p></div>
+            <h3 style="margin-bottom: 24px; font-size: 22px;">Odak Sesleri</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                <div class="ripple-wrapper" style="background:var(--card); border:1px solid var(--glass-border); border-radius:var(--radius-md); text-align:center; padding:20px;" onclick="audio.toggleNoise('brown')"><i class="ph-fill ph-cloud-rain" style="font-size:36px; color:var(--accent); margin-bottom:12px; filter: drop-shadow(0 2px 8px rgba(0,212,255,0.4));"></i><p style="font-weight:700; color:var(--text); font-size:15px;">Yağmur</p></div>
+                <div class="ripple-wrapper" style="background:var(--card); border:1px solid var(--glass-border); border-radius:var(--radius-md); text-align:center; padding:20px;" onclick="audio.toggleNoise('pink')"><i class="ph-fill ph-coffee" style="font-size:36px; color:var(--warning); margin-bottom:12px; filter: drop-shadow(0 2px 8px rgba(245,158,11,0.4));"></i><p style="font-weight:700; color:var(--text); font-size:15px;">Kafe</p></div>
+                <div class="ripple-wrapper" style="background:var(--card); border:1px solid var(--glass-border); border-radius:var(--radius-md); text-align:center; padding:20px;" onclick="audio.toggleNoise('white')"><i class="ph-fill ph-waves" style="font-size:36px; color:var(--success); margin-bottom:12px; filter: drop-shadow(0 2px 8px rgba(34,197,94,0.4));"></i><p style="font-weight:700; color:var(--text); font-size:15px;">Okyanus</p></div>
+                <div class="ripple-wrapper" style="background:var(--card); border:1px solid var(--glass-border); border-radius:var(--radius-md); text-align:center; padding:20px;" onclick="audio.stopNoise()"><i class="ph-fill ph-speaker-slash" style="font-size:36px; color:var(--danger); margin-bottom:12px; filter: drop-shadow(0 2px 8px rgba(239,68,68,0.4));"></i><p style="font-weight:700; color:var(--text); font-size:15px;">Kapat</p></div>
             </div>
         </div>
     </div>
@@ -792,21 +1023,21 @@
     <div class="modal-overlay" id="timer-settings-modal" onclick="if(event.target===this) app.closeModals()">
         <div class="modal-content">
             <div class="modal-drag-handle"></div>
-            <h3 style="margin-bottom: 20px;">Süre Ayarları (Dk)</h3>
-            <div class="input-group"><label>Odaklanma</label><input type="number" id="set-pomo" value="25" min="1" max="120"></div>
-            <div class="input-group"><label>Kısa Mola</label><input type="number" id="set-short" value="5" min="1" max="30"></div>
-            <div class="input-group"><label>Uzun Mola</label><input type="number" id="set-long" value="15" min="1" max="60"></div>
-            <button class="btn btn-primary ripple-wrapper" onclick="timer.saveSettings()">Uygula</button>
+            <h3 style="margin-bottom: 24px; font-size: 22px;">Süre Ayarları (Dk)</h3>
+            <div class="input-group"><label style="font-weight:600;">Odaklanma</label><input type="number" id="set-pomo" value="25" min="1" max="120"></div>
+            <div class="input-group"><label style="font-weight:600;">Kısa Mola</label><input type="number" id="set-short" value="5" min="1" max="30"></div>
+            <div class="input-group"><label style="font-weight:600;">Uzun Mola</label><input type="number" id="set-long" value="15" min="1" max="60"></div>
+            <button class="btn btn-primary ripple-wrapper" onclick="timer.saveSettings()" style="margin-top: 8px;">Uygula</button>
         </div>
     </div>
 
     <!-- Confirmation Modal -->
     <div class="modal-overlay" id="confirm-modal" onclick="if(event.target===this) app.closeModals()">
         <div class="modal-content" style="text-align:center;">
-            <i class="ph-duotone ph-warning-circle" style="font-size:60px; color:var(--danger); margin-bottom:16px;"></i>
-            <h3 style="margin-bottom: 8px;" id="confirm-title">Emin misin?</h3>
-            <p style="margin-bottom: 24px;" id="confirm-desc">Bu işlem geri alınamaz.</p>
-            <div style="display:flex; gap:12px;"><button class="btn btn-secondary ripple-wrapper" onclick="app.closeModals()">İptal</button><button class="btn btn-primary ripple-wrapper" style="background:var(--danger); box-shadow:0 8px 24px rgba(239, 68, 68, 0.3);" id="confirm-btn">Evet</button></div>
+            <i class="ph-duotone ph-warning-circle" style="font-size:64px; color:var(--danger); margin-bottom:20px; filter: drop-shadow(0 4px 12px rgba(239,68,68,0.4));"></i>
+            <h3 style="margin-bottom: 12px; font-size: 22px;" id="confirm-title">Emin misin?</h3>
+            <p style="margin-bottom: 32px; color: var(--subtitle); font-size: 15px;" id="confirm-desc">Bu işlem geri alınamaz.</p>
+            <div style="display:flex; gap:16px;"><button class="btn btn-secondary ripple-wrapper" onclick="app.closeModals()">İptal</button><button class="btn btn-primary ripple-wrapper" style="background:var(--danger); box-shadow:0 8px 24px rgba(239, 68, 68, 0.3);" id="confirm-btn">Evet</button></div>
         </div>
     </div>
 
@@ -814,34 +1045,36 @@
     <div class="modal-overlay" id="avatar-modal" onclick="if(event.target===this) app.closeModals()">
         <div class="modal-content">
             <div class="modal-drag-handle"></div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h3 style="margin:0;">Avatar Marketi</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                <h3 style="margin:0; font-size: 22px;">Avatar Marketi</h3>
                 <div class="coin-badge" style="margin:0;"><i class="ph-fill ph-coins"></i> <span id="shop-coin-count">0</span> Puan</div>
             </div>
             
-            <button class="btn btn-secondary ripple-wrapper" style="margin-bottom: 16px;" onclick="document.getElementById('avatar-upload').click()">
-                <i class="ph ph-image"></i> Kendi Fotoğrafını Yükle (Ücretsiz)
+            <button class="btn btn-secondary ripple-wrapper" style="margin-bottom: 24px; font-size: 14px;" onclick="document.getElementById('avatar-upload').click()">
+                <i class="ph ph-image" style="font-size: 20px;"></i> Kendi Fotoğrafını Yükle (Ücretsiz)
             </button>
             <input type="file" id="avatar-upload" accept="image/png, image/jpeg, image/jpg, image/webp" style="display: none;" onchange="avatarUI.handleUpload(event)">
             
-            <p style="font-size:12px; color:var(--subtitle); margin-bottom:12px;">Premium Robot Avatarları (XP/Puan ile alınır)</p>
-            <div class="shop-grid" id="avatar-shop-container">
-                <!-- Javascript ile market avatarları yüklenecek -->
+            <p style="font-size:13px; font-weight:600; color:var(--subtitle); margin-bottom:16px;">Premium Robot Avatarları (Puan ile alınır)</p>
+            <div class="shop-grid" id="avatar-shop-container" style="padding:0; gap: 16px;">
             </div>
         </div>
     </div>
     
-    <!-- 500 ROZET & BAŞARIMLAR MODALI -->
+    <!-- 10.000 ROZET & BAŞARIMLAR MODALI -->
     <div class="modal-overlay" id="badges-modal" onclick="if(event.target===this) app.closeModals()">
         <div class="modal-content" style="max-height: 85vh;">
             <div class="modal-drag-handle"></div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <h3 style="margin:0;">Efsanevi Başarımlar</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h3 style="margin:0; font-size: 22px;">10.000 Rozet Koleksiyonu</h3>
             </div>
-            <p style="font-size:12px; color:var(--subtitle); margin-bottom:20px;">Odaklandıkça 5 farklı kategoride 500 adet rozetin kilidini aç! <br>Kazanılan: <span id="badges-unlocked-count" style="color:var(--warning); font-weight:bold;">0</span>/500</p>
+            <p style="font-size:13px; color:var(--subtitle); line-height: 1.5; margin-bottom:24px;">Odaklandıkça ve bitki yetiştirdikçe 20 farklı kategoride her biri 500 seviye olan toplam 10.000 efsanevi rozetin kilidini aç! 
+                <br><br>Kazanılan Rozet: <span id="badges-unlocked-count" style="color:var(--warning); font-weight:900; font-size: 16px;">0</span> <span style="font-size: 12px;">/ 10000</span></p>
+            
+            <div style="font-size:12px; margin-bottom:16px; color:var(--primary); font-weight:700;">En yüksek açık seviyeler (ve sıradaki hedefler) gösterilmektedir:</div>
             
             <div class="badges-grid" id="badges-container">
-                <!-- Javascript ile dinamik 500 rozet üretilecek -->
+                <!-- Javascript ile Dinamik Render Edilecek -->
             </div>
         </div>
     </div>
@@ -850,25 +1083,25 @@
     <div class="modal-overlay" id="privacy-modal" onclick="if(event.target===this) app.closeModals()">
         <div class="modal-content">
             <div class="modal-drag-handle"></div>
-            <h3 style="margin-bottom: 20px;">Gizlilik Politikası ve Kullanıcı Sözleşmesi</h3>
-            <div style="font-size: 13px; color: var(--subtitle); line-height: 1.6; max-height: 50vh; overflow-y: auto; padding-right: 12px; text-align: justify;">
+            <h3 style="margin-bottom: 24px; font-size: 22px;">Gizlilik Politikası</h3>
+            <div style="font-size: 14px; color: var(--subtitle); line-height: 1.7; max-height: 50vh; overflow-y: auto; padding-right: 12px; text-align: justify;">
                 <p><strong>Son Güncelleme: 9 Temmuz 2026</strong></p><br>
-                <p><strong>1. Veri Toplama ve Kullanımı:</strong> PomoLegend, kullanıcı deneyimini iyileştirmek ve sayaç sistemini çalışır halde tutmak amacıyla (görevleriniz, odak süreleriniz, hedefleriniz ve tercihleriniz) verilerini işlemektedir. Tüm bu veriler hiçbir uzak sunucuya (bulut) aktarılmaz; <u>tamamen ve yalnızca cihazınızda (Local Storage) yerel olarak barındırılır.</u></p><br>
-                <p><strong>2. Üçüncü Taraf Hizmetleri:</strong> Uygulama, kullanıcılara çoklu dil desteği sunmak için <em>Google Translate API</em> altyapısını; profil avatarlarının özelleştirilmesi için ise <em>DiceBear API</em> sistemini kullanmaktadır. Bu hizmetleri kullanırken yaptığınız istekler ilgili firmaların (Google LLC ve DiceBear) kendi gizlilik politikalarına tabi olabilir.</p><br>
-                <p><strong>3. Veri Güvenliği ve Silme Hakkı:</strong> Cihazınızda tutulan veriler, işletim sisteminizin sağladığı yerel güvenlik standartlarıyla korunur. Profil menüsünde bulunan <em>"Tüm Verileri Sıfırla"</em> butonunu kullanarak cihazınızdaki tüm verilerinizi geri döndürülemez biçimde anında silebilirsiniz.</p><br>
-                <p><strong>4. Çerezler (Cookies) ve Takip:</strong> Sistemimiz, analiz veya reklam amaçlı hiçbir takip çerezi <u>kullanmamaktadır.</u> Uygulamayı kullanarak (ve giriş ekranında kutucuğu işaretleyerek) tüm bu koşulları tamamen okuduğunuzu, anladığınızı ve peşinen kabul ettiğinizi beyan etmiş olursunuz.</p>
+                <p><strong>1. Veri Toplama ve Kullanımı:</strong> PomoLegend, kullanıcı deneyimini iyileştirmek ve sayaç sistemini çalışır halde tutmak amacıyla verilerini işlemektedir. Tüm bu veriler hiçbir uzak sunucuya aktarılmaz; <u style="color:var(--primary);">tamamen cihazınızda barındırılır.</u></p><br>
+                <p><strong>2. Üçüncü Taraf Hizmetleri:</strong> Uygulama, Google Translate API ve DiceBear API sistemlerini kullanmaktadır.</p><br>
+                <p><strong>3. Veri Güvenliği ve Silme Hakkı:</strong> Profil menüsünde bulunan "Tüm Verileri Sıfırla" butonunu kullanarak cihazınızdaki tüm verilerinizi geri döndürülemez biçimde anında silebilirsiniz.</p><br>
+                <p><strong>4. Çerezler (Cookies) ve Takip:</strong> Sistemimiz, analiz veya reklam amaçlı hiçbir takip çerezi kullanmamaktadır.</p>
             </div>
-            <button class="btn btn-primary ripple-wrapper" style="margin-top: 24px;" onclick="app.closeModals()">Anladım, Kapat</button>
+            <button class="btn btn-primary ripple-wrapper" style="margin-top: 32px;" onclick="app.closeModals()">Anladım, Kapat</button>
         </div>
     </div>
 
-    <!-- 109 Dil Destekli Modal (ASLA BOZULMAYAN KISIM) -->
+    <!-- 109 Dil Destekli Modal -->
     <div class="modal-overlay" id="lang-modal" onclick="if(event.target===this) app.closeModals()">
         <div class="modal-content">
             <div class="modal-drag-handle"></div>
-            <h3 style="margin-bottom: 20px;">Dil Seçimi</h3>
+            <h3 style="margin-bottom: 24px; font-size: 22px;">Dil Seçimi</h3>
             <div class="input-group">
-                <select id="lang-select" style="width: 100%; background: var(--card); border: 1px solid var(--glass-border); padding: 16px 20px; border-radius: var(--radius-sm); font-size: 15px; color: white;" onchange="langUI.changeLanguage(this.value)">
+                <select id="lang-select" style="width: 100%; font-weight: 500;" onchange="langUI.changeLanguage(this.value)">
                     <option value="">Dil Seçiniz...</option>
                     <option value="tr">Türkçe (Orijinal)</option>
                     <option value="en">English (İngilizce)</option>
@@ -881,108 +1114,15 @@
                     <option value="" disabled>─────────────────</option>
                     <option value="af">Afrikaans</option>
                     <option value="sq">Albanian (Arnavutça)</option>
-                    <option value="am">Amharic</option>
-                    <option value="hy">Armenian (Ermenice)</option>
-                    <option value="az">Azerbaijani (Azerice)</option>
-                    <option value="eu">Basque</option>
-                    <option value="be">Belarusian</option>
-                    <option value="bn">Bengali</option>
-                    <option value="bs">Bosnian (Boşnakça)</option>
-                    <option value="bg">Bulgarian (Bulgarca)</option>
-                    <option value="ca">Catalan</option>
-                    <option value="ceb">Cebuano</option>
-                    <option value="ny">Chichewa</option>
-                    <option value="zh-TW">Chinese Traditional (Geleneksel Çince)</option>
-                    <option value="co">Corsican</option>
-                    <option value="hr">Croatian (Hırvatça)</option>
-                    <option value="cs">Czech (Çekçe)</option>
-                    <option value="da">Danish (Danca)</option>
-                    <option value="nl">Dutch (Felemenkçe)</option>
-                    <option value="eo">Esperanto</option>
-                    <option value="et">Estonian (Estonca)</option>
-                    <option value="tl">Filipino (Filipince)</option>
-                    <option value="fi">Finnish (Fince)</option>
-                    <option value="fy">Frisian</option>
-                    <option value="gl">Galician</option>
-                    <option value="ka">Georgian (Gürcüce)</option>
-                    <option value="el">Greek (Yunanca)</option>
-                    <option value="gu">Gujarati</option>
-                    <option value="ht">Haitian Creole</option>
-                    <option value="ha">Hausa</option>
-                    <option value="haw">Hawaiian</option>
-                    <option value="iw">Hebrew (İbranice)</option>
-                    <option value="hi">Hindi (Hintçe)</option>
-                    <option value="hmn">Hmong</option>
-                    <option value="hu">Hungarian (Macarca)</option>
-                    <option value="is">Icelandic (İzlandaca)</option>
-                    <option value="ig">Igbo</option>
-                    <option value="id">Indonesian (Endonezce)</option>
-                    <option value="ga">Irish (İrlandaca)</option>
-                    <option value="it">Italian (İtalyanca)</option>
                     <option value="ja">Japanese (Japonca)</option>
-                    <option value="jw">Javanese</option>
-                    <option value="kn">Kannada</option>
-                    <option value="kk">Kazakh (Kazakça)</option>
-                    <option value="km">Khmer</option>
-                    <option value="rw">Kinyarwanda</option>
                     <option value="ko">Korean (Korece)</option>
-                    <option value="ku">Kurdish (Kürtçe)</option>
-                    <option value="ky">Kyrgyz (Kırgızca)</option>
-                    <option value="lo">Lao</option>
-                    <option value="la">Latin</option>
-                    <option value="lv">Latvian (Letonca)</option>
-                    <option value="lt">Lithuanian (Litvanca)</option>
-                    <option value="lb">Luxembourgish</option>
-                    <option value="mk">Macedonian (Makedonca)</option>
-                    <option value="mg">Malagasy</option>
-                    <option value="ms">Malay (Malayca)</option>
-                    <option value="ml">Malayalam</option>
-                    <option value="mt">Maltese</option>
-                    <option value="mi">Maori</option>
-                    <option value="mr">Marathi</option>
-                    <option value="mn">Mongolian (Moğolca)</option>
-                    <option value="my">Myanmar (Burmese)</option>
-                    <option value="ne">Nepali (Nepalce)</option>
-                    <option value="no">Norwegian (Norveççe)</option>
-                    <option value="or">Odia (Oriya)</option>
-                    <option value="ps">Pashto</option>
-                    <option value="fa">Persian (Farsça)</option>
-                    <option value="pl">Polish (Lehçe)</option>
+                    <option value="it">Italian (İtalyanca)</option>
                     <option value="pt">Portuguese (Portekizce)</option>
-                    <option value="pa">Punjabi</option>
-                    <option value="ro">Romanian (Romence)</option>
-                    <option value="sm">Samoan</option>
-                    <option value="gd">Scots Gaelic</option>
-                    <option value="sr">Serbian (Sırpça)</option>
-                    <option value="st">Sesotho</option>
-                    <option value="sn">Shona</option>
-                    <option value="sd">Sindhi</option>
-                    <option value="si">Sinhala</option>
-                    <option value="sk">Slovak (Slovakça)</option>
-                    <option value="sl">Slovenian (Slovence)</option>
-                    <option value="so">Somali</option>
-                    <option value="su">Sundanese</option>
-                    <option value="sw">Swahili</option>
-                    <option value="sv">Swedish (İsveççe)</option>
-                    <option value="tg">Tajik</option>
-                    <option value="ta">Tamil</option>
-                    <option value="tt">Tatar</option>
-                    <option value="te">Telugu</option>
-                    <option value="th">Thai (Tayca)</option>
-                    <option value="tk">Turkmen (Türkmence)</option>
-                    <option value="uk">Ukrainian (Ukraynaca)</option>
-                    <option value="ur">Urdu (Urduca)</option>
-                    <option value="ug">Uyghur (Uygurca)</option>
-                    <option value="uz">Uzbek (Özbekçe)</option>
-                    <option value="vi">Vietnamese (Vietnamca)</option>
-                    <option value="cy">Welsh (Galce)</option>
-                    <option value="xh">Xhosa</option>
-                    <option value="yi">Yiddish</option>
-                    <option value="yo">Yoruba</option>
-                    <option value="zu">Zulu</option>
+                    <option value="hi">Hindi (Hintçe)</option>
+                    <option value="el">Greek (Yunanca)</option>
                 </select>
             </div>
-            <p style="font-size: 12px; color: var(--subtitle); text-align: center; margin-bottom: 12px;">Diller arası geçişlerde takılmayı önlemek için sayfa anlık güncellenir.</p>
+            <p style="font-size: 13px; color: var(--subtitle); text-align: center; margin-bottom: 12px; line-height: 1.5;">Diller arası geçişlerde takılmayı önlemek için sayfa anlık güncellenir.</p>
         </div>
     </div>
 
@@ -993,7 +1133,7 @@
 
 <script>
     // ==========================================================================
-    // 1. UTILS & DATASTORE (Robust LocalStorage Wrapper)
+    // 1. UTILS & DATASTORE
     // ==========================================================================
     const utils = {
         formatTime: (s) => { const m=Math.floor(s/60); const sc=s%60; return `${m.toString().padStart(2,'0')}:${sc.toString().padStart(2,'0')}`; },
@@ -1012,7 +1152,8 @@
                 btn.removeEventListener('mousedown', utils.createRipple);
                 btn.addEventListener('mousedown', utils.createRipple);
             });
-        }
+        },
+        generateID: () => Date.now().toString(36) + Math.random().toString(36).substr(2)
     };
 
     const dataStore = {
@@ -1023,9 +1164,6 @@
         resetAlert() { app.openConfirm('Hesabı Sıfırla', 'Tüm görevler, istatistikler ve veriler kalıcı olarak silinecek.', () => { this.clear(); window.location.reload(); }); }
     };
 
-    // ==========================================================================
-    // 2. HARDWARE (AUDIO & HAPTICS)
-    // ==========================================================================
     const haptics = { play(t='light') { if(!window.settings?.data?.vibration || !navigator.vibrate) return; switch(t){case'light':navigator.vibrate(10);break;case'medium':navigator.vibrate(30);break;case'heavy':navigator.vibrate([40,20,40]);break;case'success':navigator.vibrate([30,50,30,50,50]);break;} } };
     
     const audio = {
@@ -1051,9 +1189,6 @@
         stopNoise() { if(this.src){this.src.stop(); this.src.disconnect(); this.src=null; app.showToast('Ses kapatıldı');} }
     };
 
-    // ==========================================================================
-    // 3. UI, APP STATE & AUTH
-    // ==========================================================================
     window.app = {
         toastTimeout: null,
         showToast(msg, type='info') {
@@ -1077,7 +1212,8 @@
                 else { const map={'home':0,'tasks':1,'garden':2,'stats':3,'profile':4}; if(map[sId]!==undefined) document.querySelectorAll('.nav-item')[map[sId]].classList.add('active'); }
             }
             if(sId === 'home') this.updateGreeting();
-            if(sId === 'stats') { setTimeout(()=>statsUI.renderCharts(), 100); } // Render charts when opening tab
+            if(sId === 'stats') { setTimeout(()=>statsUI.renderCharts(), 100); } 
+            if(sId === 'garden') { gardenUI.render(); }
         },
         updateGreeting() {
             const h = new Date().getHours(); let g = 'İyi Geceler';
@@ -1092,14 +1228,13 @@
             const user = dataStore.get('user_session', null);
             if(user && user.email) {
                 this.isLoggedIn = true; 
-                // Yeni özellikleri eski kullanıcılara entegre et (Coins ve Avatarlar)
                 if(user.coins === undefined) user.coins = 0;
                 if(!user.ownedAvatars) user.ownedAvatars = [];
                 window.userStore.data = user; window.userStore.render();
                 
                 window.settings.init(); window.stats.init(); window.tasks.init(); window.timer.init(); window.gardenUI.init();
                 app.navigate('home'); utils.initRipples();
-                avatarUI.initShop(); // Başlangıçta marketi yükle
+                avatarUI.initShop(); 
             } else {
                 app.navigate('auth'); utils.initRipples();
             }
@@ -1126,7 +1261,7 @@
             }
             
             const defAvatar = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name)}&backgroundColor=6C63FF`;
-            window.userStore.data = { name: name, email: email, avatar: defAvatar, xp: 0, coins: 50, level: 1, ownedAvatars: [defAvatar] }; // 50 başlangıç puanı
+            window.userStore.data = { name: name, email: email, avatar: defAvatar, xp: 0, coins: 50, level: 1, ownedAvatars: [defAvatar] }; 
             window.userStore.sync();
             app.showToast('Giriş başarılı!', 'success');
             
@@ -1135,9 +1270,6 @@
         logout() { app.openConfirm('Çıkış Yap', 'Oturum kapatılacak emin misin?', () => { dataStore.set('user_session', null); window.location.reload(); }); }
     };
 
-    // ==========================================================================
-    // 4. MODULES (Mevcut yapı korundu)
-    // ==========================================================================
     window.settings = {
         data: { amoled: false, vibration: true, autoPomodoro: false, autoBreak: true, durations: { pomo: 25, short: 5, long: 15 } },
         init() { this.data = dataStore.get('settings', this.data); this.applyTheme(); this.updateUI(); },
@@ -1156,16 +1288,15 @@
             const curXP = Math.pow(this.data.level-1, 2)*this.LVL_BASE; const nextXP = Math.pow(this.data.level, 2)*this.LVL_BASE;
             const pct = Math.min(100, Math.max(0, ((this.data.xp-curXP)/(nextXP-curXP))*100));
             document.getElementById('home-lvl-fill').style.width=`${pct}%`; 
-            document.getElementById('home-xp-text').innerText=`${this.data.xp} XP`;
-            // Coin Yansımaları
-            document.getElementById('profile-coin-count').innerText = this.data.coins;
-            document.getElementById('shop-coin-count').innerText = this.data.coins;
-            document.getElementById('garden-coin-count').innerText = this.data.coins;
+            document.getElementById('home-xp-text').innerText=`${Math.floor(this.data.xp)} XP`;
+            document.getElementById('profile-coin-count').innerText = Math.floor(this.data.coins);
+            document.getElementById('shop-coin-count').innerText = Math.floor(this.data.coins);
+            document.getElementById('garden-coin-count').innerText = Math.floor(this.data.coins);
         },
         addXP(m) { 
             const earned = m * 10;
             this.data.xp += earned; 
-            this.data.coins += earned; // XP kazandıkça Coin(Puan) de kazanırsın.
+            this.data.coins += earned; 
             
             const old=this.data.level; this.data.level=Math.floor(Math.sqrt(this.data.xp/this.LVL_BASE))+1; 
             this.sync(); this.render(); 
@@ -1182,7 +1313,6 @@
     };
 
     window.stats = {
-        // Yeni grafik verileri için eklentiler yapıldı
         data: { todayMins: 0, todayComp: 0, lastDate: null, streak: 0, bestStreak: 0, totalMins: 0, totalPomo: 0, week: [0,0,0,0,0,0,0], 
                 timeOfDay: { morning: 0, afternoon: 0, evening: 0 } },
         init() { this.data = dataStore.get('stats', this.data); if(!this.data.timeOfDay) this.data.timeOfDay = {morning:0, afternoon:0, evening:0}; this.checkDay(); this.render(); },
@@ -1229,7 +1359,7 @@
             const c=document.getElementById('task-list-container'); c.innerHTML=''; let f=this.list; if(this.q) f=f.filter(t=>t.title.toLowerCase().includes(this.q));
             if(this.filter==='Aktif') f=f.filter(t=>!t.completed); else if(this.filter!=='Tümü') f=f.filter(t=>t.cat===this.filter);
             const w={'Yüksek':3,'Orta':2,'Düşük':1}; f.sort((a,b)=>a.completed!==b.completed?(a.completed?1:-1):(w[b.pri]-w[a.pri]));
-            if(f.length===0) return c.innerHTML=`<div style="text-align:center; color:var(--subtitle); margin-top:40px;"><i class="ph-duotone ph-list-dashes" style="font-size:64px; opacity:0.5; margin-bottom:16px;"></i><p>Görev bulunamadı.</p></div>`;
+            if(f.length===0) return c.innerHTML=`<div style="text-align:center; color:var(--subtitle); margin-top:60px;"><i class="ph-duotone ph-list-dashes" style="font-size:72px; opacity:0.3; margin-bottom:16px;"></i><p>Görev bulunamadı.</p></div>`;
             f.forEach(t => {
                 const el=document.createElement('div'); el.className=`task-item ${t.completed?'completed':''}`;
                 el.innerHTML=`<div class="task-checkbox" onclick="tasks.toggle(${t.id})"></div><div class="task-content"><div class="task-title">${t.title}</div><div class="task-meta"><span class="chip priority-${t.pri==='Yüksek'?'high':(t.pri==='Orta'?'med':'low')}">${t.pri}</span><span><i class="ph-fill ph-folder"></i> ${t.cat}</span><span><i class="ph-fill ph-tomato"></i> ${t.act}/${t.est}</span></div></div><div class="task-actions">${!t.completed?`<button class="task-action-btn" onclick="tasks.addAct(${t.id})"><i class="ph ph-plus-circle"></i></button>`:''}<button class="task-action-btn" onclick="tasks.edit(${t.id})"><i class="ph ph-pencil-simple"></i></button><button class="task-action-btn" onclick="tasks.del(${t.id})"><i class="ph ph-trash"></i></button></div>`;
@@ -1261,8 +1391,10 @@
             if(this.st.m==='pomodoro') { 
                 stats.addPomo(settings.data.durations.pomo); 
                 userStore.addXP(settings.data.durations.pomo); 
-                if(gardenUI) gardenUI.addProgress(settings.data.durations.pomo); // Garden Logic
-                app.showToast('Pomodoro bitti!','success'); 
+                
+                if(window.gardenUI) window.gardenUI.onPomodoroComplete(settings.data.durations.pomo);
+                
+                app.showToast('Pomodoro bitti!', 'success'); 
                 if(settings.data.autoBreak){this.setMode(stats.data.todayComp%4===0?'longBreak':'shortBreak'); setTimeout(()=>this.start(),1500);} 
             }
             else { app.showToast('Mola bitti!','info'); if(settings.data.autoPomodoro){this.setMode('pomodoro'); setTimeout(()=>this.start(),1500);} else this.setMode('pomodoro'); }
@@ -1280,16 +1412,421 @@
             const c=282.74; const pct=this.st.tot>0?this.st.left/this.st.tot:0;
             const r1=document.getElementById('progress-ring'), r2=document.getElementById('focus-progress-ring');
             r1.style.strokeDashoffset = r2.style.strokeDashoffset = c - (pct * c);
-            r1.style.stroke = r2.style.stroke = mCfg.c; r1.style.filter = `drop-shadow(0 0 12px ${mCfg.c}80)`;
+            r1.style.stroke = r2.style.stroke = mCfg.c; r1.style.filter = `drop-shadow(0 0 16px ${mCfg.c}90)`;
         }
     };
 
 
     // ==========================================================================
-    // GELİŞTİRİLMİŞ ÖZELLİKLER (MARKET, BAHÇE, PDF, GRAFİKLER, ROZETLER)
+    // 3. HYPER-REALISTIC MEGA GARDEN
     // ==========================================================================
-    
-    // 1. AVATAR MARKETİ (XP/Coin ile Alma)
+    window.gardenUI = {
+        data: { 
+            plots: [{ id: 1, plant: null }], 
+            waterDrops: 50, 
+            farmersOwned: [], 
+            robotsOwned: [], 
+            totalHarvests: 0,
+            landCapacity: 1 
+        },
+        seedShop: [],
+        farmerShop: [],
+        robotShop: [],
+        currentSeedCategory: 'Çiçek',
+        selectedEmptyPlotId: null, 
+        
+        baseSurvival: {
+            'Çiçek': 24 * 60 * 60 * 1000,
+            'Sebze': 24 * 60 * 60 * 1000,
+            'Ağaç': 48 * 60 * 60 * 1000,
+            'Meyve Ağacı': 48 * 60 * 60 * 1000,
+            'Kaktüs': 72 * 60 * 60 * 1000
+        },
+        waterCost: 10,
+
+        init() {
+            this.generateMassiveCatalogs();
+            this.data = dataStore.get('garden_mega', this.data);
+            this.checkLifeStatus();
+            this.render();
+            setInterval(() => { if(document.getElementById('garden').classList.contains('active')) this.render(); }, 60000);
+        },
+
+        generateMassiveCatalogs() {
+            const catalog = [];
+            const colors = ['Kırmızı', 'Beyaz', 'Sarı', 'Pembe', 'Mor', 'Mavi', 'Siyah'];
+            const flowerBases = [{name:'Gül', icon:'🌹', p:45, r:120}, {name:'Lale', icon:'🌷', p:40, r:90}, {name:'Papatya', icon:'🌼', p:20, r:60}, {name:'Zambak', icon:'🪷', p:60, r:150}, {name:'Orkide', icon:'🌺', p:100, r:200}];
+            flowerBases.forEach(b => colors.forEach((c, i) => catalog.push({id:`F${b.name}${i}`, cat:'Çiçek', name:`${c} ${b.name}`, icon:b.icon, price:b.p+(i*2), req:b.r, income:0})));
+
+            const vegTypes = ['Organik', 'Geleneksel', 'Sera', 'Hibrit', 'Yerli'];
+            const vegBases = [{name:'Domates', icon:'🍅', p:15, r:60}, {name:'Havuç', icon:'🥕', p:10, r:45}, {name:'Patates', icon:'🥔', p:12, r:50}, {name:'Soğan', icon:'🧅', p:8, r:30}, {name:'Mısır', icon:'🌽', p:20, r:80}];
+            vegBases.forEach(b => vegTypes.forEach((t, i) => catalog.push({id:`V${b.name}${i}`, cat:'Sebze', name:`${t} ${b.name}`, icon:b.icon, price:b.p+(i*2), req:b.r, income:0})));
+
+            const treeTypes = ['Genç', 'Yetişkin', 'Asırlık', 'Bonsai Türü', 'Gölge'];
+            const treeBases = [{name:'Meşe', icon:'🌳', p:300, r:600}, {name:'Çam', icon:'🌲', p:250, r:500}, {name:'Huş', icon:'🌳', p:200, r:450}, {name:'Söğüt', icon:'🌴', p:350, r:700}, {name:'Akçaağaç', icon:'🍁', p:400, r:800}];
+            treeBases.forEach(b => treeTypes.forEach((t, i) => catalog.push({id:`T${b.name}${i}`, cat:'Ağaç', name:`${t} ${b.name}`, icon:b.icon, price:b.p+(i*10), req:b.r, income:0})));
+
+            const fruitTypes = ['Aşılı', 'Bodur', 'Yaban', 'Sera', 'Organik'];
+            const fruitBases = [{name:'Elma', icon:'🍎', p:400, r:800}, {name:'Armut', icon:'🍐', p:380, r:750}, {name:'Limon', icon:'🍋', p:300, r:600}, {name:'Portakal', icon:'🍊', p:350, r:700}, {name:'Muz', icon:'🍌', p:600, r:1200}];
+            fruitBases.forEach(b => fruitTypes.forEach((t, i) => catalog.push({id:`Fr${b.name}${i}`, cat:'Meyve Ağacı', name:`${t} ${b.name}`, icon:b.icon, price:b.p+(i*10), req:b.r, income: Math.floor(b.p/20)})));
+
+            const cactusTypes = ['Çöl', 'Ev', 'Kaya', 'Dikenli', 'Nadir'];
+            const cactusBases = [{name:'Saguaro', icon:'🌵', p:150, r:400}, {name:'Aloe Vera', icon:'🪴', p:80, r:200}, {name:'Agave', icon:'🌵', p:120, r:300}, {name:'Yeşim', icon:'🪴', p:90, r:250}, {name:'Peyote', icon:'🌵', p:500, r:1000}];
+            cactusBases.forEach(b => cactusTypes.forEach((t, i) => catalog.push({id:`C${b.name}${i}`, cat:'Kaktüs', name:`${t} ${b.name}`, icon:b.icon, price:b.p+(i*5), req:b.r, income:0})));
+            this.seedShop = catalog;
+
+            const farmers = [];
+            const titles = ['Çırak', 'Kalfa', 'Usta', 'Ziraatçi', 'Mühendis', 'Profesör', 'Efsane'];
+            const names = ['Ahmet', 'Ayşe', 'Mehmet', 'Fatma', 'Ali', 'Zeynep', 'Hasan', 'Elif'];
+            let fIdx = 0;
+            titles.forEach((t, tIdx) => {
+                names.forEach((n, nIdx) => {
+                    fIdx++;
+                    const price = (tIdx + 1) * 300 + (nIdx * 50);
+                    const income = (tIdx + 1) * 2; 
+                    farmers.push({ id:`FARMER${fIdx}`, name: `${t} ${n}`, icon: 'ph-person', price: price, income: income, desc: `Her Pomodoro'da +${income} Puan` });
+                });
+            });
+            this.farmerShop = farmers;
+
+            const robots = [];
+            for(let i=1; i<=25; i++) {
+                const bonusHours = i * 2; 
+                robots.push({ id:`ROB${i}`, name: `AquaBot v${i}`, icon: 'ph-robot', price: i * 500, bonusMs: bonusHours * 60 * 60 * 1000, desc: `Bitki Ömrü: +${bonusHours} Saat` });
+            }
+            this.robotShop = robots;
+        },
+
+        getRobotBonusMs() {
+            let total = 0;
+            this.data.robotsOwned.forEach(rob => total += rob.bonusMs);
+            return total;
+        },
+
+        checkLifeStatus() {
+            const now = Date.now();
+            let stateChanged = false;
+            const robotBonus = this.getRobotBonusMs();
+            
+            this.data.plots.forEach(plot => {
+                if(plot.plant && plot.plant.status === 'alive') {
+                    const limit = this.baseSurvival[plot.plant.cat] + robotBonus;
+                    if(now - plot.plant.lastWatered > limit) {
+                        plot.plant.status = 'dead';
+                        stateChanged = true;
+                    }
+                }
+            });
+
+            if(stateChanged) this.sync();
+        },
+
+        onPomodoroComplete(minutes) {
+            const earnedWater = minutes;
+            this.data.waterDrops += earnedWater;
+            
+            let passiveIncome = 0;
+            this.data.farmersOwned.forEach(f => passiveIncome += f.income);
+            
+            this.data.plots.forEach(plot => {
+                if(plot.plant && plot.plant.status === 'alive' && plot.plant.progress >= plot.plant.req && plot.plant.income > 0) {
+                    passiveIncome += plot.plant.income;
+                }
+                if(plot.plant && plot.plant.status === 'alive' && plot.plant.progress < plot.plant.req) {
+                    plot.plant.progress += minutes; 
+                }
+            });
+
+            if(passiveIncome > 0) {
+                userStore.data.coins += passiveIncome;
+                userStore.sync(); userStore.render();
+                app.showToast(`${earnedWater}💧 Su ve ${passiveIncome} Puan kazandın!`, 'success');
+            } else {
+                app.showToast(`${earnedWater}💧 Su kazandın!`, 'success');
+            }
+
+            this.checkLifeStatus();
+            this.sync();
+            if(document.getElementById('garden').classList.contains('active')) this.render();
+        },
+
+        buyWater() {
+            if(userStore.deductCoins(50)) {
+                this.data.waterDrops += 10;
+                haptics.play('success');
+                app.showToast('10💧 Su satın alındı!', 'success');
+                this.sync(); 
+                this.render();
+            }
+        },
+
+        waterPlant(plotId) {
+            const plot = this.data.plots.find(p => p.id === plotId);
+            if(!plot || !plot.plant || plot.plant.status === 'dead') return;
+
+            if(this.data.waterDrops >= this.waterCost) {
+                this.data.waterDrops -= this.waterCost;
+                plot.plant.lastWatered = Date.now();
+                haptics.play('success');
+                this.sync(); this.render();
+            } else {
+                app.showToast(`Yetersiz Su! ${this.waterCost}💧 gerekli. Pomodoro yap veya satın al.`, 'error');
+            }
+        },
+        
+        waterAll() {
+            let wateredCount = 0;
+            this.data.plots.forEach(plot => {
+                if(plot.plant && plot.plant.status === 'alive' && this.data.waterDrops >= this.waterCost) {
+                    this.data.waterDrops -= this.waterCost;
+                    plot.plant.lastWatered = Date.now();
+                    wateredCount++;
+                }
+            });
+            
+            if(wateredCount > 0) {
+                haptics.play('success');
+                app.showToast(`${wateredCount} bitki sulandı!`, 'success');
+                this.sync(); this.render();
+            } else {
+                app.showToast(`Sulanacak bitki yok veya suyun yetersiz.`, 'info');
+            }
+        },
+
+        harvestPlant(plotId) {
+            const plot = this.data.plots.find(p => p.id === plotId);
+            if(!plot || !plot.plant || plot.plant.progress < plot.plant.req || plot.plant.status === 'dead') return;
+
+            const bounty = Math.floor(plot.plant.price * 2);
+            userStore.data.coins += bounty;
+            userStore.sync(); userStore.render();
+            
+            app.showToast(`${plot.plant.name} hasat edildi! +${bounty} Puan`, 'success');
+            plot.plant = null; 
+            this.data.totalHarvests++;
+            this.sync(); this.render();
+        },
+
+        clearDead(plotId) {
+            const plot = this.data.plots.find(p => p.id === plotId);
+            if(plot) { plot.plant = null; this.sync(); this.render(); app.showToast('Kurumuş bitki temizlendi.', 'info'); }
+        },
+
+        buyPlot() {
+            if(this.data.plots.length >= 100) return app.showToast('Maksimum 100 arsaya ulaşılabilir.', 'info');
+            const nextPrice = this.data.plots.length * 500;
+            
+            if(userStore.deductCoins(nextPrice)) {
+                this.data.plots.push({ id: this.data.plots.length + 1, plant: null });
+                this.data.landCapacity++;
+                this.sync(); this.render();
+                app.showToast(`Yeni arsa satın alındı!`, 'success');
+            }
+        },
+
+        selectPlotForSeed(plotId) {
+            this.selectedEmptyPlotId = plotId;
+            this.switchTab('tohumlar', document.querySelectorAll('#garden-tabs .cat-chip')[1]);
+            app.showToast('Lütfen ekmek istediğiniz tohumu seçin.', 'info');
+        },
+
+        buySeed(id) {
+            if(!this.selectedEmptyPlotId) {
+                const empty = this.data.plots.find(p => p.plant === null);
+                if(empty) this.selectedEmptyPlotId = empty.id;
+                else return app.showToast('Boş arsanız yok! Önce arsa satın alın veya hasat yapın.', 'error');
+            }
+
+            const seed = this.seedShop.find(x => x.id === id);
+            if(!seed) return;
+            
+            if(userStore.deductCoins(seed.price)) {
+                const plot = this.data.plots.find(p => p.id === this.selectedEmptyPlotId);
+                plot.plant = { ...seed, progress: 0, lastWatered: Date.now(), status: 'alive' };
+                this.selectedEmptyPlotId = null; 
+                this.sync();
+                this.switchTab('tarlam', document.querySelectorAll('#garden-tabs .cat-chip')[0]);
+                app.showToast(`${seed.name} ekildi. Hemen sulamayı unutma!`, 'success');
+            }
+        },
+        
+        buyFarmer(id) {
+            const f = this.farmerShop.find(x => x.id === id);
+            if(!f) return;
+            if(this.data.farmersOwned.find(x => x.id === id)) return app.showToast('Bu çiftçi zaten sende çalışıyor.', 'info');
+            
+            if(userStore.deductCoins(f.price)) {
+                this.data.farmersOwned.push(f);
+                this.sync(); this.render(); app.showToast(`${f.name} işe alındı!`, 'success');
+            }
+        },
+        
+        buyRobot(id) {
+            const r = this.robotShop.find(x => x.id === id);
+            if(!r) return;
+            if(this.data.robotsOwned.find(x => x.id === id)) return app.showToast('Bu robot zaten sende.', 'info');
+            
+            if(userStore.deductCoins(r.price)) {
+                this.data.robotsOwned.push(r);
+                this.sync(); this.render(); app.showToast(`${r.name} aktif edildi! Bitki ömrü uzadı.`, 'success');
+            }
+        },
+
+        filterSeeds(cat, el) {
+            haptics.play('light');
+            this.currentSeedCategory = cat;
+            el.parentElement.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            this.renderSeedShop();
+        },
+        
+        switchTab(tabId, el) {
+            haptics.play('light');
+            document.querySelectorAll('#garden-tabs .cat-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            document.querySelectorAll('.garden-view-section').forEach(s => s.style.display = 'none');
+            document.getElementById(`view-${tabId}`).style.display = 'flex';
+            
+            if(tabId === 'tarlam') this.selectedEmptyPlotId = null;
+            this.render();
+        },
+
+        sync() { dataStore.set('garden_mega', this.data); },
+        
+        render() {
+            this.checkLifeStatus();
+            
+            document.getElementById('garden-water-count').innerText = this.data.waterDrops;
+            document.getElementById('st-plots').innerText = this.data.landCapacity;
+            document.getElementById('st-farmers').innerText = this.data.farmersOwned.length;
+            document.getElementById('st-robots').innerText = this.data.robotsOwned.length;
+            document.getElementById('st-harvests').innerText = this.data.totalHarvests;
+            
+            this.renderPlots();
+            this.renderSeedShop();
+            this.renderEmlak();
+            this.renderFarmers();
+            this.renderRobots();
+        },
+
+        renderPlots() {
+            const container = document.getElementById('plot-grid-container');
+            container.innerHTML = '';
+            const now = Date.now();
+            const robotBonus = this.getRobotBonusMs();
+            
+            this.data.plots.forEach(plot => {
+                if(!plot.plant) {
+                    container.innerHTML += `
+                        <div class="plot-card empty ripple-wrapper" onclick="gardenUI.selectPlotForSeed(${plot.id})">
+                            <i class="ph-duotone ph-plant" style="font-size:40px; color:var(--subtitle); margin-bottom:8px; opacity: 0.6;"></i>
+                            <span style="font-size:13px; font-weight:600; color:var(--subtitle);">Tohum Ek</span>
+                        </div>
+                    `;
+                } else {
+                    const p = plot.plant;
+                    const isDead = p.status === 'dead';
+                    const isMature = p.progress >= p.req;
+                    
+                    let wPct = 0;
+                    let gPct = Math.min(100, (p.progress / p.req) * 100);
+                    
+                    if(!isDead) {
+                        const limit = this.baseSurvival[p.cat] + robotBonus;
+                        const elapsed = now - p.lastWatered;
+                        wPct = Math.max(0, 100 - (elapsed / limit) * 100);
+                    }
+
+                    let actionBtn = '';
+                    if(isDead) {
+                        actionBtn = `<button class="plot-action-btn btn-clear ripple-wrapper" onclick="gardenUI.clearDead(${plot.id})">Sök At</button>`;
+                    } else if(isMature) {
+                        actionBtn = `<button class="plot-action-btn btn-harvest ripple-wrapper" onclick="gardenUI.harvestPlant(${plot.id})">Hasat Et</button>`;
+                    } else {
+                        actionBtn = `<button class="plot-action-btn btn-water ripple-wrapper" onclick="gardenUI.waterPlant(${plot.id})">Sula (10 💧)</button>`;
+                    }
+
+                    container.innerHTML += `
+                        <div class="plot-card ${isDead ? 'dead' : ''}">
+                            <div class="plot-title" title="${p.name}">${p.name}</div>
+                            <div class="plot-emoji ${isDead ? 'plot-dead' : ''}">${p.icon}</div>
+                            
+                            <div class="plot-bars">
+                                ${!isDead ? `
+                                <div class="bar-bg"><div class="bar-fill growth" style="width:${gPct}%"></div></div>
+                                <div class="bar-bg"><div class="bar-fill water ${wPct<20?'critical':(wPct<50?'warning':'')}" style="width:${wPct}%"></div></div>
+                                ` : '<div style="font-size:14px; color:var(--danger); font-weight:900; letter-spacing:2px; text-shadow:0 2px 4px rgba(0,0,0,0.8); margin: 8px 0;">KURUDU</div>'}
+                            </div>
+                            
+                            ${actionBtn}
+                        </div>
+                    `;
+                }
+            });
+        },
+
+        renderSeedShop() {
+            const shopC = document.getElementById('seed-shop-container');
+            shopC.innerHTML = '';
+            const items = this.seedShop.filter(x => x.cat === this.currentSeedCategory);
+            
+            items.forEach(s => {
+                shopC.innerHTML += `
+                    <div class="shop-item">
+                        <span class="item-icon">${s.icon}</span>
+                        <h4 title="${s.name}">${s.name}</h4>
+                        <p class="desc">Büyüme: ${s.req}dk</p>
+                        <div class="price">${s.price} Puan</div>
+                        <button class="buy ripple-wrapper" onclick="gardenUI.buySeed('${s.id}')">Al ve Ek</button>
+                    </div>
+                `;
+            });
+        },
+        
+        renderEmlak() {
+            document.getElementById('current-plot-count').innerText = this.data.plots.length;
+            const nextPrice = this.data.plots.length * 500;
+            document.getElementById('next-plot-price').innerText = this.data.plots.length >= 100 ? 'Maksimum' : `${nextPrice} Puan`;
+        },
+        
+        renderFarmers() {
+            const container = document.getElementById('farmer-shop-container');
+            container.innerHTML = '';
+            this.farmerShop.forEach(f => {
+                const owned = this.data.farmersOwned.find(x => x.id === f.id);
+                container.innerHTML += `
+                    <div class="shop-item">
+                        <i class="ph-duotone ${f.icon} item-icon" style="color:${owned?'var(--success)':'var(--primary)'}"></i>
+                        <h4 title="${f.name}">${f.name}</h4>
+                        <p class="desc" title="${f.desc}">${f.desc}</p>
+                        <div class="price">${f.price} Puan</div>
+                        ${owned ? `<button style="background:var(--success); color:white;">Çalışıyor</button>` : `<button class="buy ripple-wrapper" onclick="gardenUI.buyFarmer('${f.id}')">İşe Al</button>`}
+                    </div>
+                `;
+            });
+        },
+        
+        renderRobots() {
+            const container = document.getElementById('robot-shop-container');
+            container.innerHTML = '';
+            this.robotShop.forEach(r => {
+                const owned = this.data.robotsOwned.find(x => x.id === r.id);
+                container.innerHTML += `
+                    <div class="shop-item">
+                        <i class="ph-duotone ${r.icon} item-icon" style="color:${owned?'var(--success)':'#00D4FF'}"></i>
+                        <h4 title="${r.name}">${r.name}</h4>
+                        <p class="desc" title="${r.desc}">${r.desc}</p>
+                        <div class="price">${r.price} Puan</div>
+                        ${owned ? `<button style="background:var(--success); color:white;">Aktif</button>` : `<button class="buy ripple-wrapper" style="background:var(--water); color:#000; box-shadow:0 4px 12px rgba(56,189,248,0.4);" onclick="gardenUI.buyRobot('${r.id}')">Satın Al</button>`}
+                    </div>
+                `;
+            });
+        }
+    };
+
+    // ==========================================================================
+    // 4. AVATAR MARKETİ (DOKUNULMADI)
+    // ==========================================================================
     window.avatarUI = {
         shopItems: [
             { id: 'bot1', name: 'Mavi Şimşek', price: 100, url: 'https://api.dicebear.com/7.x/bottts/svg?seed=Blue&backgroundColor=00D4FF' },
@@ -1309,15 +1846,15 @@
                 const isActive = userStore.data.avatar === item.url;
                 
                 let btnHtml = '';
-                if(isActive) btnHtml = `<button class="active">Kullanılıyor</button>`;
-                else if(isOwned) btnHtml = `<button class="buy" onclick="avatarUI.selectAvatar('${item.url}')">Seç</button>`;
-                else btnHtml = `<button onclick="avatarUI.buyAvatar('${item.id}')">${item.price} Puan</button>`;
+                if(isActive) btnHtml = `<button class="active" style="width:100%; padding:10px; border-radius:var(--radius-full); background:var(--success); color:white; border:none; font-weight:600;">Kullanılıyor</button>`;
+                else if(isOwned) btnHtml = `<button class="buy ripple-wrapper" onclick="avatarUI.selectAvatar('${item.url}')" style="width:100%; padding:10px; border-radius:var(--radius-full); background:var(--primary); color:white; border:none; font-weight:600;">Seç</button>`;
+                else btnHtml = `<button class="ripple-wrapper" onclick="avatarUI.buyAvatar('${item.id}')" style="width:100%; padding:10px; border-radius:var(--radius-full); background:rgba(255,255,255,0.1); color:var(--text); border:none; font-weight:600;">${item.price} Puan</button>`;
                 
                 container.innerHTML += `
-                    <div class="shop-item">
-                        <img src="${item.url}" alt="${item.name}" style="border-radius:50%; background:#fff;">
-                        <h4>${item.name}</h4>
-                        <div style="margin-top:auto;">${btnHtml}</div>
+                    <div style="background:var(--card); border:1px solid var(--glass-border); border-radius:var(--radius-md); padding:16px; text-align:center; box-shadow: 0 4px 16px rgba(0,0,0,0.2);">
+                        <img src="${item.url}" alt="${item.name}" style="border-radius:50%; background:#fff; width:64px; height:64px; margin-bottom:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                        <h4 class="text-truncate" style="font-size:14px; margin-bottom:12px;" title="${item.name}">${item.name}</h4>
+                        ${btnHtml}
                     </div>
                 `;
             });
@@ -1335,7 +1872,7 @@
         selectAvatar(url) {
             userStore.data.avatar = url;
             userStore.sync(); userStore.render();
-            this.initShop(); // Butonları güncelle
+            this.initShop(); 
         },
         handleUpload(e) {
             const file = e.target.files[0];
@@ -1353,148 +1890,52 @@
         }
     };
 
-    // 2. BAHÇE VE TOHUM SİSTEMİ (Gamification)
-    window.gardenUI = {
-        data: { activeSeed: null, progress: 0, grown: [] },
-        seedShop: [
-            { id: 'seed1', name: 'Klasik Tohum', price: 50, req: 60, icon: 'ph-plant', color: '#4ADE80' },
-            { id: 'seed2', name: 'Nadir Çiçek', price: 150, req: 120, icon: 'ph-flower', color: '#F472B6' },
-            { id: 'seed3', name: 'Bonsai', price: 300, req: 240, icon: 'ph-tree', color: '#F59E0B' },
-            { id: 'seed4', name: 'Büyük Ağaç', price: 600, req: 480, icon: 'ph-tree-evergreen', color: '#16A34A' }
-        ],
-        init() {
-            this.data = dataStore.get('garden', this.data);
-            this.render();
-        },
-        buySeed(id) {
-            if(this.data.activeSeed) return app.showToast('Önce mevcut tohumu büyütmelisin!', 'error');
-            const seed = this.seedShop.find(x => x.id === id);
-            if(!seed) return;
-            
-            if(userStore.deductCoins(seed.price)) {
-                this.data.activeSeed = seed;
-                this.data.progress = 0;
-                this.sync(); this.render();
-                app.showToast(`${seed.name} ekildi. Odaklanarak büyüt!`, 'success');
-            }
-        },
-        addProgress(mins) {
-            if(!this.data.activeSeed) return;
-            this.data.progress += mins;
-            if(this.data.progress >= this.data.activeSeed.req) {
-                app.showToast(`Bitkin büyüdü! Serana eklendi.`, 'success');
-                this.data.grown.push(this.data.activeSeed);
-                this.data.activeSeed = null;
-                this.data.progress = 0;
-            }
-            this.sync(); this.render();
-        },
-        sync() { dataStore.set('garden', this.data); },
-        render() {
-            // Aktif Bitki
-            const active = this.data.activeSeed;
-            if(active) {
-                const pct = Math.min(100, (this.data.progress / active.req) * 100);
-                document.getElementById('plant-icon').className = `ph-fill ${active.icon}`;
-                document.getElementById('plant-icon').style.color = active.color;
-                document.getElementById('plant-status-text').innerText = `${active.name} Büyüyor...`;
-                document.getElementById('plant-progress').style.width = `${pct}%`;
-                document.getElementById('plant-progress-text').innerText = `${this.data.progress} / ${active.req} Dk Odak`;
-            } else {
-                document.getElementById('plant-icon').className = `ph-duotone ph-seedling`;
-                document.getElementById('plant-icon').style.color = 'var(--subtitle)';
-                document.getElementById('plant-status-text').innerText = `Saksı Boş`;
-                document.getElementById('plant-progress').style.width = `0%`;
-                document.getElementById('plant-progress-text').innerText = `Marketten tohum alıp ek`;
-            }
-
-            // Market
-            const shopC = document.getElementById('seed-shop-container');
-            shopC.innerHTML = '';
-            this.seedShop.forEach(s => {
-                shopC.innerHTML += `
-                    <div class="shop-item">
-                        <i class="ph-fill ${s.icon} item-icon" style="color:${s.color}"></i>
-                        <h4>${s.name}</h4>
-                        <p style="font-size:10px; color:var(--subtitle); margin-bottom:12px;">Büyüme: ${s.req}dk</p>
-                        <div class="price">${s.price} Puan</div>
-                        <button class="buy" onclick="gardenUI.buySeed('${s.id}')">Satın Al ve Ek</button>
-                    </div>
-                `;
-            });
-
-            // Sera
-            const ghC = document.getElementById('greenhouse-container');
-            if(this.data.grown.length > 0) {
-                ghC.innerHTML = '';
-                this.data.grown.forEach(s => {
-                    ghC.innerHTML += `<div class="greenhouse-item"><i class="ph-fill ${s.icon}" style="color:${s.color}"></i><p style="font-size:10px; margin-top:4px;">${s.name}</p></div>`;
-                });
-            }
-        }
-    };
-
-    // 3. GELİŞMİŞ 5 GRAFİKLİ İSTATİSTİK SİSTEMİ (Chart.js)
+    // ==========================================================================
+    // 5. PDF & GRAFİKLER
+    // ==========================================================================
     window.statsUI = {
         charts: {},
         renderCharts() {
-            if (typeof Chart === 'undefined') return setTimeout(() => this.renderCharts(), 500); // Bekle
+            if (typeof Chart === 'undefined') return setTimeout(() => this.renderCharts(), 500); 
             
             Chart.defaults.color = '#94A3B8';
             Chart.defaults.font.family = 'Inter';
+            Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(20,25,34,0.9)';
+            Chart.defaults.plugins.tooltip.titleFont = { family: 'Inter', size: 14 };
+            Chart.defaults.plugins.tooltip.bodyFont = { family: 'Inter', size: 13 };
 
-            // Verileri Hazırla
             const d = stats.data;
             const weekLabels = ['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'];
             
-            // 1. Bar Chart (Haftalık Odak)
             this.createOrUpdate('chart-weekly', 'bar', {
                 labels: weekLabels,
-                datasets: [{ label: 'Odak (Dk)', data: d.week, backgroundColor: '#6C63FF', borderRadius: 6 }]
+                datasets: [{ label: 'Odak (Dk)', data: d.week, backgroundColor: '#6C63FF', borderRadius: 8, hoverBackgroundColor: '#8B5CF6' }]
             });
 
-            // 2. Doughnut (Görev Dağılımı)
             const t = tasks.list;
             const isT = t.filter(x=>x.cat==='İş').length; const dertT = t.filter(x=>x.cat==='Ders').length; const kisT = t.filter(x=>x.cat==='Kişisel').length;
             this.createOrUpdate('chart-tasks', 'doughnut', {
                 labels: ['İş', 'Ders', 'Kişisel'],
-                datasets: [{ data: [isT, dertT, kisT], backgroundColor: ['#6C63FF', '#00D4FF', '#22C55E'], borderWidth:0 }]
+                datasets: [{ data: [isT, dertT, kisT], backgroundColor: ['#6C63FF', '#00D4FF', '#22C55E'], borderWidth:0, hoverOffset: 4 }]
             });
 
-            // 3. Line Chart (Odak ve Mola Simülasyonu - Varsayılan verilerle)
-            // Sistemde spesifik geçmiş tutulmadığı için haftalık odak üzerinden bir eğilim çizgisi.
-            this.createOrUpdate('chart-balance', 'line', {
-                labels: weekLabels,
-                datasets: [
-                    { label: 'Pomodoro Eğilimi', data: d.week, borderColor: '#8B5CF6', tension: 0.4, fill: true, backgroundColor: 'rgba(139, 92, 246, 0.2)' }
-                ]
-            });
-
-            // 4. Radar Chart (Üretkenlik)
             this.createOrUpdate('chart-radar', 'radar', {
-                labels: ['Odaklanma', 'Görevler', 'Seri', 'Tohumlar', 'Disiplin'],
+                labels: ['Odaklanma', 'Görevler', 'Seri', 'Tarım', 'Disiplin'],
                 datasets: [{
                     label: 'Skorunuz',
                     data: [
                         Math.min(100, d.totalMins/60*10), 
                         Math.min(100, t.filter(x=>x.completed).length*5), 
                         Math.min(100, d.bestStreak*10), 
-                        Math.min(100, (gardenUI.data.grown.length)*20),
+                        Math.min(100, (gardenUI.data.totalHarvests)*10),
                         Math.min(100, d.todayComp*20)
                     ],
                     backgroundColor: 'rgba(0, 212, 255, 0.2)',
                     borderColor: '#00D4FF',
-                    pointBackgroundColor: '#00D4FF'
-                }]
-            });
-
-            // 5. Polar Area Chart (Günün Saatleri)
-            this.createOrUpdate('chart-polar', 'polarArea', {
-                labels: ['Sabah', 'Öğle', 'Akşam'],
-                datasets: [{
-                    data: [d.timeOfDay.morning, d.timeOfDay.afternoon, d.timeOfDay.evening],
-                    backgroundColor: ['rgba(245, 158, 11, 0.7)', 'rgba(239, 68, 68, 0.7)', 'rgba(108, 99, 255, 0.7)'],
-                    borderWidth: 0
+                    pointBackgroundColor: '#00D4FF',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#00D4FF'
                 }]
             });
         },
@@ -1503,15 +1944,16 @@
             if(!ctx) return;
             if(this.charts[id]) { this.charts[id].data = data; this.charts[id].update(); }
             else {
-                this.charts[id] = new Chart(ctx, {
-                    type: type, data: data,
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: type !== 'bar' && type !== 'line', position: 'bottom' } },
-                    scales: (type==='bar'||type==='line') ? { y: { beginAtZero: true, grid:{color:'rgba(255,255,255,0.05)'} }, x: { grid:{display:false} } } : {} }
-                });
+                const options = { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { legend: { display: type !== 'bar', position: 'bottom', labels: { color: '#fff', font: { family: 'Inter', size: 12 } } } },
+                    scales: (type==='bar') ? { y: { beginAtZero: true, grid:{color:'rgba(255,255,255,0.05)'}, ticks: {color: '#94A3B8'} }, x: { grid:{display:false}, ticks: {color: '#94A3B8'} } } : 
+                            (type==='radar') ? { r: { grid: { color: 'rgba(255,255,255,0.1)' }, angleLines: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#94A3B8', font: { size: 12 } } } } : {} 
+                };
+                this.charts[id] = new Chart(ctx, { type: type, data: data, options: options });
             }
         },
-
-        // GERÇEK PDF İNDİRME FONKSİYONU
         exportRealPDF() {
             haptics.play('medium');
             if (typeof html2pdf === 'undefined') return app.showToast('PDF sistemi yüklenemedi. İnterneti kontrol edin.', 'error');
@@ -1519,16 +1961,14 @@
             app.showToast('Profesyonel rapor oluşturuluyor...', 'info');
             const element = document.getElementById('pdf-export-area');
             
-            // PDF için geçici stiller
             const opt = {
                 margin:       10,
-                filename:     `PomoLegend_Premium_Rapor_${new Date().toISOString().split('T')[0]}.pdf`,
+                filename:     `PomoLegend_Mega_Rapor_${new Date().toISOString().split('T')[0]}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#090B10' },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // Responsive grafikleri PDF'te düzgün çıkarmak için boyutu sabitle
             const oldW = element.style.width;
             element.style.width = '800px'; 
             
@@ -1542,7 +1982,9 @@
         }
     };
 
-    // 4. 500 ROZET (BAŞARIM) SİSTEMİ
+    // ==========================================================================
+    // 6. 10.000 ROZET SİSTEMİ
+    // ==========================================================================
     window.badgesUI = {
         openModal() {
             app.openModal('badges-modal');
@@ -1553,33 +1995,55 @@
             container.innerHTML = '';
             
             let unlockedTotal = 0;
+            const gData = gardenUI.data;
+            
+            const maturePlantsCount = gData.plots.filter(p => p.plant && p.plant.progress >= p.plant.req).length;
+            const deadCount = gData.plots.filter(p => p.plant && p.plant.status === 'dead').length;
+
             const categories = [
                 { id:'pomo', name:'Pomodoro Ustası', icon:'ph-timer', val:stats.data.totalPomo, step:5 },
                 { id:'task', name:'Görev Avcısı', icon:'ph-check-square-offset', val:tasks.list.filter(t=>t.completed).length, step:5 },
                 { id:'focus', name:'Derin Odak (Saat)', icon:'ph-brain', val:Math.floor(stats.data.totalMins/60), step:2 },
-                { id:'streak', name:'Ateş Serisi (Gün)', icon:'ph-fire', val:stats.data.bestStreak, step:1 },
-                { id:'garden', name:'Usta Bahçıvan', icon:'ph-plant', val:gardenUI.data.grown.length, step:1 }
+                { id:'streak', name:'Ateş Serisi', icon:'ph-fire', val:stats.data.bestStreak, step:1 },
+                
+                { id:'harvest', name:'Büyük Hasat', icon:'ph-basket', val:gData.totalHarvests, step:5 },
+                { id:'landlord', name:'Emlak Kralı', icon:'ph-house-line', val:gData.landCapacity, step:1 },
+                { id:'employer', name:'İş Veren', icon:'ph-users', val:gData.farmersOwned.length, step:1 },
+                { id:'tech', name:'Teknoloji Çağı', icon:'ph-robot', val:gData.robotsOwned.length, step:1 },
+                { id:'water', name:'Su Bükücü', icon:'ph-drop', val:gData.waterDrops, step:500 },
+                
+                { id:'mature', name:'Yetişkin Orman', icon:'ph-tree', val:maturePlantsCount, step:2 },
+                { id:'graveyard', name:'Mezarlık', icon:'ph-skull', val:deadCount, step:1 },
+                { id:'rich', name:'Milyoner', icon:'ph-coins', val:userStore.data.coins, step:5000 },
+                
+                { id:'flower', name:'Çiçekçi', icon:'ph-flower', val:gData.totalHarvests, step:10 },
+                { id:'veg', name:'Sebze Manavı', icon:'ph-carrot', val:gData.totalHarvests, step:10 },
+                { id:'fruit', name:'Meyve Gurmesi', icon:'ph-apple-logo', val:gData.totalHarvests, step:10 },
+                { id:'tree', name:'Ağaç Tüccarı', icon:'ph-tree-evergreen', val:gData.totalHarvests, step:10 },
+                { id:'cactus', name:'Çöl Yolcusu', icon:'ph-cactus', val:gData.totalHarvests, step:10 },
+                { id:'xp', name:'Deneyim Ustası', icon:'ph-star', val:Math.floor(userStore.data.xp), step:2000 },
+                { id:'lvl', name:'Seviye Avcısı', icon:'ph-trend-up', val:userStore.data.level, step:2 },
+                { id:'loyal', name:'Sadık Oyuncu', icon:'ph-heart', val:stats.data.totalPomo, step:10 }
             ];
-
-            // 5 kategori * 100 seviye = 500 Rozet Dinamik Üretimi
+            
             categories.forEach(cat => {
-                for(let i=1; i<=100; i++) {
-                    const req = i * cat.step;
-                    const isUnlocked = cat.val >= req;
-                    if(isUnlocked) unlockedTotal++;
-                    
-                    // DOM'u şişirmemek adına, sadece açılmış olanları ve sırada bekleyen 1 kilidi çiziyoruz.
-                    // İsteyen hepsini çizebilir ama 500 dom elementi mobilde yorucu olabilir.
-                    if (isUnlocked || cat.val >= (i-1)*cat.step) {
-                        container.innerHTML += `
-                            <div class="badge-box ${isUnlocked ? 'unlocked' : ''}">
-                                <i class="ph-fill ${cat.icon}"></i>
-                                <h5>${cat.name} ${this.romanize(i)}</h5>
-                                <p>${req} ${isUnlocked ? '✓' : 'Gerekli'}</p>
-                            </div>
-                        `;
-                    }
-                }
+                let currentLevel = Math.floor(cat.val / cat.step);
+                if (currentLevel > 500) currentLevel = 500; 
+                
+                unlockedTotal += currentLevel;
+                
+                const nextLevel = currentLevel < 500 ? currentLevel + 1 : 500;
+                const nextReq = nextLevel * cat.step;
+                const progressPct = currentLevel === 500 ? 100 : Math.min(100, (cat.val / nextReq) * 100);
+
+                container.innerHTML += `
+                    <div class="badge-box ${currentLevel > 0 ? 'unlocked' : ''}">
+                        <i class="ph-fill ${cat.icon}"></i>
+                        <h5 title="${cat.name} ${this.romanize(currentLevel === 0 ? 1 : currentLevel)}">${cat.name} ${this.romanize(currentLevel === 0 ? 1 : currentLevel)}</h5>
+                        <p>${currentLevel === 500 ? 'Maksimum Seviye' : `İlerleme: ${cat.val} / ${nextReq}`}</p>
+                        ${currentLevel !== 500 ? `<div class="badge-progress-bg"><div class="badge-progress-fill" style="width:${progressPct}%"></div></div>` : ''}
+                    </div>
+                `;
             });
             
             document.getElementById('badges-unlocked-count').innerText = unlockedTotal;
@@ -1597,16 +2061,12 @@
         }
     };
 
-    // BOOTSTRAP
     window.onload = () => { 
         authUI.init(); 
     };
     
     document.addEventListener('visibilitychange', () => { if(document.visibilityState==='visible' && timer.st.isR) timer.startLoop(); });
     
-    // ==========================================================================
-    // 109 DİL DESTEKLİ ÇEVİRİ SİSTEMİ (ASLA BOZULMAZ)
-    // ==========================================================================
     window.langUI = {
         changeLanguage(langCode) {
             if(!langCode) return;
@@ -1647,3 +2107,5 @@
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
+
+
