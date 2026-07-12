@@ -271,7 +271,6 @@
         .garden-view-section { flex-shrink: 0; display: flex; flex-direction: column; width: 100%; }
         .plot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 24px; padding: 0 24px 24px; }
         
-        /* Rarity glow variables will be applied inline */
         .plot-card { background: var(--gradient-dark); border: 1px solid var(--glass-border); border-radius: 28px; padding: 20px; text-align: center; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.5), inset 0 2px 20px rgba(255,255,255,0.02); transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; flex-direction: column; justify-content: space-between; min-height: 240px; height: auto; transform-style: preserve-3d; }
         .plot-card.greenhouse { border-color: rgba(52, 211, 153, 0.5) !important; box-shadow: 0 15px 40px rgba(0,0,0,0.5), inset 0 0 30px rgba(52, 211, 153, 0.1) !important; }
         .plot-card.greenhouse::before { content: 'SERA AKTİF'; position: absolute; top: 12px; right: 12px; font-size: 8px; font-weight: 800; color: #34D399; letter-spacing: 1px; border: 1px solid #34D399; padding: 3px 6px; border-radius: 8px; background: rgba(52,211,153,0.1); }
@@ -317,11 +316,16 @@
 
         .rarity-badge { position: absolute; top: 12px; right: 12px; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; padding: 4px 8px; border-radius: 8px; }
 
-        .coin-water-badges { display: flex; gap: 12px; }
+        .coin-water-badges { display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end;}
         .coin-water-badges .coin-badge, .coin-water-badges .water-badge { padding: 12px 20px; border-radius: var(--radius-full); font-size: 14px; font-weight: 700; background: rgba(10,10,10,0.8); backdrop-filter: blur(15px); box-shadow: 0 8px 25px rgba(0,0,0,0.5); border: 1px solid var(--glass-border); display: inline-flex; align-items: center; gap: 8px; }
         .coin-water-badges .coin-badge { color: var(--primary); }
         .coin-water-badges .water-badge { color: var(--water); border-color: rgba(96, 165, 250, 0.3); }
         .coin-badge { background: rgba(212, 175, 55, 0.1); color: var(--primary); padding: 8px 16px; border-radius: var(--radius-full); font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--glass-border); }
+
+        /* Hava Durumu Radarı Sınıfları */
+        .weather-badge { padding: 12px 20px; border-radius: var(--radius-full); font-size: 14px; font-weight: 700; background: rgba(10,10,10,0.8); backdrop-filter: blur(15px); box-shadow: 0 8px 25px rgba(0,0,0,0.5); border: 1px solid var(--glass-border); display: inline-flex; align-items: center; gap: 8px; color: #F5F5F5; cursor: pointer; transition: all var(--transition-fast); }
+        .weather-badge.rain { color: var(--water); border-color: rgba(96, 165, 250, 0.4); background: rgba(96, 165, 250, 0.15); box-shadow: 0 8px 25px rgba(96, 165, 250, 0.2); }
+        .weather-badge.sun { color: var(--warning); border-color: rgba(251, 191, 36, 0.4); background: rgba(251, 191, 36, 0.15); box-shadow: 0 8px 25px rgba(251, 191, 36, 0.2); }
 
         /* ==========================================================================
            9. PROFILE & STATS
@@ -611,10 +615,16 @@
             
             <div class="header" style="flex-wrap:wrap; gap:16px; margin-bottom: 12px; border-bottom: none;">
                 <h1 class="header-title-gradient text-truncate" style="flex:1; font-size: 36px;">Kraliyet Bahçesi</h1>
+                
+                <!-- HAVA DURUMU RADARI BURAYA EKLENDI -->
                 <div class="coin-water-badges">
+                    <div class="weather-badge ripple-wrapper" id="garden-weather-badge" onclick="app.showToast('Bu hava durumu sıradaki pomodoro sonuna etki edecektir.', 'info')">
+                        <i class="ph-fill ph-cloud-sun"></i> <span>Açık</span>
+                    </div>
                     <div class="coin-badge"><i class="ph-fill ph-coins"></i> <span id="garden-coin-count">0</span> Puan</div>
                     <div class="water-badge"><i class="ph-fill ph-drop"></i> <span id="garden-water-count">0</span> Su</div>
                 </div>
+
             </div>
 
             <div class="shop-category-scroll" id="garden-tabs">
@@ -627,7 +637,7 @@
 
             <div id="view-tarlam" class="garden-view-section">
                 <div style="padding: 0 24px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap: 20px;">
-                    <p style="font-size:13px; color:var(--subtitle); line-height: 1.6; max-width: 65%;">Bitkilerini yaşat! Çiçekler ve Sebzeler %100 neme ulaştığında veya susuz kaldığında ölür. Kaktüsler kuraklığa dayanır ama %50'den fazla sulanırsa çürür. Ağaçlar efsanevidir, kurumaz veya çürümezler. <br><span style="color:var(--primary); font-weight: bold;">Hava durumuna dikkat edin!</span></p>
+                    <p style="font-size:13px; color:var(--subtitle); line-height: 1.6; max-width: 65%;">Bitkilerini yaşat! Çiçekler ve Sebzeler %100 neme ulaştığında veya susuz kaldığında ölür. Kaktüsler kuraklığa dayanır ama %50'den fazla sulanırsa çürür. Ağaçlar efsanevidir, kurumaz veya çürümezler. <br><span style="color:var(--primary); font-weight: bold;">Hava radarına dikkat edin!</span></p>
                     <div style="display:flex; gap:12px; align-items:center;">
                         <button class="btn-secondary ripple-wrapper" style="padding:14px 20px; border-radius:var(--radius-full); font-size:12px; text-transform: uppercase; font-weight:700;" onclick="gardenUI.buyWater()">💧 Su Al (50 Puan)</button>
                         <button class="btn-primary ripple-wrapper" style="padding:14px 20px; border-radius:var(--radius-full); font-size:12px; font-weight:800; background: var(--gradient-water); color: #FFF; box-shadow: 0 8px 25px rgba(96,165,250,0.3);" onclick="gardenUI.waterAll()">Toplu Sula</button>
@@ -1233,7 +1243,6 @@
                 userStore.addXP(settings.data.durations.pomo); 
                 if(window.gardenUI) window.gardenUI.onPomodoroComplete(settings.data.durations.pomo);
                 
-                app.showToast('Mükemmel bir odaklanma!', 'success'); 
                 if(settings.data.autoBreak){this.setMode(stats.data.todayComp%4===0?'longBreak':'shortBreak'); setTimeout(()=>this.start(),1500);} 
             }
             else { app.showToast('Mola bitti, efsane olmaya devam!','info'); if(settings.data.autoPomodoro){this.setMode('pomodoro'); setTimeout(()=>this.start(),1500);} else this.setMode('pomodoro'); }
@@ -1258,13 +1267,14 @@
     };
 
     // ==========================================================================
-    // 8. GARDEN (DYNAMIC LUXURY SYSTEM WITH UNIQUE ICONS)
+    // 8. GARDEN (DYNAMIC LUXURY SYSTEM WITH WEATHER FORECAST)
     // ==========================================================================
     window.gardenUI = {
         data: { 
             plots: [{ id: 1, plant: null, isGreenhouse: false }], 
-            waterDrops: 50, // Starts with 50 water
-            farmersOwned: [], robotsOwned: [], totalHarvests: 0, landCapacity: 1 
+            waterDrops: 50, 
+            farmersOwned: [], robotsOwned: [], totalHarvests: 0, landCapacity: 1,
+            currentWeather: 'normal' // Weather state added here
         },
         seedShop: [], farmerShop: [], robotShop: [],
         currentSeedCategory: 'Çiçek', selectedEmptyPlotId: null, 
@@ -1273,6 +1283,7 @@
             this.generateUniqueCatalog();
             this.data = dataStore.get('garden_luxury_v4', this.data);
             if(this.data.waterDrops === undefined) this.data.waterDrops = 50;
+            if(this.data.currentWeather === undefined) this.data.currentWeather = 'normal';
             this.checkLifeStatus();
             this.render();
         },
@@ -1394,19 +1405,16 @@
                     const protectFlowerRot = this.hasPerk('protect_flower_rot');
                     const protectCactus = this.hasPerk('protect_cactus');
 
-                    // 1. Kuraklıktan Ölüm (Sadece Çiçek ve Sebze ölür. Kaktüs ve Ağaçlar dayanıklıdır.)
                     if (p.moisture <= 0 && !godMode) {
                         if (p.cat === 'Çiçek' || p.cat === 'Sebze') dead = true;
                     }
                     
-                    // 2. Çürüme (100% nem çiçek ve sebzeyi çürütür)
                     if (!plot.isGreenhouse && !protectAllRot) {
                         if (p.cat === 'Çiçek' || p.cat === 'Sebze') {
                             if (p.moisture >= 100 && !protectFlowerRot) dead = true;
                         }
                     }
 
-                    // 3. Kaktüs Çürümesi (Nemi sevmez, %50'yi geçince çürür)
                     if (p.cat === 'Egzotik' && p.moisture > 50 && !protectCactus && !protectAllRot) {
                         dead = true;
                     }
@@ -1427,11 +1435,8 @@
             const waterEarned = Math.floor(activeMins);
             this.data.waterDrops += waterEarned;
             
-            // --- RASTGELE HAVA DURUMU OLAYLARI (WEATHER SYSTEM) ---
-            const weatherRoll = Math.random();
-            let weatherEvent = null;
-            if(weatherRoll < 0.15) weatherEvent = 'rain';
-            else if(weatherRoll > 0.85) weatherEvent = 'sun';
+            // Forecast'teki (Radar'daki) hava olayını şu anki seansa uygula
+            const weatherEvent = this.data.currentWeather;
 
             let passiveIncome = 0;
             let speedBoost = 1;
@@ -1442,13 +1447,11 @@
                 if(plot.plant && plot.plant.status === 'alive') {
                     const p = plot.plant;
                     
-                    // Rarity Boosts for growth and income
                     let rarityMult = 1;
                     if(p.rarity === 'Nadir') rarityMult = 1.5;
                     else if(p.rarity === 'Efsanevi') rarityMult = 2;
                     else if(p.rarity === 'Mistik') rarityMult = 3;
 
-                    // Moisture Drain calculation
                     let drain = 0;
                     if(p.cat === 'Çiçek') drain = activeMins * 1.5;
                     else if(p.cat === 'Sebze') drain = activeMins * 1.2;
@@ -1461,7 +1464,7 @@
                     
                     p.moisture -= drain;
 
-                    // Weather Affects Moisture
+                    // Apply Current Weather
                     if(!plot.isGreenhouse) {
                         if(weatherEvent === 'rain') p.moisture += 25;
                         else if(weatherEvent === 'sun') p.moisture -= 15;
@@ -1469,22 +1472,19 @@
 
                     if(p.moisture < 0) p.moisture = 0;
 
-                    // Growth Logic
                     if (p.moisture > 0 || (p.moisture === 0 && this.hasPerk('god_mode'))) {
                         let growth = activeMins * speedBoost;
                         if((p.cat === 'Ağaç' || p.cat === 'Meyve Ağacı') && this.hasPerk('speed_tree_30')) growth *= 1.3;
                         if(p.cat === 'Çiçek' && this.hasPerk('speed_flower_50')) growth *= 1.5;
                         if(p.cat === 'Sebze' && this.hasPerk('speed_veg_50')) growth *= 1.5;
                         
-                        p.progress += (growth * rarityMult); // Rarity speeds up growth!
+                        p.progress += (growth * rarityMult); 
                     }
                     
-                    // Stage updating
                     if (p.progress >= p.req) p.stage = 'mature';
                     else if (p.progress >= p.req * 0.4) p.stage = 'growing';
                     else p.stage = 'seed';
 
-                    // Passive Income
                     if (p.stage === 'mature') {
                         let inc = p.income * rarityMult; 
                         if(p.cat === 'Meyve Ağacı' && this.hasPerk('fruit_income')) inc *= 2;
@@ -1499,13 +1499,18 @@
                 userStore.sync(); userStore.render();
             }
 
-            // Toast Messaging
             let toastMsg = `${waterEarned}💧 Su kazandınız!`;
             if(passiveIncome > 0) toastMsg = `${waterEarned}💧 Su ve ${Math.floor(passiveIncome)} Puan kazandınız!`;
             
-            if(weatherEvent === 'rain') app.showToast('🌧️ Bereketli Yağmur yağdı! Tarlalar nemlendi. \n' + toastMsg, 'info');
-            else if(weatherEvent === 'sun') app.showToast('☀️ Kavurucu Güneş açtı! Tarlalar hızla kuruyor. \n' + toastMsg, 'warning');
-            else app.showToast(toastMsg, 'success');
+            if(weatherEvent === 'rain') app.showToast('🌧️ Beklenen Bereketli Yağmur yağdı! \n' + toastMsg, 'info');
+            else if(weatherEvent === 'sun') app.showToast('☀️ Beklenen Kavurucu Güneş açtı! \n' + toastMsg, 'warning');
+            else app.showToast('🌤️ Güzel bir bahar havası. \n' + toastMsg, 'success');
+
+            // Sıradaki Pomodoro için yeni bir hava durumu ZARI AT (Roll next weather)
+            const weatherRoll = Math.random();
+            if(weatherRoll < 0.15) this.data.currentWeather = 'rain';
+            else if(weatherRoll > 0.85) this.data.currentWeather = 'sun';
+            else this.data.currentWeather = 'normal';
 
             this.checkLifeStatus();
             this.sync();
@@ -1705,7 +1710,23 @@
             document.getElementById('st-farmers').innerText = this.data.farmersOwned.length;
             document.getElementById('st-robots').innerText = this.data.robotsOwned.length;
             document.getElementById('st-harvests').innerText = this.data.totalHarvests;
-            this.renderPlots(); this.renderSeedShop(); this.renderEmlak(); this.renderFarmers(); this.renderRobots();
+            this.renderWeather(); this.renderPlots(); this.renderSeedShop(); this.renderEmlak(); this.renderFarmers(); this.renderRobots();
+        },
+
+        // --- HAVA DURUMU UI GÜNCELLEMESİ ---
+        renderWeather() {
+            const badge = document.getElementById('garden-weather-badge');
+            if(!badge) return;
+            
+            badge.className = 'weather-badge ripple-wrapper ' + (this.data.currentWeather !== 'normal' ? this.data.currentWeather : '');
+            
+            let icon = 'ph-cloud-sun'; 
+            let text = 'Açık Hava';
+            
+            if(this.data.currentWeather === 'rain') { icon = 'ph-cloud-rain'; text = 'Yağmur Bekleniyor'; }
+            if(this.data.currentWeather === 'sun') { icon = 'ph-sun'; text = 'Kavurucu Sıcak'; }
+            
+            badge.innerHTML = `<i class="ph-fill ${icon}"></i> <span>${text}</span>`;
         },
 
         renderPlots() {
